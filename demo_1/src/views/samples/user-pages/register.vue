@@ -48,7 +48,7 @@
                     <button class="btn btn-primary submit-btn">SIGN IN</button>
                   </div>
                   <div class="wrapper mt-5 text-gray">
-                    <p class="footer-text">Copyright © 2019 Bootstrapdash. All rights reserved.</p>
+                    <p class="footer-text">Derechos de Autor © <a id="fecha"></a> eGas</p>
                     <ul class="auth-footer text-gray">
                       <li>
                         <a href="#">Terms & Conditions</a>

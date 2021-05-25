@@ -61,7 +61,7 @@
                   <a href="#">Terms</a>
                 </li>
               </ul>
-              <p class="footer-text text-center">copyright © 2019 Bootstrapdash. All rights reserved.</p>
+              <p class="footer-text text-center">Derechos de Autor © <a id="fecha"></a> eGas</p>
             </div>
           </div>
         </div>
