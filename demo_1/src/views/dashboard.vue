@@ -2,20 +2,13 @@
   <section class='dashboard'>
     <!-- Page Title Header Starts-->
     <div class="proBanner">
-      <div>
-        <span class="d-flex align-items-center purchase-popup">
-          <p>Get tons of UI components, Plugins, multiple layouts, 20+ sample pages, and more!</p>
-          <a href="https://www.bootstrapdash.com/product/star-admin-pro-vue/?utm_source=organic&utm_medium=banner&utm_campaign=free-preview" rel="noopener noreferrer" target="_blank" class="btn btn-sm purchase-button ml-auto">Check Pro Version</a>
-          <i class="mdi mdi-close bannerClose"  @click="toggleProBanner()" onClick={this.toggleProBanner}></i>
-        </span>
-      </div>
     </div>
     <div class='row page-title-header'>
       <div class='col-12'>
         <div class='page-header'>
           <h4 class='page-title'>Dashboard</h4>
           <div class='quick-link-wrapper w-100 d-md-flex flex-md-wrap'>
-            <ul class='quick-links'>
+  <!--          <ul class='quick-links'>
               <li><a href='#'>ICE Market data</a></li>
               <li><a href='#'>Own analysis</a></li>
               <li><a href='#'>Historic market data</a></li>
@@ -24,12 +17,12 @@
               <li><a href='#'>Settings</a></li>
               <li><a href='#'>Analytics</a></li>
               <li><a href='#'>Watchlist</a></li>
-            </ul>
+            </ul>-->
           </div>
         </div>
       </div>
       <div class='col-md-12'>
-        <div class='page-header-toolbar'>
+ <!--       <div class='page-header-toolbar'>
           <div class='btn-group toolbar-item' role='group' aria-label='Basic example'>
             <button type='button' class='btn btn-secondary'><i class='mdi mdi-chevron-left'></i></button>
             <button type='button' class='btn btn-secondary'>03/02/2019 - 20/08/2019</button>
@@ -51,7 +44,7 @@
                 <b-dropdown-item>Export as CDR</b-dropdown-item>
             </b-dropdown>
           </div>
-        </div>
+        </div>-->
       </div>
     </div>
     <!-- Page Title Header Ends-->

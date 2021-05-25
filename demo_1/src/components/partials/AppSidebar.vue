@@ -5,26 +5,26 @@
         <li class="nav-item nav-profile">
           <a href="#" class="nav-link">
             <div class="profile-image">
-              <img class="img-xs rounded-circle" src="../../assets/images/faces/face8.jpg" alt="profile image">
+              <img class="img-xs rounded-circle" src="../../assets/images/noavatar.svg" alt="profile image">
               <div class="dot-indicator bg-success"></div>
             </div>
             <div class="text-wrapper">
-              <p class="profile-name">Allen Moreno</p>
-              <p class="designation">Premium user</p>
+              <p class="profile-name">Usuario</p>
+              <p class="designation">Tipo de usuario</p>
             </div>
           </a>
         </li>
-        <li class="nav-item nav-category">Main Menu</li>
+        <li class="nav-item nav-category">Menú Principal</li>
         <li class="nav-item">
           <a class="nav-link" v-b-toggle="'dashboard-dropdown'">
             <i class="menu-icon typcn typcn-document-text"></i>
-            <span class="menu-title">Dashboard</span>
+            <span class="menu-title">E-Cron</span>
             <i class="menu-arrow"></i>
           </a>
           <b-collapse id="dashboard-dropdown">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
-                <router-link class="nav-link" to="/">Dashboard 1</router-link>
+                <router-link class="nav-link" to="/">E-Cron</router-link>
               </li>
             </ul>
           </b-collapse>
@@ -32,19 +32,19 @@
         <li class="nav-item">
           <a class="nav-link" v-b-toggle="'ui-basic'">
             <i class="menu-icon typcn typcn-coffee"></i>
-            <span class="menu-title">Basic UI Elements</span>
+            <span class="menu-title">E-Cron</span>
             <i class="menu-arrow"></i>
           </a>
           <b-collapse id="ui-basic">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
-                <router-link class="nav-link" to="/buttons/">Buttons</router-link>
+                <router-link class="nav-link" to="/buttons/">E-Cron</router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="/dropdowns/">Dropdowns</router-link>
+                <router-link class="nav-link" to="/dropdowns/">E-Cron</router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="/typography/">Typography</router-link>
+                <router-link class="nav-link" to="/typography/">E-Cron</router-link>
               </li>
             </ul>
           </b-collapse>
@@ -52,13 +52,13 @@
          <li class="nav-item">
           <span class="nav-link" v-b-toggle="'charts-dropdown'">
             <i class="menu-icon typcn typcn-th-large-outline"></i>
-            <span class="menu-title">Charts</span>
+            <span class="menu-title">E-Cron</span>
             <i class="menu-arrow"></i>
           </span>
           <b-collapse id="charts-dropdown">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
-                <router-link class="nav-link" to="/chartjs/">Chart js</router-link>
+                <router-link class="nav-link" to="/chartjs/">E-Cron</router-link>
               </li>
             </ul>
           </b-collapse>
@@ -66,13 +66,13 @@
         <li class="nav-item">
           <a class="nav-link" v-b-toggle="'tables'">
             <i class="menu-icon mdi mdi-table"></i>
-            <span class="menu-title">Tables</span>
+            <span class="menu-title">E-Cron</span>
             <i class="menu-arrow"></i>
           </a>
           <b-collapse id="tables">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
-                <router-link class="nav-link" to="/basic_table/">Basic Table</router-link>
+                <router-link class="nav-link" to="/basic_table/">E-Cron</router-link>
               </li>
             </ul>
           </b-collapse>
@@ -80,13 +80,13 @@
         <li class="nav-item">
           <a class="nav-link" v-b-toggle="'icons'">
             <i class="menu-icon typcn typcn-user-outline"></i>
-            <span class="menu-title">Icons</span>
+            <span class="menu-title">E-Cron</span>
             <i class="menu-arrow"></i>
           </a>
           <b-collapse id="icons">
             <ul class="nav flex-column sub-menu">
                <li class="nav-item">
-                <router-link class="nav-link" to="/mdiIcons/">MDI</router-link>
+                <router-link class="nav-link" to="/mdiIcons/">E-Cron</router-link>
               </li>
             </ul>
           </b-collapse>
@@ -94,7 +94,7 @@
         <li class="nav-item">
           <a class="nav-link" v-b-toggle="'auth'">
             <i class="menu-icon typcn typcn-document-add"></i>
-            <span class="menu-title">User Pages</span>
+            <span class="menu-title">E-Cron</span>
             <i class="menu-arrow"></i>
           </a>
           <b-collapse id="auth">
@@ -111,7 +111,7 @@
         <li class="nav-item">
           <a class="nav-link" href="https://www.bootstrapdash.com/product/star-admin-vue/docs/documentation.html">
             <i class="menu-icon typcn typcn-document-add"></i>
-            <span class="menu-title">Doc</span>
+            <span class="menu-title">E-Cron</span>
           </a>
         </li>
       </ul>

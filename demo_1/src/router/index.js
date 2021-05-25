@@ -12,7 +12,6 @@ import dropdowns from '../views/basic-elements/dropdowns'
 import typography from '../views/basic-elements/typography'
 
 //  Chart Components
-import chartjs from '../views/charts/chartjs'
 
 //  Icons Components
 import mdiIcons from '../views/icons/mdi-icons'
@@ -51,10 +50,6 @@ export default new Router({
       {
         path: '/typography',
         component: typography
-      },
-      {
-        path: '/chartjs',
-        component: chartjs
       },
       {
         path: '/mdiIcons',

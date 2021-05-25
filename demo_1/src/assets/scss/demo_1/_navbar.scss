@@ -14,7 +14,8 @@
       -webkit-transition: width $action-transition-duration $action-transition-timing-function, background $action-transition-duration $action-transition-timing-function;
       -moz-transition: width $action-transition-duration $action-transition-timing-function, background $action-transition-duration $action-transition-timing-function;
       -ms-transition: width $action-transition-duration $action-transition-timing-function, background $action-transition-duration $action-transition-timing-function;
-      background: $sidebar-gradient-color-2;
+/*       background: $sidebar-gradient-color-2; */
+      background: #ffff;
       width: $sidebar-width-lg;
       height: $navbar-height;
 
@@ -33,7 +34,7 @@
         }
 
         img {
-          width: 170px;
+          width: 100px;
           max-width: 100%;
           margin: auto;
           vertical-align: middle;
@@ -86,7 +87,7 @@
       }
 
       .search-form {
-        width: 60%;
+        width: 100%;
         margin-right: 30px;
 
         .form-group {
