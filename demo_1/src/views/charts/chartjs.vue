@@ -60,7 +60,6 @@
 <script lang="js">
 import lineChart from '../../components/charts/examples/lineChart'
 import barChart from '../../components/charts/examples/barChart'
-import areaChart from '../../components/charts/examples/areaChart'
 import doughnutChart from '../../components/charts/examples/DoughnutChart'
 import pieChart from '../../components/charts/examples/pieChart'
 import scatterChart from '../../components/charts/examples/scatterChart'
@@ -69,7 +68,6 @@ export default {
   components: {
     lineChart,
     barChart,
-    areaChart,
     doughnutChart,
     pieChart,
     scatterChart
