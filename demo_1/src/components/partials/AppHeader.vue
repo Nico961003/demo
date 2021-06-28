@@ -2,10 +2,10 @@
   <b-navbar id="template-header" class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row" toggleable="md">
     <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
       <router-link class="navbar-brand brand-logo" to="/">
-        <img src="../../assets/images/logo-eGasCentral.svg" alt="logo" />
+        <img src="../../assets/images/logo-egas.png" alt="logo" />
       </router-link>
       <router-link class="navbar-brand brand-logo-mini" to="/">
-        <img src="../../assets/images/logo-eGasCentral.svg" alt="logo" />
+        <img src="../../assets/images/logo-egas.png" alt="logo" />
       </router-link>
     </div>
     <div class="navbar-menu-wrapper d-flex align-items-center ml-auto ml-lg-0">
@@ -31,7 +31,7 @@
           </b-dropdown-item>
           <b-dropdown-item class="preview-item">
             <div class="preview-thumbnail">
-              <img src="../../assets/images/faces/face10.jpg" alt="image" class="img-sm profile-pic">
+              <!-- <img src="../../assets/images/faces/face10.jpg" alt="image" class="img-sm profile-pic"> -->
             </div>
             <div class="preview-item-content flex-grow py-2">
               <p class="preview-subject ellipsis font-weight-medium text-dark">Marian Garner </p>
@@ -40,7 +40,7 @@
           </b-dropdown-item>
           <b-dropdown-item class="preview-item">
             <div class="preview-thumbnail">
-              <img src="../../assets/images/faces/face12.jpg" alt="image" class="img-sm profile-pic">
+              <!-- <img src="../../assets/images/faces/face12.jpg" alt="image" class="img-sm profile-pic"> -->
             </div>
             <div class="preview-item-content flex-grow py-2">
               <p class="preview-subject ellipsis font-weight-medium text-dark">David Grey</p>
@@ -49,7 +49,7 @@
           </b-dropdown-item>
           <b-dropdown-item class="preview-item">
             <div class="preview-thumbnail">
-              <img src="../../assets/images/faces/face1.jpg" alt="image" class="img-sm profile-pic">
+              <!-- <img src="../../assets/images/faces/face1.jpg" alt="image" class="img-sm profile-pic"> -->
             </div>
             <div class="preview-item-content flex-grow py-2">
               <p class="preview-subject ellipsis font-weight-medium text-dark">Travis Jenkins</p>

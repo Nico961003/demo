@@ -16,104 +16,65 @@
         </li>
         <li class="nav-item nav-category">Menú Principal</li>
         <li class="nav-item">
-          <a class="nav-link" v-b-toggle="'dashboard-dropdown'">
+          <a class="nav-link" v-b-toggle="'ui-user'">
             <i class="menu-icon typcn typcn-document-text"></i>
-            <span class="menu-title">E-Cron</span>
+            <span class="menu-title">Usuarios</span>
             <i class="menu-arrow"></i>
           </a>
-          <b-collapse id="dashboard-dropdown">
+          <b-collapse id="ui-user">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
-                <router-link class="nav-link" to="/">E-Cron</router-link>
+                <router-link class="nav-link" to="/">Agregar</router-link>
               </li>
             </ul>
           </b-collapse>
         </li>
         <li class="nav-item">
-          <a class="nav-link" v-b-toggle="'ui-basic'">
+          <a class="nav-link" v-b-toggle="'ui-role'">
             <i class="menu-icon typcn typcn-coffee"></i>
-            <span class="menu-title">E-Cron</span>
+            <span class="menu-title">Roles</span>
             <i class="menu-arrow"></i>
           </a>
-          <b-collapse id="ui-basic">
+          <b-collapse id="ui-role">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
-                <router-link class="nav-link" to="/buttons/">E-Cron</router-link>
+                <router-link class="nav-link" to="/buttons/">Agregar</router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="/dropdowns/">E-Cron</router-link>
+                <router-link class="nav-link" to="/dropdowns/">Pendiente</router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="/typography/">E-Cron</router-link>
-              </li>
-            </ul>
-          </b-collapse>
-        </li>
-         <li class="nav-item">
-          <span class="nav-link" v-b-toggle="'charts-dropdown'">
-            <i class="menu-icon typcn typcn-th-large-outline"></i>
-            <span class="menu-title">E-Cron</span>
-            <i class="menu-arrow"></i>
-          </span>
-          <b-collapse id="charts-dropdown">
-            <ul class="nav flex-column sub-menu">
-              <li class="nav-item">
-                <router-link class="nav-link" to="/chartjs/">E-Cron</router-link>
+                <router-link class="nav-link" to="/typography/">Pendiente</router-link>
               </li>
             </ul>
           </b-collapse>
         </li>
         <li class="nav-item">
-          <a class="nav-link" v-b-toggle="'tables'">
-            <i class="menu-icon mdi mdi-table"></i>
-            <span class="menu-title">E-Cron</span>
+          <a class="nav-link" v-b-toggle="'ui-group'">
+            <i class="menu-icon typcn typcn-coffee"></i>
+            <span class="menu-title">Grupos</span>
             <i class="menu-arrow"></i>
           </a>
-          <b-collapse id="tables">
+          <b-collapse id="ui-group">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
-                <router-link class="nav-link" to="/basic_table/">E-Cron</router-link>
+                <router-link class="nav-link" to="/buttons/">Pendiente</router-link>
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link" to="/dropdowns/">Prendiente</router-link>
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link" to="/typography/">Pendiente</router-link>
               </li>
             </ul>
           </b-collapse>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" v-b-toggle="'icons'">
-            <i class="menu-icon typcn typcn-user-outline"></i>
-            <span class="menu-title">E-Cron</span>
-            <i class="menu-arrow"></i>
-          </a>
-          <b-collapse id="icons">
-            <ul class="nav flex-column sub-menu">
-               <li class="nav-item">
-                <router-link class="nav-link" to="/mdiIcons/">E-Cron</router-link>
-              </li>
-            </ul>
-          </b-collapse>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" v-b-toggle="'auth'">
+        <!-- <li class="nav-item">
+          <a class="nav-link" href="https://google.com.mx">
             <i class="menu-icon typcn typcn-document-add"></i>
-            <span class="menu-title">E-Cron</span>
-            <i class="menu-arrow"></i>
+            <span class="menu-title">Pendiente</span>
           </a>
-          <b-collapse id="auth">
-            <ul class="nav flex-column sub-menu">
-              <li class="nav-item">
-                <router-link class="nav-link" to="/pages/login/">Login</router-link>
-              </li>
-              <li class="nav-item">
-                <router-link class="nav-link" to="/pages/register/">Register</router-link>
-              </li>
-            </ul>
-          </b-collapse>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="https://www.bootstrapdash.com/product/star-admin-vue/docs/documentation.html">
-            <i class="menu-icon typcn typcn-document-add"></i>
-            <span class="menu-title">E-Cron</span>
-          </a>
-        </li>
+        </li> -->
       </ul>
     </nav>
   </section>
