@@ -17,7 +17,7 @@
         <li class="nav-item nav-category">Menú Principal</li>
         <li class="nav-item">
           <a class="nav-link" v-b-toggle="'ui-user'">
-            <i class="menu-icon typcn typcn-document-text"></i>
+            <i class="menu-icon typcn typcn-user-outline"></i>
             <span class="menu-title">Usuarios</span>
             <i class="menu-arrow"></i>
           </a>
@@ -31,7 +31,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" v-b-toggle="'ui-role'">
-            <i class="menu-icon typcn typcn-coffee"></i>
+            <i class="menu-icon typcn typcn-document-text"></i>
             <span class="menu-title">Roles</span>
             <i class="menu-arrow"></i>
           </a>
@@ -51,7 +51,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" v-b-toggle="'ui-group'">
-            <i class="menu-icon typcn typcn-coffee"></i>
+            <i class="menu-icon typcn typcn-group-outline"></i>
             <span class="menu-title">Grupos</span>
             <i class="menu-arrow"></i>
           </a>
