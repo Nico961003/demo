@@ -24,7 +24,10 @@
           <b-collapse id="ui-user">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
-                <router-link class="nav-link" to="/">Agregar</router-link>
+                <router-link class="nav-link" to="/readUsers">Mis usuarios</router-link>
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link" to="/addUser">Agregar</router-link>
               </li>
             </ul>
           </b-collapse>

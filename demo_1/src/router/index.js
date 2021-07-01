@@ -22,6 +22,9 @@ import register from '../views/samples/user-pages/register'
 //  Table Components
 import basicTables from '../views/tables/basic-table'
 
+// User component
+import addUser from '../views/user/add-User'
+
 Vue.use(Router)
 
 export default new Router({
@@ -59,6 +62,11 @@ export default new Router({
         path: '/basic_table',
         name: 'basicTables',
         component: basicTables
+      },
+      {
+        path: '/adduser',
+        name: 'addUser',
+        component: addUser
       }
     ]
   },
