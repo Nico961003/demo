@@ -1,8 +1,6 @@
 <template lang='html'>
   <section class='dashboard'>
     <!-- Page Title Header Starts-->
-    <div class="proBanner">
-    </div>
     <div class='row page-title-header'>
       <div class='col-12'>
         <div class='page-header'>
@@ -12,7 +10,7 @@
     </div>
     <!-- Page Title Header Ends-->
     <div class="container">
-        <div class="card pl-4 pt-5 pb-5 pr-4 mt-5">
+        <div class="card pl-4 pt-5 pb-5 pr-4 mt-3">
             <form action="" @submit.prevent="submitUserDetails">
                 <vue-form-generator tag="div" :schema="schema" :options="formOptions" :model="model" />
                 <div class="d-flex justify-content-end mt-3 pr-4">
