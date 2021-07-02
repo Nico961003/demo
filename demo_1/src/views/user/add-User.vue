@@ -15,7 +15,7 @@
                 <vue-form-generator tag="div" :schema="schema" :options="formOptions" :model="model" />
                 <div class="d-flex justify-content-end mt-3 pr-4">
                     <button type="submit" class="btn btn-primary btn-lg">
-                        {{ isSaving ? 'Saving...' : 'Submit'}}
+                        {{ isSaving ? 'Saving...' : 'Enviar'}}
                     </button>
                 </div>
             </form>
@@ -37,7 +37,7 @@ export default {
       model: {
         first_name: '',
         last_name: '',
-        gender: '',
+        status: '',
         email: '',
         age: '',
         city: '',

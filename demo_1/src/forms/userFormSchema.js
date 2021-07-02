@@ -3,94 +3,99 @@ import VueFormGenerator from 'vue-form-generator'
 export default {
   groups: [
     {
-      legend: 'Personal Info',
+      legend: 'Información personal',
       fields: [
         {
           type: 'input',
           inputType: 'text',
-          label: 'First Name',
+          label: 'Nombre(s)',
           model: 'first_name',
+          placeholder: 'Nombre(s)',
           required: true,
           validator: ['string', 'required']
         },
         {
           type: 'input',
           inputType: 'text',
-          label: 'Last Name',
+          label: 'Apellido(s)',
           model: 'last_name',
+          placeholder: 'Apellido(s)',
           required: true,
           validator: ['string', 'required']
         },
         {
+          type: 'input',
+          inputType: 'email',
+          label: 'Correo electronico',
+          model: 'email',
+          placeholder: 'Correo electronico',
+          required: true,
+          validator: VueFormGenerator.validators.email
+        },
+        {
           type: 'select',
-          label: 'Gender',
-          model: 'gender',
+          label: 'Verificar e-mail',
+          model: 'status',
           values: [
-            {id: 'male', name: 'Male'},
-            {id: 'female', name: 'Female'}
+            {id: '0', name: 'Verificar'},
+            {id: 'disable', name: 'No Verificar'}
           ],
           selectOptions: {
-            noneSelectedText: 'Choose One'
+            noneSelectedText: 'Selecciona uno'
           },
           required: true,
           validator: ['string', 'required']
         },
         {
-          type: 'input',
-          inputType: 'number',
-          label: 'Age',
-          model: 'age',
+          type: 'select',
+          label: 'Estatus',
+          model: 'status',
+          selectedValue: 'Activo',
+          values: [
+            {id: 'active', name: 'Activo', selected: 'selected'},
+            {id: 'disable', name: 'Inactivo'}
+          ],
+          selectOptions: {
+            selectedValue: 'Activo',
+            noneSelectedText: 'Selecciona uno'
+          },
           required: true,
-          hint: 'Age is required & must be a between 18 and 35.',
-          validator: ['number', 'required'],
-          min: 18,
-          max: 35
+          validator: ['string', 'required']
+        }
+      ]
+    },
+    {
+      legend: 'Acciones',
+      fields: [
+        {
+          type: 'checklist',
+          label: 'Agregar grupo(s)',
+          model: 'groups',
+          multi: true,
+          required: true,
+          multiSelect: true,
+          values: ['Javascript', 'AngularJS', 'ReactJS', 'VueJS']
         },
         {
-          type: 'input',
-          inputType: 'text',
-          label: 'City',
-          model: 'city',
+          type: 'checklist',
+          label: 'Acciones después del login',
+          model: 'actions',
+          multi: true,
           required: true,
-          validator: ['string', 'required']
+          multiSelect: true,
+          values: ['Javascript', 'AngularJS', 'ReactJS', 'VueJS']
         }
       ]
     },
     {
-      legend: 'Contact Details',
-      fields: [
-        {
-          type: 'input',
-          inputType: 'email',
-          label: 'Email',
-          model: 'email',
-          required: true,
-          validator: VueFormGenerator.validators.email
-        }
-      ]
-    },
-    {
-      legend: 'Profile',
-      fields: [
-        {
-          type: 'textArea',
-          inputType: 'textArea',
-          rows: 4,
-          label: 'About',
-          model: 'about',
-          required: true,
-          validator: ['string', 'required']
-        }
-      ]
-    },
-    {
-      legend: 'Login Details',
+      legend: 'Credenciales',
       fields: [
         {
           type: 'input',
           inputType: 'text',
           label: 'Username',
           model: 'username',
+          placeholder: 'Nombre de usuario',
           required: true,
           validator: ['string', 'required']
         },
@@ -99,6 +104,7 @@ export default {
           inputType: 'password',
           label: 'Password',
           model: 'password',
+          placeholder: 'Contraseña',
           required: true,
           validator: ['strongPassword', 'required']
         }
