@@ -15,7 +15,7 @@
       <b-navbar-nav class="navbar-nav-right ml-auto">
         <form class="mr-auto search-form d-none d-md-block" action="#">
           <div class="form-group">
-            <input type="search" class="form-control" placeholder="Buscar ...">
+            <!-- <input type="search" class="form-control" placeholder="Buscar ..."> -->
           </div>
         </form>
         <b-nav-item-dropdown right class="preview-list">
