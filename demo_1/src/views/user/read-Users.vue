@@ -202,7 +202,82 @@
 </template>
 
 <script>
+import { HTTP } from './http-common'
+// import axios from 'axios'
 export default {
+  data2 () {
+    return {
+      posts: [],
+      errors: []
+    }
+  },
+  created () {
+    HTTP.get(`viewUsers`)
+      .then(response => {
+        this.posts = response.data
+        console.log(this.posts)
+      })
+      .catch(e => {
+        console.log(e)
+        // this.errors.push(e)
+      })
+  // },
+  // created () {
+  //   // Simple GET request using fetch
+  //   let promise = fetch('http://localhost:8090/user/viewUsers', {
+  //     method: 'GET',
+  //     mode: 'no-cors',
+  //     headers: {
+  //       // the content type header value is usually auto-set
+  //       // depending on the request body
+  //       'Content-Type': 'text/plain;charset=UTF-8',
+  //       'Accept': 'application/json',
+  //       // 'Content-Type': 'application/json',
+  //       'Access-Control-Allow-Credentials': 'true',
+  //       'Access-Control-Allow-Methods': 'GET, POST, PATCH, DELETE, PUT, OPTIONS',
+  //       'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With',
+  //       'Access-Control-Allow-Origin': '*',
+  //       'Access-Control-Max-Age': 86400
+  //     },
+  //     body: undefined, // string, FormData, Blob, BufferSource, or URLSearchParams
+  //     referrer: 'http://localhost:8090', // or '' to send no Referer header,
+  //     // or an url from the current origin
+  //     referrerPolicy: 'no-referrer', // no-referrer, origin, same-origin..., no-referrer-when-downgrade
+  //     // mode: 'cors', // same-origin, no-cors
+  //     credentials: 'same-origin', // omit, include, same-origin
+  //     cache: 'default', // no-store, reload, no-cache, force-cache, or only-if-cached
+  //     redirect: 'follow', // manual, error
+  //     integrity: '', // a hash, like "sha256-abcdef1234567890"
+  //     keepalive: true, // false
+  //     signal: undefined // AbortController to abort request
+  //     // window: window // null
+  //   })
+  //   console.log(promise)
+
+  // Ejemplo implementando el metodo POST:
+  //   console.log('metodo async')
+  //   async function postData (url = 'http://localhost:8090/user/viewUsers', data = {}) {
+  //     console.log('entre')
+  //     // Opciones por defecto estan marcadas con un *
+  //     const response = await fetch(url, {
+  //       method: 'GET', // *GET, POST, PUT, DELETE, etc.
+  //       mode: 'cors', // no-cors, *cors, same-origin
+  //       cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+  //       credentials: 'same-origin', // include, *same-origin, omit
+  //       headers: {
+  //         'Content-Type': 'application/json;charset=utf-8'
+  //         // 'Content-Type': 'application/x-www-form-urlencoded',
+  //       },
+  //       redirect: 'follow', // manual, *follow, error
+  //       referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+  //       body: JSON.stringify(data) // body data type must match "Content-Type" header
+  //     })
+  //     console.log('data')
+  //     console.log(data)
+  //     return response.json() // parses JSON response into native JavaScript objects
+  //   }
+  //   postData()
+  },
   data () {
     return {
       items: [
