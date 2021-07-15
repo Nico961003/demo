@@ -13,117 +13,40 @@
     <div>
       <div class="card pl-4 pt-5 pb-5 pr-4 mt-3">
         <b-container fluid>
-          <!-- User Interface controls -->
-          <b-row>
-            <b-col lg="6" class="my-1">
-              <b-form-group
-                label="Clasificar"
-                label-for="sort-by-select"
-                label-cols-sm="3"
-                label-align-sm="left"
-                label-size="sm"
-                class="mb-0"
-                v-slot="{ ariaDescribedby }"
-              >
-                <b-input-group size="sm">
-                  <b-form-select
-                    id="sort-by-select"
-                    v-model="sortBy"
-                    :options="sortOptions"
-                    :aria-describedby="ariaDescribedby"
-                    class="w-75"
-                  >
-                    <template #first>
-                      <option value="">-- ninguno --</option>
-                    </template>
-                  </b-form-select>
-
-                  <b-form-select
-                    v-model="sortDesc"
-                    :disabled="!sortBy"
-                    :aria-describedby="ariaDescribedby"
-                    size="sm"
-                    class="w-25"
-                  >
-                    <option :value="false">Ascendente</option>
-                    <option :value="true">Descendente</option>
-                  </b-form-select>
-                </b-input-group>
-              </b-form-group>
-            </b-col>
-
-            <b-col lg="6" class="my-1">
-              <b-form-group
-                label="Orden"
-                label-for="initial-sort-select"
-                label-cols-sm="3"
-                label-align-sm="left"
-                label-size="sm"
-                class="mb-0"
-              >
-                <b-form-select
-                  id="initial-sort-select"
-                  v-model="sortDirection"
-                  :options="['ascendente', 'descendente', 'ultimo']"
-                  size="sm"
-                ></b-form-select>
-              </b-form-group>
-            </b-col>
-          </b-row>
-          <b-row>
-            <b-col lg="6" class="my-1">
-              <b-form-group
-                label="Buscar"
-                label-for="per-page-select"
-                label-cols-sm="8"
-                label-cols-md="12"
-                label-cols-lg="3"
-                label-align-sm="left"
-                label-size="sm"
-                class="mb-0"
-              >
-                <b-input-group size="sm">
-                  <b-form-input
-                    id="filter-input"
-                    v-model="filter"
-                    type="search"
-                    placeholder="Escribe algo"
-                  ></b-form-input>
-
-                  <b-input-group-append>
-                    <b-button :disabled="!filter" @click="filter = ''"
-                      >Limpiar</b-button
-                    >
-                  </b-input-group-append>
-                </b-input-group>
-              </b-form-group>
-            </b-col>
-
-            <b-col sm="6" md="6" class="my-1">
-              <b-form-group
-                label="Mostrar cada"
-                label-for="per-page-select"
-                label-cols-sm="6"
-                label-cols-md="12"
-                label-cols-lg="3"
-                label-align-sm="left"
-                label-size="sm"
-                class="mb-0"
-              >
-                <b-form-select
-                  id="per-page-select"
-                  v-model="perPage"
-                  :options="pageOptions"
-                  size="sm"
-                ></b-form-select>
-              </b-form-group>
-            </b-col>
-
-          </b-row>
-
           <!-- Main table element -->
           <div class="container-fluid">
-          <b-table
+          <table id="tblUsers" class="table table-hover table-striped table-bordered">
+            <thead class="thead-dark">
+              <tr>
+                  <th hidden>Id</th>
+                  <th>#</th>
+                  <th>Username</th>
+                  <th>Nombre</th>
+                  <th>Email</th>
+                  <th>Operaciones</th>
+               </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(user, index) in users" :key="index">
+                  <td hidden>{{user.id}}</td>
+                  <td>{{index + 1}}</td>
+                  <td>{{user.username}}</td>
+                  <td>{{user.firstName}} {{user.lastName}}</td>
+                  <td>{{user.email}}</td>
+                  <td>
+                    <template>
+                      <b-button size="sm" class="btn btn-warning" @click="row.toggleDetails">
+                        Actualizar
+                      </b-button>
+                      <b-button size="sm" class="btn btn-danger">
+                        Eliminar
+                      </b-button>
+                    </template>
+                  </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- <b-table
             :items="items"
             :fields="fields"
             :current-page="currentPage"
@@ -143,13 +66,6 @@
             </template>
 
             <template #cell(actions)="row">
-              <!-- <b-button
-                size="sm"
-                @click="info(row.item, row.index, $event.target)"
-                class="mr-1"
-              >
-                Info modal
-              </b-button> -->
               <b-button size="sm" @click="row.toggleDetails">
                 {{ row.detailsShowing ? "Cerrar" : "Ver" }} Detalles
               </b-button>
@@ -170,11 +86,11 @@
                 </ul>
               </b-card>
             </template>
-          </b-table>
+          </b-table> -->
           </div>
 
           <b-row>
-            <b-col sm="7" md="6" class="my-1">
+            <!-- <b-col sm="7" md="6" class="my-1">
               <b-pagination
                 v-model="currentPage"
                 :total-rows="totalRows"
@@ -183,18 +99,18 @@
                 size="sm"
                 class="my-0"
               ></b-pagination>
-            </b-col>
+            </b-col> -->
           </b-row>
 
           <!-- Info modal -->
-          <b-modal
+          <!-- <b-modal
             :id="infoModal.id"
             :title="infoModal.title"
             ok-only
             @hide="resetInfoModal"
           >
             <pre>{{ infoModal.content }}</pre>
-          </b-modal>
+          </b-modal> -->
         </b-container>
       </div>
     </div>
@@ -202,149 +118,88 @@
 </template>
 
 <script>
-import { HTTP } from './http-common'
-// import axios from 'axios'
+import { HTTP } from '../../http-common'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'jquery/dist/jquery.min.js'
+import 'datatables.net-dt/js/dataTables.dataTables'
+import 'datatables.net-dt/css/jquery.dataTables.min.css'
+import $ from 'jquery'
+
 export default {
-  data2 () {
-    return {
-      posts: [],
-      errors: []
+  methods: {
+    loadUsers () {
+      HTTP.get('user/viewUsers').then(r => {
+        this.users = r.data
+        // console.log(this.users)
+      })
     }
+    // info (item, index, button) {
+    //   this.infoModal.title = `Row index: ${index}`
+    //   this.infoModal.content = JSON.stringify(item, null, 2)
+    //   this.$root.$emit('bv::show::modal', this.infoModal.id, button)
+    // },
+    // resetInfoModal () {
+    //   this.infoModal.title = ''
+    //   this.infoModal.content = ''
+    // },
+    // onFiltered (filteredItems) {
+    //   // Trigger pagination to update the number of buttons/pages due to filtering
+    //   this.totalRows = filteredItems.length
+    //   this.currentPage = 1
+    // }
   },
   created () {
-    HTTP.get(`viewUsers`)
-      .then(response => {
-        this.posts = response.data
-        console.log(this.posts)
-      })
-      .catch(e => {
-        console.log(e)
-        // this.errors.push(e)
-      })
-  // },
-  // created () {
-  //   // Simple GET request using fetch
-  //   let promise = fetch('http://localhost:8090/user/viewUsers', {
-  //     method: 'GET',
-  //     mode: 'no-cors',
-  //     headers: {
-  //       // the content type header value is usually auto-set
-  //       // depending on the request body
-  //       'Content-Type': 'text/plain;charset=UTF-8',
-  //       'Accept': 'application/json',
-  //       // 'Content-Type': 'application/json',
-  //       'Access-Control-Allow-Credentials': 'true',
-  //       'Access-Control-Allow-Methods': 'GET, POST, PATCH, DELETE, PUT, OPTIONS',
-  //       'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With',
-  //       'Access-Control-Allow-Origin': '*',
-  //       'Access-Control-Max-Age': 86400
-  //     },
-  //     body: undefined, // string, FormData, Blob, BufferSource, or URLSearchParams
-  //     referrer: 'http://localhost:8090', // or '' to send no Referer header,
-  //     // or an url from the current origin
-  //     referrerPolicy: 'no-referrer', // no-referrer, origin, same-origin..., no-referrer-when-downgrade
-  //     // mode: 'cors', // same-origin, no-cors
-  //     credentials: 'same-origin', // omit, include, same-origin
-  //     cache: 'default', // no-store, reload, no-cache, force-cache, or only-if-cached
-  //     redirect: 'follow', // manual, error
-  //     integrity: '', // a hash, like "sha256-abcdef1234567890"
-  //     keepalive: true, // false
-  //     signal: undefined // AbortController to abort request
-  //     // window: window // null
-  //   })
-  //   console.log(promise)
-
-  // Ejemplo implementando el metodo POST:
-  //   console.log('metodo async')
-  //   async function postData (url = 'http://localhost:8090/user/viewUsers', data = {}) {
-  //     console.log('entre')
-  //     // Opciones por defecto estan marcadas con un *
-  //     const response = await fetch(url, {
-  //       method: 'GET', // *GET, POST, PUT, DELETE, etc.
-  //       mode: 'cors', // no-cors, *cors, same-origin
-  //       cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-  //       credentials: 'same-origin', // include, *same-origin, omit
-  //       headers: {
-  //         'Content-Type': 'application/json;charset=utf-8'
-  //         // 'Content-Type': 'application/x-www-form-urlencoded',
-  //       },
-  //       redirect: 'follow', // manual, *follow, error
-  //       referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-  //       body: JSON.stringify(data) // body data type must match "Content-Type" header
-  //     })
-  //     console.log('data')
-  //     console.log(data)
-  //     return response.json() // parses JSON response into native JavaScript objects
-  //   }
-  //   postData()
+    var t = $('#tblUsers').DataTable()
+    t.destroy()
+    $('#tblUsers tbody').empty()
+    $('#tblUsers').DataTable()
+    this.loadUsers()
   },
   data () {
     return {
-      items: [
-        {
-          isActive: true,
-          age: 40,
-          name: { first: 'Dickerson', last: 'Macdonald' }
-        },
-        { isActive: false, age: 21, name: { first: 'Larsen', last: 'Shaw' } },
-        {
-          isActive: false,
-          age: 9,
-          name: { first: 'Mini', last: 'Navarro' },
-          _rowVariant: 'success'
-        },
-        { isActive: false, age: 89, name: { first: 'Geneva', last: 'Wilson' } },
-        { isActive: true, age: 38, name: { first: 'Jami', last: 'Carney' } },
-        { isActive: false, age: 27, name: { first: 'Essie', last: 'Dunlap' } },
-        { isActive: true, age: 40, name: { first: 'Thor', last: 'Macdonald' } },
-        {
-          isActive: true,
-          age: 87,
-          name: { first: 'Larsen', last: 'Shaw' },
-          _cellVariants: { age: 'danger', isActive: 'warning' }
-        },
-        { isActive: false, age: 26, name: { first: 'Mitzi', last: 'Navarro' } },
-        {
-          isActive: false,
-          age: 22,
-          name: { first: 'Genevieve', last: 'Wilson' }
-        },
-        { isActive: true, age: 38, name: { first: 'John', last: 'Carney' } },
-        { isActive: false, age: 29, name: { first: 'Dick', last: 'Dunlap' } }
-      ],
-      fields: [
-        {
-          key: 'name',
-          label: 'Nombre completo',
-          sortable: true,
-          sortDirection: 'desc'
-        },
-        {
-          key: 'isActive',
-          label: 'Activo',
-          formatter: (value, key, item) => {
-            return value ? 'Yes' : 'No'
-          },
-          sortable: true,
-          sortByFormatted: true,
-          filterByFormatted: true
-        },
-        { key: 'actions', label: 'Acciones' }
-      ],
-      totalRows: 1,
-      currentPage: 1,
-      perPage: 5,
-      pageOptions: [5, 10, 15, { value: 100, text: 'Ver todo' }],
-      sortBy: '',
-      sortDesc: false,
-      sortDirection: 'asc',
-      filter: null,
-      filterOn: [],
-      infoModal: {
-        id: 'info-modal',
-        title: '',
-        content: ''
-      }
+      users: {}
+      // items: [
+      //   { isActive: false, age: 89, name: { first: 'Geneva', last: 'Wilson' } },
+      //   {
+      //     isActive: true,
+      //     age: 87,
+      //     name: { first: 'Larsen', last: 'Shaw' },
+      //     _cellVariants: { age: 'danger', isActive: 'warning' }
+      //   }
+      // ],
+      // fields: [
+      //   {
+      //     key: 'name',
+      //     label: 'Nombre completo',
+      //     sortable: true,
+      //     sortDirection: 'desc'
+      //   },
+      //   {
+      //     key: 'isActive',
+      //     label: 'Activo',
+      //     formatter: (value, key, item) => {
+      //       return value ? 'Yes' : 'No'
+      //     },
+      //     sortable: true,
+      //     sortByFormatted: true,
+      //     filterByFormatted: true
+      //   },
+      //   { key: 'actions', label: 'Acciones' }
+      // ],
+      // totalRows: 1,
+      // currentPage: 1,
+      // perPage: 5,
+      // pageOptions: [5, 10, 15, { value: 100, text: 'Ver todo' }],
+      // sortBy: '',
+      // sortDesc: false,
+      // sortDirection: 'asc',
+      // filter: null,
+      // filterOn: [],
+      // infoModal: {
+      //   id: 'info-modal',
+      //   title: '',
+      //   content: ''
+      // }
     }
   },
   computed: {
@@ -358,24 +213,25 @@ export default {
     }
   },
   mounted () {
+    HTTP.get('user/viewUsers').then(r => {
+      this.users = r.data
+      // console.log(this.users)
+      // console.log('Component mounted.')
+      $('#tblUsers').DataTable({
+        responsive: true,
+        scrollY: 540,
+        ordering: true,
+        select: true,
+        'columnDefs': [
+          {'className': 'dt-center', 'targets': '_all'}
+        ],
+        'language': {
+          'url': '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json'
+        }
+      })
+    })
     // Set the initial number of items
-    this.totalRows = this.items.length
-  },
-  methods: {
-    info (item, index, button) {
-      this.infoModal.title = `Row index: ${index}`
-      this.infoModal.content = JSON.stringify(item, null, 2)
-      this.$root.$emit('bv::show::modal', this.infoModal.id, button)
-    },
-    resetInfoModal () {
-      this.infoModal.title = ''
-      this.infoModal.content = ''
-    },
-    onFiltered (filteredItems) {
-      // Trigger pagination to update the number of buttons/pages due to filtering
-      this.totalRows = filteredItems.length
-      this.currentPage = 1
-    }
+    // this.totalRows = this.items.length
   }
 }
 </script>

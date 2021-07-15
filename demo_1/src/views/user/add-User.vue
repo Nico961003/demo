@@ -26,7 +26,7 @@
 
 <script lang='js'>
 import userFormSchema from '../../forms/userFormSchema'
-import axios from 'axios'
+import { HTTP } from '../../http-common'
 
 export default {
   name: 'add-User',
@@ -35,13 +35,12 @@ export default {
   data () {
     return {
       model: {
-        first_name: '',
-        last_name: '',
-        status: '',
+        firstname: '',
+        lastname: '',
         email: '',
-        age: '',
-        city: '',
-        about: '',
+        realm: 'SpringBoot',
+        role: '',
+        enable: '',
         username: '',
         password: ''
       },
@@ -55,10 +54,11 @@ export default {
   methods: {
     async submitUserDetails () {
       try {
-        await axios.post('https://user-management-api.enkaypeter.repl.co/users', {
+        await HTTP.post('user/createUser', {
           ...this.model
         })
         alert('Saved Successfully')
+        console.log(this.model)
       } catch (e) {
         console.log(e)
         alert(e.message)
