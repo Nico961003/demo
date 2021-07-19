@@ -31,54 +31,53 @@ export default {
           placeholder: 'Correo electronico',
           required: true,
           validator: VueFormGenerator.validators.email
-        },
-        {
-          type: 'select',
-          label: 'Verificar e-mail',
-          model: 'status',
-          values: [
-            {id: '0', name: 'Verificar'},
-            {id: 'disable', name: 'No Verificar'}
-          ],
-          selectOptions: {
-            noneSelectedText: 'Selecciona uno'
-          },
-          required: true,
-          validator: ['string', 'required']
-        },
-        {
-          type: 'select',
-          label: 'Estatus',
-          model: 'status',
-          selectedValue: 'Activo',
-          values: [
-            {id: 'active', name: 'Activo', selected: 'selected'},
-            {id: 'disable', name: 'Inactivo'}
-          ],
-          selectOptions: {
-            selectedValue: 'Activo',
-            noneSelectedText: 'Selecciona uno'
-          },
-          required: true,
-          validator: ['string', 'required']
         }
       ]
     },
     {
-      legend: 'Acciones',
+      legend: 'Caracteristicas',
       fields: [
         {
           type: 'checklist',
-          label: 'Agregar grupo(s)',
-          model: 'groups',
+          label: 'Agregar rol(es)',
+          model: 'roles',
           multi: true,
           required: true,
-          multiSelect: true,
-          values: ['Javascript', 'AngularJS', 'ReactJS', 'VueJS']
+          listBox: false,
+          values: [
+            {
+              name: 'HTML5',
+              value: 'HTML5-123'
+            },
+            {
+              name: 'Javascript',
+              value: 'Javascript-123'
+            },
+            {
+              name: 'CSS3',
+              value: 'CSS3-123'
+            },
+            {
+              name: 'CoffeeScript',
+              value: 'CoffeeScript-123'
+            },
+            {
+              name: 'AngularJS',
+              value: 'AngularJS-123'
+            },
+            {
+              name: 'ReactJS',
+              value: 'ReactJS-123'
+            },
+            {
+              name: 'VueJS',
+              value: 'VueJS-123'
+            }
+          ]
         },
         {
           type: 'checklist',
-          label: 'Acciones después del login',
+          label: 'Estatus',
           model: 'actions',
           multi: true,
           required: true,

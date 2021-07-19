@@ -34,12 +34,11 @@
                   <td>{{user.email}}</td>
                   <td>
                     <template>
-                      <b-button size="sm" class="btn btn-info" @click="ver(user.id)">
+                      <!-- <b-button size="sm" class="btn btn-info" @click="ver(user.id)">
                         Detalles
-                      </b-button>
-                      <b-button size="sm" class="btn btn-warning" @click="ver(user.id)">
-                        Actualizar
-                      </b-button>
+                      </b-button> -->
+                      <router-link class="btn btn-warning" :to="'/editUser/' + user.id">Actualizar</router-link>
+                      <!-- <b-button variant="dark" class="btn btn-warning" :to="'/editUser/' + user.id">Actualizar</b-button> -->
                       <b-button size="sm" class="btn btn-danger" @click="eliminar(user.id)">
                         Eliminar
                       </b-button>
@@ -55,7 +54,7 @@
   </section>
 </template>
 
-<script>
+<script lang='js'>
 import { HTTP } from '../../http-common'
 import 'jquery/dist/jquery.min.js'
 import 'datatables.net-dt/js/dataTables.dataTables'
@@ -70,7 +69,7 @@ export default {
       })
     },
     async ver (userId) {
-      HTTP.get('user/viewUser' + userId).then(r => {
+      HTTP.get('user/viewUser/' + userId).then(r => {
         this.user = r.data
         console.log(this.user)
       })
