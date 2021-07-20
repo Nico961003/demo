@@ -66,12 +66,12 @@ export default {
     loadUsers () {
       HTTP.get('user/viewUsers').then(r => {
         this.users = r.data
+        console.log(this.users)
       })
     },
     async ver (userId) {
       HTTP.get('user/viewUser/' + userId).then(r => {
         this.user = r.data
-        console.log(this.user)
       })
     },
     async eliminar (userId) {

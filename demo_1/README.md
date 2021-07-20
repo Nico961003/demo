@@ -28,3 +28,6 @@ npm test
 ```
 
 For a detailed explanation on how things work, check out the [guide](confluence) and [docs for vue-loader](confluence).
+
+# bootstrap 4
+# vue 2.9.6
