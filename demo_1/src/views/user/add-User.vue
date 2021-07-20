@@ -57,14 +57,10 @@
                 </div>
               </div>
               <div class="col-md-6 mb-3">
-                <label for="multiple">Rol(es)</label>
-                <select id="role" name="role" v-model="role" placeholder="Selecciona un rol" multiple>
-                  <option value="user">user</option>
-                  <option value="user2">user2</option>
-                  <option value="user3">user3</option>
-                  <option value="user4">user4</option>
-                  <option value="user5">user5</option>
-                </select>
+                <div>
+                  <label class="typo__label">Rol(es)</label>
+                  <multiselect v-model="form.role" tag-placeholder="Añadir nuevo rol" placeholder="Busca o añade un rol" label="name" track-by="code" :options="options" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
+                </div>
               </div>
             </div>
             <div class="form-row">
@@ -89,21 +85,13 @@
 <script lang='js'>
 import userFormSchema from '../../forms/userFormSchema'
 import { HTTP } from '../../http-common'
-// import $ from 'jquery'
-// import Choices from './choices.js'
-// $(document).ready(function () {
-//   // const choices = new Choices()
-//   const multipleCancelButton = new Choices('#choices-multiple-remove-button', {
-//     removeItemButton: true,
-//     maxItemCount: 5,
-//     searchResultLimit: 5,
-//     renderChoiceLimit: 5
-//   })
-//   console.log(multipleCancelButton)
-// })
+import Vue from 'vue'
+import Multiselect from 'vue-multiselect'
 
+Vue.component('multiselect', Multiselect)
 export default {
   name: 'add-User',
+  components: { Multiselect },
   mounted () {
   },
   data () {
@@ -113,16 +101,24 @@ export default {
         lastname: '',
         email: '',
         realm: 'SpringBoot',
-        role: 'user',
         enable: false,
         username: '',
+        role: '',
         password: ''
       },
       schema: userFormSchema,
       formOptions: {
         validateAfterChanged: true
       },
-      isSaving: false
+      isSaving: false,
+      tag: [
+        { name: 'user', code: 'user' }
+      ],
+      options: [
+        { name: 'single', code: 'vu' },
+        { name: 'admin', code: 'js' },
+        { name: 'otro', code: 'os' }
+      ]
     }
   },
   methods: {
@@ -138,11 +134,19 @@ export default {
         console.log(e)
         alert(e.message)
       }
+    },
+    addTag (newTag) {
+      const tag = {
+        name: newTag,
+        code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
+      }
+      this.options.push(tag)
+      this.value.push(tag)
     }
   }
 }
 </script>
-
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
 body {
   background-color: #fafafa !important;
