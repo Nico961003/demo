@@ -11,20 +11,18 @@
     <!-- Page Title Header Ends-->
     <div class="container">
         <div class="card pl-4 pt-5 pb-5 pr-4 mt-3">
-            <form >
+            <form action="" @submit.prevent="submitUserDetails">
             <div class="form-row">
               <div class="col-md-6 mb-3">
-                <label for="firstName">Nombre(s)</label>
-                <!-- <div v-if="isEdit"> -->
-                  <input type="text" class="form-control" id="firstName" name="firstName" v-model="form.firstName" placeholder="Nombre(s)" value="" required>
-                <!-- </div> -->
+                <label for="firstname">Nombre(s)</label>
+                <input type="text" class="form-control" id="firstname" name="firstname" v-model="form.firstname" placeholder="Nombre(s)" value="" required>
                 <div class="valid-tooltip">
                   Es aceptable!
                 </div>
               </div>
               <div class="col-md-6 mb-3">
-                <label for="lastName">Apellido(s)</label>
-                <input type="text" class="form-control" id="lastName" name="lastName" v-model="form.lastName" placeholder="Apellido(s)" value="" required>
+                <label for="lastname">Apellido(s)</label>
+                <input type="text" class="form-control" id="lastname" name="lastname" v-model="form.lastname" placeholder="Apellido(s)" value="" required>
                 <div class="valid-tooltip">
                   Es aceptable!
                 </div>
@@ -60,10 +58,8 @@
               </div>
               <div class="col-md-6 mb-3">
                 <div>
-                  <Multiselect
-                    v-model="value"
-                    :options="options"
-                  />
+                  <label class="typo__label">Rol(es)</label>
+                  <multiselect v-model="form.role" tag-placeholder="Añadir nuevo rol" placeholder="Busca o añade un rol" label="name" track-by="code" :options="options" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
                 </div>
               </div>
             </div>
@@ -89,45 +85,40 @@
 <script lang='js'>
 import userFormSchema from '../../forms/userFormSchema'
 import { HTTP } from '../../http-common'
-import $ from 'jquery'
 import Vue from 'vue'
-import VueCompositionAPI from '@vue/composition-api'
-Vue.use(VueCompositionAPI)
-import Multiselect from '@vueform/multiselect/dist/multiselect.vue2.js'
+import Multiselect from 'vue-multiselect'
 
+Vue.component('multiselect', Multiselect)
 export default {
   name: 'edit-User',
-  components: {
-    Multiselect
-  },
+  components: { Multiselect },
   mounted () {
-    var userId = this.$route.params.id
-    this.ver(userId)
   },
   data () {
     return {
       form: {
-        firstName: '',
-        lastName: '',
+        firstname: '',
+        lastname: '',
         email: '',
         realm: 'SpringBoot',
-        role: 'user',
         enable: false,
         username: '',
-        password: '',
-        isEdit: true,
-        value: null,
-        options: [
-          'Batman',
-          'Robin',
-          'Joker'
-        ]
+        role: '',
+        password: ''
       },
       schema: userFormSchema,
       formOptions: {
         validateAfterChanged: true
       },
-      isSaving: false
+      isSaving: false,
+      tag: [
+        { name: 'user', code: 'user' }
+      ],
+      options: [
+        { name: 'single', code: 'vu' },
+        { name: 'admin', code: 'js' },
+        { name: 'otro', code: 'os' }
+      ]
     }
   },
   methods: {
@@ -138,22 +129,72 @@ export default {
         })
         alert('Saved Successfully')
         console.log(this.form)
+        this.$router.push('/readUsers')
       } catch (e) {
         console.log(e)
         alert(e.message)
       }
     },
-    async ver (userId) {
-      HTTP.get('user/viewUser/' + userId).then(r => {
-        this.user = r.data
-        console.log(this.user)
-        $('#firstName').val(this.user.firstName)
-        $('#lastName').val(this.user.lastName)
-        $('#email').val(this.user.email)
-        $('#username').val(this.user.username)
-      })
+    addTag (newTag) {
+      const tag = {
+        name: newTag,
+        code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
+      }
+      this.options.push(tag)
+      this.value.push(tag)
     }
   }
 }
 </script>
-<style src="@vueform/multiselect/themes/default.css"></style>
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style>
+body {
+  background-color: #fafafa !important;
+}
+#app {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* text-align: center; */
+  color: #2c3e50;
+}
+.vue-form-generator > div {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  flex-grow: 1;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0 2%;
+  width: 50%;
+}
+.field-wrap,
+.wrapper {
+  width: 100%;
+}
+.dropList {
+  z-index: 10;
+  background-color: #fff;
+  position: relative;
+  width: 40%;
+  top: 5px;
+  right: 12px;
+}
+legend {
+  margin: 10px 0 20px 18px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: left;
+}
+.hint {
+  font-size: 10px;
+  font-style: italic;
+  color: purple;
+}
+.help-block {
+  color: red;
+}
+</style>

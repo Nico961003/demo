@@ -25,7 +25,6 @@ import basicTables from '../views/tables/basic-table'
 // User component
 import addUser from '../views/user/add-User'
 import readUsers from '../views/user/read-Users'
-import editUser from '../views/user/edit-User'
 
 Vue.use(Router)
 
@@ -35,6 +34,18 @@ export default new Router({
   mode: 'hash',
   routes: [{
     path: '/',
+    redirect: '/login',
+    component: login,
+    children: [
+      {
+        path: '/login',
+        name: 'login',
+        component: login
+      }
+    ]
+  },
+  {
+    path: '/*',
     redirect: '/dashboard',
     component: mainView,
     children: [
@@ -71,11 +82,6 @@ export default new Router({
         component: addUser
       },
       {
-        path: '/edituser/:id',
-        name: 'editUser',
-        component: editUser
-      },
-      {
         path: '/readusers',
         name: 'readUsers',
         component: readUsers
@@ -85,9 +91,9 @@ export default new Router({
   {
     path: '*',
     redirect: '/pages/error_404',
-    // component: {
-    //   render (c) { return c('router-view') }
-    // },
+    component: {
+      render (c) { return c('router-view') }
+    },
     children: [
       {
         path: '/pages/login',
