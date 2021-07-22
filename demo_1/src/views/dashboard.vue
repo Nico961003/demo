@@ -587,7 +587,7 @@ import totalTransaction from '../components/charts/dashboard_1/total-transaction
 import realtimeStatistics from '../components/charts/dashboard_1/realtime-statistics'
 import usersDoughnutChart from '../components/charts/dashboard_1/usersDoughnutChart'
 import JQuery from 'jquery'
-import auth from './samples/user-pages/auth'
+import auth from './main/user-pages/auth'
 let $ = JQuery
 export default {
   name: 'dashboard',

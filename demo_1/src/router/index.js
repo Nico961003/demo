@@ -10,8 +10,8 @@ import dropdowns from '../views/basic-elements/dropdowns'
 import typography from '../views/basic-elements/typography'
 //  Icons Components
 import mdiIcons from '../views/icons/mdi-icons'
-import login from '../views/samples/user-pages/login'
-import register from '../views/samples/user-pages/register'
+import login from '../views/main/user-pages/login'
+import register from '../views/main/user-pages/register'
 //  Table Components
 import basicTables from '../views/tables/basic-table'
 // User component

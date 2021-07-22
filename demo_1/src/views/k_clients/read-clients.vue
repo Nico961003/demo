@@ -55,7 +55,7 @@
 </template>
 
 <script lang='js'>
-import { HTTP } from '../../http-common'
+import { HTTP } from '../../logic/http-common'
 import 'jquery/dist/jquery.min.js'
 import 'datatables.net-dt/js/dataTables.dataTables'
 import 'datatables.net-dt/css/jquery.dataTables.min.css'

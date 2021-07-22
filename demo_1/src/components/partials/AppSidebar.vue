@@ -83,7 +83,7 @@
 
 <script lang="js">
 import JQuery from 'jquery'
-import auth from '../../views/samples/user-pages/auth'
+import auth from '../../views/main/user-pages/auth'
 // eslint-disable-next-line
 let $ = JQuery
 export default {

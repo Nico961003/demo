@@ -83,8 +83,7 @@
 </template>
 
 <script lang='js'>
-import userFormSchema from '../../forms/userFormSchema'
-import { HTTP } from '../../http-common'
+import { HTTP } from '../../logic/http-common'
 import Vue from 'vue'
 import Multiselect from 'vue-multiselect'
 
@@ -106,7 +105,6 @@ export default {
         role: '',
         password: ''
       },
-      schema: userFormSchema,
       formOptions: {
         validateAfterChanged: true
       },

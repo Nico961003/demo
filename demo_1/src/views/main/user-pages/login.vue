@@ -79,7 +79,7 @@
 
 <script lang="js">
 import userFormSchema from '../../../forms/userFormSchema'
-import { HTTP } from '../../../http-common-login'
+import { HTTP } from '../../../logic/http-common-login'
 import auth from './auth'
 export default {
   name: 'login',
