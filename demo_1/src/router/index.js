@@ -3,28 +3,23 @@ import Router from 'vue-router'
 
 // Dashboard Components
 import dashboard from '../views/dashboard'
-
 //  Widgets Components
 import mainView from '../mainView'
-
 import buttons from '../views/basic-elements/buttons'
 import dropdowns from '../views/basic-elements/dropdowns'
 import typography from '../views/basic-elements/typography'
-
-//  Chart Components
-
 //  Icons Components
 import mdiIcons from '../views/icons/mdi-icons'
-
 import login from '../views/samples/user-pages/login'
 import register from '../views/samples/user-pages/register'
-
 //  Table Components
 import basicTables from '../views/tables/basic-table'
-
 // User component
 import addUser from '../views/user/add-User'
 import readUsers from '../views/user/read-Users'
+// User component
+// import addUser from '../views/user/add-User'
+import readClients from '../views/k_clients/read-Clients'
 
 Vue.use(Router)
 
@@ -85,6 +80,11 @@ export default new Router({
         path: '/readusers',
         name: 'readUsers',
         component: readUsers
+      },
+      {
+        path: '/readClients',
+        name: 'readClients',
+        component: readClients
       }
     ]
   },

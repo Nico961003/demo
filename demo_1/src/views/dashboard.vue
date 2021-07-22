@@ -7,6 +7,7 @@
       <div class='col-12'>
         <div class='page-header'>
           <h4 class='page-title'>Dashboard</h4>
+          <p v-if="userToken">{{userToken}}</p>
           <div class='quick-link-wrapper w-100 d-md-flex flex-md-wrap'>
   <!--          <ul class='quick-links'>
               <li><a href='#'>ICE Market data</a></li>
@@ -586,6 +587,7 @@ import totalTransaction from '../components/charts/dashboard_1/total-transaction
 import realtimeStatistics from '../components/charts/dashboard_1/realtime-statistics'
 import usersDoughnutChart from '../components/charts/dashboard_1/usersDoughnutChart'
 import JQuery from 'jquery'
+import auth from './samples/user-pages/auth'
 let $ = JQuery
 export default {
   name: 'dashboard',
@@ -601,6 +603,11 @@ export default {
     totalTransaction,
     realtimeStatistics,
     usersDoughnutChart
+  },
+  computed: {
+    userToken () {
+      return auth.getUserToken()
+    }
   },
   methods: {
     toggleProBanner: function () {

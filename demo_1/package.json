@@ -27,6 +27,7 @@
     "font-awesome": "^4.7.0",
     "ionicons": "^4.5.8",
     "jquery": "^3.6.0",
+    "js-cookie": "^2.2.1",
     "mdi": "^2.2.43",
     "simple-line-icons": "^2.4.1",
     "ti-icons": "^0.1.2",

@@ -80,6 +80,7 @@
 <script lang="js">
 import userFormSchema from '../../../forms/userFormSchema'
 import { HTTP } from '../../../http-common-login'
+import auth from './auth'
 export default {
   name: 'login',
   data () {
@@ -99,11 +100,13 @@ export default {
   methods: {
     async submitLogin () {
       try {
-        await HTTP.get('newToken', {
+        await HTTP.post('newToken', {
           ...this.form
         }).then(r => {
           this.users = r.data
           console.log(this.users)
+          auth.setUserLogged(this.form.username)
+          auth.setUserToken(this.users)
           this.$router.push('/dashboard')
         })
         alert('Saved Successfully')

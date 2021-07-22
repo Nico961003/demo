@@ -9,7 +9,8 @@
               <div class="dot-indicator bg-success"></div>
             </div>
             <div class="text-wrapper">
-              <p class="profile-name">Usuario</p>
+              <!-- <p class="profile-name">Usuario</p> -->
+              <p class="profile-name" v-if="userLogged">{{userLogged}}</p>
               <p class="designation">Tipo de usuario</p>
             </div>
           </a>
@@ -55,19 +56,16 @@
         <li class="nav-item">
           <a class="nav-link" v-b-toggle="'ui-group'">
             <i class="menu-icon typcn typcn-group-outline"></i>
-            <span class="menu-title">Grupos</span>
+            <span class="menu-title">Clientes</span>
             <i class="menu-arrow"></i>
           </a>
           <b-collapse id="ui-group">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
-                <router-link class="nav-link" to="/buttons/">Pendiente</router-link>
+                <router-link class="nav-link" to="/readClients">Mis Clientes</router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="/dropdowns/">Prendiente</router-link>
-              </li>
-              <li class="nav-item">
-                <router-link class="nav-link" to="/typography/">Pendiente</router-link>
+                <router-link class="nav-link" to="/addUser">Agregar</router-link>
               </li>
             </ul>
           </b-collapse>
@@ -85,10 +83,16 @@
 
 <script lang="js">
 import JQuery from 'jquery'
+import auth from '../../views/samples/user-pages/auth'
 // eslint-disable-next-line
 let $ = JQuery
 export default {
   name: 'app-sidebar',
+  computed: {
+    userLogged () {
+      return auth.getUserLogged()
+    }
+  },
   mounted () {
     const body = document.querySelector('body')
     // add class 'hover-open' to sidebar navitem while hover in sidebar-icon-only menu
