@@ -109,7 +109,7 @@ export default {
           auth.setUserToken(this.users)
           this.$router.push('/dashboard')
         })
-        alert('Saved Successfully')
+        // alert('Saved Successfully')
       } catch (e) {
         console.log(e)
         alert(e.message)
