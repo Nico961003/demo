@@ -105,8 +105,9 @@
           <b-dropdown-item>
             <div class="dropdown-header text-center w-100">
               <img class="img-md rounded-circle" src="../../assets/images/noavatar.svg" alt="Profile image">
-              <p class="mb-1 mt-3 font-weight-semibold">Usuario</p>
-              <p class="font-weight-light text-muted mb-0">correo@dominio.com</p>
+              <p class="profile-name" v-if="userLogged">{{userLogged}}</p>
+              <!-- <p class="font-weight-light text-muted mb-0">correo@dominio.com</p> -->
+              <p class="font-weight-light text-muted mb-0" v-if="tokenDecode">{{tokenDecode.email}}</p>
             </div>
           </b-dropdown-item>
           <!--<b-dropdown-item>Mi perfil<span class="badge badge-pill badge-danger">1</span><i class="dropdown-item-icon ti-dashboard"></i></b-dropdown-item>-->
@@ -125,9 +126,19 @@
 <script lang="js">
 // eslint-disable-next-line
 import JQuery from 'jquery'
+import auth from '../../views/main/user-pages/auth'
+import decodedToken from '../../logic/decodeToken'
 let $ = JQuery
 export default {
   name: 'app-header',
+  computed: {
+    userLogged () {
+      return auth.getUserLogged()
+    },
+    tokenDecode () {
+      return decodedToken.getTokenDecode()
+    }
+  },
   methods: {
     collapedSidebar: function () {
       $('body').toggleClass('sidebar-icon-only')

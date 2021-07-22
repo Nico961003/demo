@@ -11,7 +11,8 @@
             <div class="text-wrapper">
               <!-- <p class="profile-name">Usuario</p> -->
               <p class="profile-name" v-if="userLogged">{{userLogged}}</p>
-              <p class="designation">Tipo de usuario</p>
+              <p class="designation" v-if="tokenDecode">{{tokenDecode.realm_access.roles[2]}}</p>
+              <!-- <p class="designation">Tipo de usuario</p> -->
             </div>
           </a>
         </li>
@@ -84,6 +85,7 @@
 <script lang="js">
 import JQuery from 'jquery'
 import auth from '../../views/main/user-pages/auth'
+import decodedToken from '../../logic/decodeToken'
 // eslint-disable-next-line
 let $ = JQuery
 export default {
@@ -91,6 +93,9 @@ export default {
   computed: {
     userLogged () {
       return auth.getUserLogged()
+    },
+    tokenDecode () {
+      return decodedToken.getTokenDecode()
     }
   },
   mounted () {

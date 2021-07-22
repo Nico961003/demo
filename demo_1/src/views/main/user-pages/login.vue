@@ -79,6 +79,7 @@
 
 <script lang="js">
 import { HTTP } from '../../../logic/http-common-login'
+import VueJwtDecode from 'vue-jwt-decode'
 import auth from './auth'
 export default {
   name: 'login',
@@ -102,9 +103,11 @@ export default {
           ...this.form
         }).then(r => {
           this.users = r.data
-          console.log(this.users)
+          // console.log(this.users)
           auth.setUserLogged(this.form.username)
           auth.setUserToken(this.users)
+          var prueba = VueJwtDecode.decode(this.users)
+          console.log(prueba)
           this.$router.push('/dashboard')
         })
         // alert('Saved Successfully')
