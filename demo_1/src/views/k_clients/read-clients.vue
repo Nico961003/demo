@@ -23,23 +23,24 @@
                   <th>Descripción</th>
                   <th>Admin URL</th>
                   <th>baseURL</th>
+                  <th>Operaciones</th>
                </tr>
             </thead>
             <tbody>
-              <tr v-for="(user, index) in users" :key="index">
-                  <td hidden>{{user.id}}</td>
+              <tr v-for="(client, index) in clients" :key="index">
+                  <td hidden>{{client.id}}</td>
                   <td>{{index + 1}}</td>
-                  <td>{{user.username}}</td>
-                  <td>{{user.firstName}} {{user.lastName}}</td>
-                  <td>{{user.email}}</td>
+                  <td>{{client.clientId}}</td>
+                  <td>{{client.description}}</td>
+                  <td>{{client.adminUrl}}</td>
+                  <td>{{client.baseUrl}}</td>
                   <td>
                     <template>
                       <!-- <b-button size="sm" class="btn btn-info" @click="ver(user.id)">
                         Detalles
                       </b-button> -->
-                      <router-link class="btn btn-warning" :to="'/editUser/' + user.id">Actualizar</router-link>
-                      <!-- <b-button variant="dark" class="btn btn-warning" :to="'/editUser/' + user.id">Actualizar</b-button> -->
-                      <b-button size="sm" class="btn btn-danger" @click="eliminar(user.id)">
+                      <router-link class="btn btn-warning" :to="'/editUser/' + client.id">Actualizar</router-link>
+                      <b-button size="sm" class="btn btn-danger" @click="eliminar(client.id)">
                         Eliminar
                       </b-button>
                     </template>
@@ -63,42 +64,46 @@ import $ from 'jquery'
 
 export default {
   methods: {
-    loadUsers () {
-      HTTP.get('user/viewUsers').then(r => {
-        this.users = r.data
-        console.log(this.users)
+    loadClients () {
+      HTTP.get('client/viewClients').then(r => {
+        this.clients = r.data
+        console.log('CLIENTES')
+        console.log(this.clients)
       })
-    },
-    async ver (userId) {
-      HTTP.get('user/viewUser/' + userId).then(r => {
-        this.user = r.data
-      })
-    },
-    async eliminar (userId) {
-      try {
-        await HTTP.delete('user/deleteUser/' + userId)
-        alert('Deleted Successfully')
-        this.loadUsers()
-      } catch (e) {
-        console.log(e)
-      }
     }
+    // ,
+    // async ver (userId) {
+    //   HTTP.get('user/viewUser/' + userId).then(r => {
+    //     this.user = r.data
+    //   })
+    // },
+    // async eliminar (userId) {
+    //   try {
+    //     await HTTP.delete('user/deleteUser/' + userId)
+    //     alert('Deleted Successfully')
+    //     this.loadUsers()
+    //   } catch (e) {
+    //     console.log(e)
+    //   }
+    // }
   },
   created () {
     var t = $('#tblUsers').DataTable()
     t.destroy()
     $('#tblUsers tbody').empty()
     $('#tblUsers').DataTable()
-    this.loadUsers()
+    this.loadClients()
   },
   data () {
     return {
-      users: {}
+      clients: {}
     }
   },
   mounted () {
-    HTTP.get('user/viewUsers').then(r => {
-      this.users = r.data
+    HTTP.get('client/viewClients').then(r => {
+      this.clients = r.data
+      console.log('CLIENTES')
+      console.log(this.clients)
       $('#tblUsers').DataTable({
         responsive: true,
         scrollY: 540,

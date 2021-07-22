@@ -78,7 +78,6 @@
 </template>
 
 <script lang="js">
-import userFormSchema from '../../../forms/userFormSchema'
 import { HTTP } from '../../../logic/http-common-login'
 import auth from './auth'
 export default {
@@ -90,7 +89,6 @@ export default {
         password: '',
         realm: 'SpringBoot'
       },
-      schema: userFormSchema,
       formOptions: {
         validateAfterChanged: true
       },
@@ -107,6 +105,7 @@ export default {
           console.log(this.users)
           auth.setUserLogged(this.form.username)
           auth.setUserToken(this.users)
+          
           this.$router.push('/dashboard')
         })
         // alert('Saved Successfully')
