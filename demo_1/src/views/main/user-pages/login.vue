@@ -105,7 +105,6 @@ export default {
           console.log(this.users)
           auth.setUserLogged(this.form.username)
           auth.setUserToken(this.users)
-          
           this.$router.push('/dashboard')
         })
         // alert('Saved Successfully')
