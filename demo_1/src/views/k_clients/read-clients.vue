@@ -14,7 +14,7 @@
         <b-container fluid>
           <!-- Main table element -->
           <div class="container-fluid">
-          <table id="tblUsers" class="table table-hover table-striped table-bordered">
+          <table id="tblClients" class="table table-hover table-striped table-bordered">
             <thead class="thead-dark">
               <tr>
                   <th hidden>Id</th>
@@ -34,16 +34,16 @@
                   <td>{{client.description}}</td>
                   <td>{{client.adminUrl}}</td>
                   <td>{{client.baseUrl}}</td>
-                  <td>
+                  <td v-if="client.clientId !== 'account' && client.clientId !== 'account-console' && client.clientId !== 'admin-cli' && client.clientId !== 'broker' && client.clientId !== 'realm-management' && client.clientId !== 'security-admin-console'">
                     <template>
-                      <!-- <b-button size="sm" class="btn btn-info" @click="ver(user.id)">
-                        Detalles
-                      </b-button> -->
-                      <router-link class="btn btn-warning" :to="'/editUser/' + client.id">Actualizar</router-link>
-                      <b-button size="sm" class="btn btn-danger" @click="eliminar(client.id)">
+                      <router-link class="btn btn-warning" :to="'/editUser/' + client.clientId">Actualizar</router-link>
+                      <b-button size="sm" class="btn btn-danger" @click="eliminar(client.clientId)">
                         Eliminar
                       </b-button>
                     </template>
+                  </td>
+                  <td v-else>
+                    Por seguridad, no habilitadas
                   </td>
               </tr>
             </tbody>
@@ -70,28 +70,27 @@ export default {
         console.log('CLIENTES')
         console.log(this.clients)
       })
-    }
-    // ,
+    },
     // async ver (userId) {
     //   HTTP.get('user/viewUser/' + userId).then(r => {
     //     this.user = r.data
     //   })
     // },
-    // async eliminar (userId) {
-    //   try {
-    //     await HTTP.delete('user/deleteUser/' + userId)
-    //     alert('Deleted Successfully')
-    //     this.loadUsers()
-    //   } catch (e) {
-    //     console.log(e)
-    //   }
-    // }
+    async eliminar (clientId) {
+      try {
+        await HTTP.delete('client/deleteClient/' + clientId)
+        alert('Deleted Successfully')
+        this.loadClients()
+      } catch (e) {
+        console.log(e)
+      }
+    }
   },
   created () {
-    var t = $('#tblUsers').DataTable()
+    var t = $('#tblClients').DataTable()
     t.destroy()
-    $('#tblUsers tbody').empty()
-    $('#tblUsers').DataTable()
+    $('#tblClients tbody').empty()
+    $('#tblClients').DataTable()
     this.loadClients()
   },
   data () {
@@ -104,7 +103,7 @@ export default {
       this.clients = r.data
       console.log('CLIENTES')
       console.log(this.clients)
-      $('#tblUsers').DataTable({
+      $('#tblClients').DataTable({
         responsive: true,
         scrollY: 540,
         ordering: true,

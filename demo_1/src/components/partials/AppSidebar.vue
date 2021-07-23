@@ -66,7 +66,7 @@
                 <router-link class="nav-link" to="/readClients">Mis Clientes</router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="/addUser">Agregar</router-link>
+                <router-link class="nav-link" to="/addClient">Agregar</router-link>
               </li>
             </ul>
           </b-collapse>

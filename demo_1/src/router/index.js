@@ -18,7 +18,7 @@ import basicTables from '../views/tables/basic-table'
 import addUser from '../views/user/add-User'
 import readUsers from '../views/user/read-Users'
 // User component
-// import addUser from '../views/user/add-User'
+import addClient from '../views/k_clients/add-Client'
 import readClients from '../views/k_clients/read-Clients'
 
 Vue.use(Router)
@@ -85,6 +85,11 @@ export default new Router({
         path: '/readClients',
         name: 'readClients',
         component: readClients
+      },
+      {
+        path: '/addClient',
+        name: 'addClient',
+        component: addClient
       }
     ]
   },
