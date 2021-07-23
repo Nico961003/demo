@@ -63,16 +63,25 @@ import $ from 'jquery'
 
 export default {
   methods: {
-    loadUsers () {
-      HTTP.get('user/viewUsers').then(r => {
-        this.users = r.data
-        console.log(this.users)
-      })
+    async loadUsers () {
+      try {
+        await HTTP.get('user/viewUsers').then(r => {
+          this.users = r.data
+          console.log(this.users)
+        })
+      } catch (e) {
+        console.log(e)
+      }
     },
     async ver (userId) {
-      HTTP.get('user/viewUser/' + userId).then(r => {
-        this.user = r.data
-      })
+      try {
+        await HTTP.get('user/viewUser/' + userId).then(r => {
+          this.user = r.data
+          console.log(this.user)
+        })
+      } catch (e) {
+        console.log(e)
+      }
     },
     async eliminar (userId) {
       try {

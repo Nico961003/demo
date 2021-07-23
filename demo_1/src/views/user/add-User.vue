@@ -57,10 +57,10 @@
                 </div>
               </div>
               <div class="col-md-6 mb-3">
-                <div>
+                <!-- <div>
                   <label class="typo__label">Rol(es)</label>
                   <multiselect v-model="form.role" tag-placeholder="Añadir nuevo rol" placeholder="Busca o añade un rol" label="name" track-by="code" :options="options" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
-                </div>
+                </div> -->
               </div>
             </div>
             <div class="form-row">
@@ -102,7 +102,7 @@ export default {
         realm: 'SpringBoot',
         enable: false,
         username: '',
-        role: '',
+        role: 'user',
         password: ''
       },
       formOptions: {
