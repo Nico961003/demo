@@ -14,15 +14,15 @@
             <form action="" @submit.prevent="submitUserDetails">
             <div class="form-row">
               <div class="col-md-6 mb-3">
-                <label for="firstname">Nombre(s)</label>
-                <input type="text" class="form-control" id="firstname" name="firstname" v-model="form.firstname" placeholder="Nombre(s)" value="" required>
+                <label for="firstName">Nombre(s)</label>
+                <input type="text" class="form-control" id="firstName" name="firstName" v-model="form.firstName" placeholder="Nombre(s)" value="" required>
                 <div class="valid-tooltip">
                   Es aceptable!
                 </div>
               </div>
               <div class="col-md-6 mb-3">
-                <label for="lastname">Apellido(s)</label>
-                <input type="text" class="form-control" id="lastname" name="lastname" v-model="form.lastname" placeholder="Apellido(s)" value="" required>
+                <label for="lastName">Apellido(s)</label>
+                <input type="text" class="form-control" id="lastName" name="lastName" v-model="form.lastName" placeholder="Apellido(s)" value="" required>
                 <div class="valid-tooltip">
                   Es aceptable!
                 </div>
@@ -66,8 +66,8 @@
             <div class="form-row">
               <div class="col-md-6 mb-3">
                 <div class="custom-control custom-switch">
-                  <input type="checkbox" class="custom-control-input" id="enable" name="enable" v-model="form.enable">
-                  <label class="custom-control-label" for="enable">¿Habilitar usuario?</label>
+                  <input type="checkbox" class="custom-control-input" id="enabled" name="enabled" v-model="form.enabled">
+                  <label class="custom-control-label" for="enabled">¿Habilitar usuario?</label>
                 </div>
               </div>
             </div>
@@ -96,13 +96,13 @@ export default {
   data () {
     return {
       form: {
-        firstname: '',
-        lastname: '',
+        firstName: '',
+        lastName: '',
         email: '',
         realm: 'SpringBoot',
-        enable: false,
+        enabled: false,
         username: '',
-        role: 'user',
+        group: 'user',
         password: ''
       },
       formOptions: {
@@ -125,12 +125,11 @@ export default {
         await HTTP.post('user/createUser', {
           ...this.form
         })
-        alert('Saved Successfully')
+        this.$swal({ type: 'info', timer: 3000, text: 'Se guardo exitosamente', showCancelButton: false, showConfirmButton: false })
         console.log(this.form)
         this.$router.push('/readUsers')
       } catch (e) {
         console.log(e)
-        alert(e.message)
       }
     },
     addTag (newTag) {

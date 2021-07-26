@@ -108,7 +108,7 @@ export default {
     async eliminaRegistro (userId) {
       try {
         await HTTP.delete('user/deleteUser/' + userId)
-        this.$swal({ type: 'info', timer: 1000, text: 'Deleted Successfully', showCancelButton: false, showConfirmButton: false })
+        this.$swal({ type: 'info', timer: 1000, text: 'Se elimino exitosamente', showCancelButton: false, showConfirmButton: false })
         this.loadUsers()
       } catch (e) {
         console.log(e)
