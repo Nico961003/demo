@@ -17,7 +17,10 @@ import basicTables from '../views/tables/basic-table'
 // User component
 import addUser from '../views/user/add-User'
 import readUsers from '../views/user/read-Users'
-// User component
+// Role component
+import addRole from '../views/role/add-Role'
+import readRoles from '../views/role/read-Roles'
+// Client component
 import addClient from '../views/k_clients/add-Client'
 import readClients from '../views/k_clients/read-Clients'
 
@@ -80,6 +83,16 @@ export default new Router({
         path: '/readusers',
         name: 'readUsers',
         component: readUsers
+      },
+      {
+        path: '/readRoles',
+        name: 'readRoles',
+        component: readRoles
+      },
+      {
+        path: '/addRole',
+        name: 'addRole',
+        component: addRole
       },
       {
         path: '/readClients',

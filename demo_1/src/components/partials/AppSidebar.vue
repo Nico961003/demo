@@ -43,13 +43,10 @@
           <b-collapse id="ui-role">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
-                <router-link class="nav-link" to="/buttons/">Agregar</router-link>
+                <router-link class="nav-link" to="/readRoles">Mis Roles</router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link" to="/dropdowns/">Pendiente</router-link>
-              </li>
-              <li class="nav-item">
-                <router-link class="nav-link" to="/typography/">Pendiente</router-link>
+                <router-link class="nav-link" to="/addRole">Agregar</router-link>
               </li>
             </ul>
           </b-collapse>
