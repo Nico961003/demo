@@ -4,7 +4,7 @@
     <div class='row page-title-header'>
       <div class='col-12'>
         <div class='page-header'>
-          <h4 class='page-title'>Agregar Role</h4>
+          <h4 class='page-title'>Agregar Rol</h4>
         </div>
       </div>
     </div>
@@ -64,12 +64,11 @@ export default {
         await HTTP.post('role/createRole', {
           ...this.form
         })
-        alert('Saved Successfully')
+        this.$swal({ type: 'info', timer: 3000, text: 'Se guardo exitosamente', showCancelButton: false, showConfirmButton: false })
         console.log(this.form)
         this.$router.push('/readRoles')
       } catch (e) {
         console.log(e)
-        alert(e.message)
       }
     }
   }

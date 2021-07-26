@@ -57,6 +57,8 @@ import 'jquery/dist/jquery.min.js'
 import 'datatables.net-dt/js/dataTables.dataTables'
 import 'datatables.net-dt/css/jquery.dataTables.min.css'
 import $ from 'jquery'
+import swal from 'sweetalert2'
+window.swal = swal
 
 export default {
   methods: {
@@ -80,10 +82,25 @@ export default {
         console.log(e)
       }
     },
-    async eliminar (roleId) {
+    eliminar (roleId) {
+      swal({
+        title: '¡Advertencia!',
+        text: '¿Eliminar el rol : ' + roleId + '?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#DD6B55',
+        confirmButtonText: 'Si, eliminar',
+        cancelButtonText: 'No, cancelar'
+      }).then((result) => {
+        if (result.value) {
+          this.eliminaRegistro(roleId)
+        } else {}
+      })
+    },
+    async eliminaRegistro (roleId) {
       try {
         await HTTP.delete('role/deleteRole/' + roleId)
-        alert('Deleted Successfully')
+        this.$swal({ type: 'info', timer: 1000, text: 'Se elimino exitosamente', showCancelButton: false, showConfirmButton: false })
         this.loadRoles()
       } catch (e) {
         console.log(e)

@@ -21,6 +21,7 @@ import editUser from '../views/user/edit-User'
 // Role component
 import addRole from '../views/role/add-Role'
 import readRoles from '../views/role/read-Roles'
+import editRole from '../views/role/edit-Role'
 // Client component
 import addClient from '../views/k_clients/add-Client'
 import readClients from '../views/k_clients/read-Clients'
@@ -99,6 +100,11 @@ export default new Router({
         path: '/addRole',
         name: 'addRole',
         component: addRole
+      },
+      {
+        path: '/editrole/:id',
+        name: 'editRole',
+        component: editRole
       },
       {
         path: '/readClients',
