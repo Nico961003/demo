@@ -15,14 +15,14 @@
             <div class="form-row">
               <div class="col-md-6 mb-3">
                 <label for="firstname">Nombre(s)</label>
-                <input type="text" class="form-control" id="firstname" name="firstname" v-model="form.firstname" placeholder="Nombre(s)" value="" required>
+                <input type="text" class="form-control" id="firstname" name="firstname" v-model="form.firstName" placeholder="Nombre(s)" value="" required>
                 <div class="valid-tooltip">
                   Es aceptable!
                 </div>
               </div>
               <div class="col-md-6 mb-3">
                 <label for="lastname">Apellido(s)</label>
-                <input type="text" class="form-control" id="lastname" name="lastname" v-model="form.lastname" placeholder="Apellido(s)" value="" required>
+                <input type="text" class="form-control" id="lastname" name="lastname" v-model="form.lastName" placeholder="Apellido(s)" value="" required>
                 <div class="valid-tooltip">
                   Es aceptable!
                 </div>
@@ -60,8 +60,8 @@
             <div class="form-row">
               <div class="col-md-6 mb-3">
                 <div class="custom-control custom-switch">
-                  <input type="checkbox" class="custom-control-input" id="enable" name="enable" v-model="form.enable">
-                  <label class="custom-control-label" for="enable">¿Habilitar usuario?</label>
+                  <input type="checkbox" class="custom-control-input" id="enabled" name="enabled" v-model="form.enabled">
+                  <label class="custom-control-label" for="enabled">¿Habilitar usuario?</label>
                 </div>
               </div>
             </div>
@@ -86,6 +86,8 @@ export default {
   name: 'edit-User',
   components: { Multiselect },
   mounted () {
+    var userId = this.$route.params.id
+    this.ver(userId)
   },
   data () {
     return {
@@ -94,10 +96,11 @@ export default {
         lastname: '',
         email: '',
         realm: 'SpringBoot',
-        enable: false,
+        enabled: false,
         username: '',
         role: '',
-        password: ''
+        password: '',
+        isEdit: true
       },
       formOptions: {
         validateAfterChanged: true
@@ -125,6 +128,16 @@ export default {
       } catch (e) {
         console.log(e)
         alert(e.message)
+      }
+    },
+    async ver (userId) {
+      try {
+        await HTTP.get('user/viewUser/' + userId).then(r => {
+          this.form = r.data
+          console.log(this.form)
+        })
+      } catch (e) {
+        console.log(e)
       }
     },
     addTag (newTag) {

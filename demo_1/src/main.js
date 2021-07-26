@@ -9,6 +9,9 @@ import JQuery from 'jquery'
 import VueSlideBar from 'vue-slide-bar'
 import VueSweetalert2 from 'vue-sweetalert2'
 import VueGoodWizard from 'vue-good-wizard'
+import 'sweetalert2/dist/sweetalert2.min.css'
+
+Vue.use(VueSweetalert2)
 // eslint-disable-next-line
 let $ = JQuery
 

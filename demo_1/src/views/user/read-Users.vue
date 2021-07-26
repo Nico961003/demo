@@ -38,8 +38,7 @@
                         Detalles
                       </b-button> -->
                       <router-link class="btn btn-warning" :to="'/editUser/' + user.id">Actualizar</router-link>
-                      <!-- <b-button variant="dark" class="btn btn-warning" :to="'/editUser/' + user.id">Actualizar</b-button> -->
-                      <b-button size="sm" class="btn btn-danger" @click="eliminar(user.id)">
+                      <b-button size="sm" class="btn btn-danger" @click="eliminar(user.id, user.username)">
                         Eliminar
                       </b-button>
                     </template>
@@ -60,6 +59,8 @@ import 'jquery/dist/jquery.min.js'
 import 'datatables.net-dt/js/dataTables.dataTables'
 import 'datatables.net-dt/css/jquery.dataTables.min.css'
 import $ from 'jquery'
+import swal from 'sweetalert2'
+window.swal = swal
 
 export default {
   methods: {
@@ -83,10 +84,31 @@ export default {
         console.log(e)
       }
     },
-    async eliminar (userId) {
+    eliminar (userId, username) {
+      swal({
+        title: '¡Advertencia!',
+        text: '¿Eliminar a ' + username + '?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#DD6B55',
+        confirmButtonText: 'Si, eliminar',
+        cancelButtonText: 'No, cancelar'
+        // showClass: {
+        //   popup: 'animated fadeInDown faster'
+        // },
+        // hideClass: {
+        //   popup: 'animate__animated animate__fadeOutUp'
+        // }
+      }).then((result) => {
+        if (result.value) {
+          this.eliminaRegistro(userId)
+        } else {}
+      })
+    },
+    async eliminaRegistro (userId) {
       try {
         await HTTP.delete('user/deleteUser/' + userId)
-        alert('Deleted Successfully')
+        this.$swal({ type: 'info', timer: 1000, text: 'Deleted Successfully', showCancelButton: false, showConfirmButton: false })
         this.loadUsers()
       } catch (e) {
         console.log(e)
@@ -106,6 +128,7 @@ export default {
     }
   },
   mounted () {
+    this.loadUsers()
     HTTP.get('user/viewUsers').then(r => {
       this.users = r.data
       $('#tblUsers').DataTable({
