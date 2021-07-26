@@ -33,18 +33,12 @@
                 <label for="username">Nombre de usuario</label>
                 <div class="input-group">
                   <input type="text" class="form-control" id="username" name="username" v-model="form.username" placeholder="Nombre de usuario"  required>
-                  <!-- <div class="invalid-tooltip">
-                    Ingresa un usuario
-                  </div> -->
                 </div>
               </div>
               <div class="col-md-6 mb-3">
                 <label for="password">Contraseña</label>
                 <div class="input-group">
                   <input type="password" class="form-control" id="password" name="password" v-model="form.password" placeholder="Contraseña" required>
-                  <!-- <div class="invalid-tooltip">
-                    Ingresa una contraseña valida
-                  </div> -->
                 </div>
               </div>
             </div>
@@ -83,7 +77,6 @@
 </template>
 
 <script lang='js'>
-//import userFormSchema from '../../forms/userFormSchema'
 import { HTTP } from '../../logic/http-common'
 import Vue from 'vue'
 import Multiselect from 'vue-multiselect'
@@ -106,7 +99,6 @@ export default {
         role: '',
         password: ''
       },
-      schema: userFormSchema,
       formOptions: {
         validateAfterChanged: true
       },

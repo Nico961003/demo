@@ -17,6 +17,7 @@ import basicTables from '../views/tables/basic-table'
 // User component
 import addUser from '../views/user/add-User'
 import readUsers from '../views/user/read-Users'
+import editUser from '../views/user/edit-User'
 // Role component
 import addRole from '../views/role/add-Role'
 import readRoles from '../views/role/read-Roles'
@@ -83,6 +84,11 @@ export default new Router({
         path: '/readusers',
         name: 'readUsers',
         component: readUsers
+      },
+      {
+        path: '/edituser/:id',
+        name: 'editUser',
+        component: editUser
       },
       {
         path: '/readRoles',
