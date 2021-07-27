@@ -4,7 +4,7 @@
     <div class='row page-title-header'>
       <div class='col-12'>
         <div class='page-header'>
-          <h4 class='page-title'>Agregar Cliente</h4>
+          <h4 class='page-title'>Editar Cliente</h4>
         </div>
       </div>
     </div>
@@ -51,8 +51,10 @@
 import { HTTP } from '../../logic/http-common'
 
 export default {
-  name: 'add-Client',
+  name: 'edit-Client',
   mounted () {
+    var clientId = this.$route.params.id
+    this.ver(clientId)
   },
   data () {
     return {
@@ -60,7 +62,9 @@ export default {
         name: '',
         rootUrl: '',
         adminUrl: '',
-        realm: 'SpringBoot'
+        realm: 'SpringBoot',
+        enabled: true,
+        description: ''
       },
       formOptions: {
         validateAfterChanged: true
@@ -71,12 +75,29 @@ export default {
   methods: {
     async submitUserDetails () {
       try {
-        await HTTP.post('client/createClient', {
+        await HTTP.put('client/updateClient/' + this.$route.params.id + '', {
           ...this.form
         })
-        this.$swal({ type: 'info', timer: 3000, text: 'Se guardo exitosamente', showCancelButton: false, showConfirmButton: false })
+        this.$swal({ type: 'info', timer: 3000, text: 'Se actualizo exitosamente', showCancelButton: false, showConfirmButton: false })
         console.log(this.form)
         this.$router.push('/readClients')
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    async ver (clientId) {
+      try {
+        await HTTP.get('client/viewClient/' + clientId).then(r => {
+          console.log(r.data)
+          this.form = {
+            name: r.data.name,
+            rootUrl: r.data.rootUrl,
+            adminUrl: r.data.adminUrl,
+            realm: 'SpringBoot',
+            enabled: true,
+            description: ''
+          }
+        })
       } catch (e) {
         console.log(e)
       }

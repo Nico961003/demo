@@ -15,14 +15,14 @@
             <div class="form-row">
               <div class="col-md-6 mb-3">
                 <label for="firstname">Nombre(s)</label>
-                <input type="text" class="form-control" id="firstname" name="firstname" v-model="form.firstname" placeholder="Nombre(s)" value="" required>
+                <input type="text" class="form-control" id="firstname" name="firstname" v-model="user.firstName" placeholder="Nombre(s)" value="" required>
                 <div class="valid-tooltip">
                   Es aceptable!
                 </div>
               </div>
               <div class="col-md-6 mb-3">
                 <label for="lastname">Apellido(s)</label>
-                <input type="text" class="form-control" id="lastname" name="lastname" v-model="form.lastname" placeholder="Apellido(s)" value="" required>
+                <input type="text" class="form-control" id="lastname" name="lastname" v-model="user.lastName" placeholder="Apellido(s)" value="" required>
                 <div class="valid-tooltip">
                   Es aceptable!
                 </div>
@@ -32,26 +32,20 @@
               <div class="col-md-6 mb-3">
                 <label for="username">Nombre de usuario</label>
                 <div class="input-group">
-                  <input type="text" class="form-control" id="username" name="username" v-model="form.username" placeholder="Nombre de usuario"  required>
-                  <!-- <div class="invalid-tooltip">
-                    Ingresa un usuario
-                  </div> -->
+                  <input type="text" class="form-control" id="username" name="username" v-model="user.username" placeholder="Nombre de usuario"  required disabled>
                 </div>
               </div>
               <div class="col-md-6 mb-3">
                 <label for="password">Contraseña</label>
                 <div class="input-group">
-                  <input type="password" class="form-control" id="password" name="password" v-model="form.password" placeholder="Contraseña" required>
-                  <!-- <div class="invalid-tooltip">
-                    Ingresa una contraseña valida
-                  </div> -->
+                  <input type="password" class="form-control" id="password" name="password" v-model="user.password" placeholder="Contraseña" required>
                 </div>
               </div>
             </div>
             <div class="form-row">
               <div class="col-md-6 mb-3">
                 <label for="email">Correo electronico</label>
-                <input type="email" class="form-control" id="email" name="email" v-model="form.email" placeholder="Correo electronico" required>
+                <input type="email" class="form-control" id="email" name="email" v-model="user.email" placeholder="Correo electronico" required>
                 <div class="invalid-tooltip">
                   Por favor ingresa una dirección de correo electronico valida
                 </div>
@@ -59,15 +53,15 @@
               <div class="col-md-6 mb-3">
                 <div>
                   <label class="typo__label">Rol(es)</label>
-                  <multiselect v-model="form.role" tag-placeholder="Añadir nuevo rol" placeholder="Busca o añade un rol" label="name" track-by="code" :options="options" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
+                  <multiselect v-model="user.role" tag-placeholder="Añadir nuevo rol" placeholder="Busca o añade un rol" label="name" track-by="code" :options="options" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
                 </div>
               </div>
             </div>
             <div class="form-row">
               <div class="col-md-6 mb-3">
                 <div class="custom-control custom-switch">
-                  <input type="checkbox" class="custom-control-input" id="enable" name="enable" v-model="form.enable">
-                  <label class="custom-control-label" for="enable">¿Habilitar usuario?</label>
+                  <input type="checkbox" class="custom-control-input" id="enabled" name="enabled" v-model="user.enabled">
+                  <label class="custom-control-label" for="enabled">¿Habilitar usuario?</label>
                 </div>
               </div>
             </div>
@@ -83,8 +77,7 @@
 </template>
 
 <script lang='js'>
-//import userFormSchema from '../../forms/userFormSchema'
-import { HTTP } from '../../http-common'
+import { HTTP } from '../../logic/http-common'
 import Vue from 'vue'
 import Multiselect from 'vue-multiselect'
 
@@ -93,20 +86,21 @@ export default {
   name: 'edit-User',
   components: { Multiselect },
   mounted () {
+    var userId = this.$route.params.id
+    this.ver(userId)
   },
   data () {
     return {
-      form: {
-        firstname: '',
-        lastname: '',
+      user: {
+        firstName: '',
+        lastName: '',
         email: '',
         realm: 'SpringBoot',
-        enable: false,
+        enabled: false,
         username: '',
-        role: '',
+        role: 'user',
         password: ''
       },
-      schema: userFormSchema,
       formOptions: {
         validateAfterChanged: true
       },
@@ -124,15 +118,32 @@ export default {
   methods: {
     async submitUserDetails () {
       try {
-        await HTTP.post('user/createUser', {
-          ...this.form
+        await HTTP.put('user/updateUser/' + this.$route.params.id + '', {
+          ...this.user
         })
-        alert('Saved Successfully')
-        console.log(this.form)
+        this.$swal({ type: 'info', timer: 3000, text: 'Se actualizo exitosamente', showCancelButton: false, showConfirmButton: false })
+        console.log(this.user)
         this.$router.push('/readUsers')
       } catch (e) {
         console.log(e)
-        alert(e.message)
+      }
+    },
+    async ver (userId) {
+      try {
+        await HTTP.get('user/viewUser/' + userId).then(r => {
+          this.user = {
+            firstName: r.data.firstName,
+            lastName: r.data.lastName,
+            email: r.data.email,
+            realm: 'SpringBoot',
+            enabled: r.data.enabled,
+            username: r.data.username,
+            role: 'user',
+            password: ''
+          }
+        })
+      } catch (e) {
+        console.log(e)
       }
     },
     addTag (newTag) {

@@ -4,7 +4,7 @@
     <div class="row page-title-header">
       <div class="col-12">
         <div class="page-header">
-          <h4 class="page-title">Clientes</h4>
+          <h4 class="page-title">Grupos</h4>
         </div>
       </div>
     </div>
@@ -14,36 +14,34 @@
         <b-container fluid>
           <!-- Main table element -->
           <div class="container-fluid">
-          <table id="tblClients" class="table table-hover table-striped table-bordered">
+          <table id="tblUsers" class="table table-hover table-striped table-bordered">
             <thead class="thead-dark">
               <tr>
                   <th hidden>Id</th>
                   <th>#</th>
+                  <th>Username</th>
                   <th>Nombre</th>
-                  <th>Descripción</th>
-                  <th>Admin URL</th>
-                  <th>baseURL</th>
+                  <th>Email</th>
                   <th>Operaciones</th>
                </tr>
             </thead>
             <tbody>
-              <tr v-for="(client, index) in clients" :key="index">
-                  <td hidden>{{client.id}}</td>
+              <tr v-for="(user, index) in users" :key="index">
+                  <td hidden>{{user.id}}</td>
                   <td>{{index + 1}}</td>
-                  <td>{{client.name}}</td>
-                  <td>{{client.description}}</td>
-                  <td>{{client.adminUrl}}</td>
-                  <td>{{client.baseUrl}}</td>
-                  <td v-if="client.clientId !== 'account' && client.clientId !== 'account-console' && client.clientId !== 'admin-cli' && client.clientId !== 'broker' && client.clientId !== 'realm-management' && client.clientId !== 'security-admin-console'">
+                  <td>{{user.username}}</td>
+                  <td>{{user.firstName}} {{user.lastName}}</td>
+                  <td>{{user.email}}</td>
+                  <td>
                     <template>
-                      <router-link class="btn btn-warning" :to="'/editClient/' + client.clientId">Actualizar</router-link>
-                      <b-button size="sm" class="btn btn-danger" @click="eliminar(client.clientId)">
+                      <!-- <b-button size="sm" class="btn btn-info" @click="ver(user.id)">
+                        Detalles
+                      </b-button> -->
+                      <router-link class="btn btn-warning" :to="'/editUser/' + user.id">Actualizar</router-link>
+                      <b-button size="sm" class="btn btn-danger" @click="eliminar(user.id, user.username)">
                         Eliminar
                       </b-button>
                     </template>
-                  </td>
-                  <td v-else>
-                    Por seguridad, no habilitadas
                   </td>
               </tr>
             </tbody>
@@ -66,56 +64,74 @@ window.swal = swal
 
 export default {
   methods: {
-    loadClients () {
-      HTTP.get('client/viewClients').then(r => {
-        this.clients = r.data
-        console.log('CLIENTES')
-        console.log(this.clients)
-      })
+    async loadUsers () {
+      try {
+        await HTTP.get('user/viewUsers').then(r => {
+          this.users = r.data
+          console.log(this.users)
+        })
+      } catch (e) {
+        console.log(e)
+      }
     },
-    eliminar (clientId) {
+    async ver (userId) {
+      try {
+        await HTTP.get('user/viewUser/' + userId).then(r => {
+          this.user = r.data
+          console.log(this.user)
+        })
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    eliminar (userId, username) {
       swal({
         title: '¡Advertencia!',
-        text: '¿Eliminar el cliente : ' + clientId + '?',
+        text: '¿Eliminar a ' + username + '?',
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#DD6B55',
         confirmButtonText: 'Si, eliminar',
         cancelButtonText: 'No, cancelar'
+        // showClass: {
+        //   popup: 'animated fadeInDown faster'
+        // },
+        // hideClass: {
+        //   popup: 'animate__animated animate__fadeOutUp'
+        // }
       }).then((result) => {
         if (result.value) {
-          this.eliminaRegistro(clientId)
+          this.eliminaRegistro(userId)
         } else {}
       })
     },
-    async eliminaRegistro (clientId) {
+    async eliminaRegistro (userId) {
       try {
-        await HTTP.delete('client/deleteClient/' + clientId)
+        await HTTP.delete('user/deleteUser/' + userId)
         this.$swal({ type: 'info', timer: 1000, text: 'Se elimino exitosamente', showCancelButton: false, showConfirmButton: false })
-        this.loadClients()
+        this.loadUsers()
       } catch (e) {
         console.log(e)
       }
     }
   },
   created () {
-    var t = $('#tblClients').DataTable()
+    var t = $('#tblUsers').DataTable()
     t.destroy()
-    $('#tblClients tbody').empty()
-    $('#tblClients').DataTable()
-    this.loadClients()
+    $('#tblUsers tbody').empty()
+    $('#tblUsers').DataTable()
+    this.loadUsers()
   },
   data () {
     return {
-      clients: {}
+      users: {}
     }
   },
   mounted () {
-    HTTP.get('client/viewClients').then(r => {
-      this.clients = r.data
-      console.log('CLIENTES')
-      console.log(this.clients)
-      $('#tblClients').DataTable({
+    this.loadUsers()
+    HTTP.get('user/viewUsers').then(r => {
+      this.users = r.data
+      $('#tblUsers').DataTable({
         responsive: true,
         scrollY: 540,
         ordering: true,

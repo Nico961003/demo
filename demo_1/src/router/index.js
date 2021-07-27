@@ -14,17 +14,22 @@ import login from '../views/main/user-pages/login'
 import register from '../views/main/user-pages/register'
 //  Table Components
 import basicTables from '../views/tables/basic-table'
-// User component
+// User components
 import addUser from '../views/user/add-User'
 import readUsers from '../views/user/read-Users'
 import editUser from '../views/user/edit-User'
-// Role component
+// Role components
 import addRole from '../views/role/add-Role'
 import readRoles from '../views/role/read-Roles'
 import editRole from '../views/role/edit-Role'
-// Client component
+// Client components
 import addClient from '../views/k_clients/add-Client'
 import readClients from '../views/k_clients/read-Clients'
+import editClient from '../views/k_clients/edit-Client'
+// Group components
+import addGroup from '../views/group/add-Group'
+import readGroups from '../views/group/read-Groups'
+import editGroup from '../views/group/edit-group'
 
 Vue.use(Router)
 
@@ -115,6 +120,26 @@ export default new Router({
         path: '/addClient',
         name: 'addClient',
         component: addClient
+      },
+      {
+        path: '/editClient/:id',
+        name: 'editClient',
+        component: editClient
+      },
+      {
+        path: '/readGroups',
+        name: 'readGroups',
+        component: readGroups
+      },
+      {
+        path: '/addGroup',
+        name: 'addGroup',
+        component: addGroup
+      },
+      {
+        path: '/editGroup/:id',
+        name: 'editGroup',
+        component: editGroup
       }
     ]
   },

@@ -52,18 +52,35 @@
           </b-collapse>
         </li>
         <li class="nav-item">
-          <a class="nav-link" v-b-toggle="'ui-group'">
+          <a class="nav-link" v-b-toggle="'ui-client'">
             <i class="menu-icon typcn typcn-group-outline"></i>
             <span class="menu-title">Clientes</span>
             <i class="menu-arrow"></i>
           </a>
-          <b-collapse id="ui-group">
+          <b-collapse id="ui-client">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
                 <router-link class="nav-link" to="/readClients">Mis Clientes</router-link>
               </li>
               <li class="nav-item">
                 <router-link class="nav-link" to="/addClient">Agregar</router-link>
+              </li>
+            </ul>
+          </b-collapse>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" v-b-toggle="'ui-group'">
+            <i class="menu-icon typcn typcn-group-outline"></i>
+            <span class="menu-title">Grupos</span>
+            <i class="menu-arrow"></i>
+          </a>
+          <b-collapse id="ui-group">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item">
+                <router-link class="nav-link" to="/readGroups">Mis Grupos</router-link>
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link" to="/addGroup">Agregar</router-link>
               </li>
             </ul>
           </b-collapse>
