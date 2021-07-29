@@ -11,19 +11,19 @@
     <!-- Page Title Header Ends-->
     <div class="container">
         <div class="card pl-4 pt-5 pb-5 pr-4 mt-3">
-            <form action="" @submit.prevent="submitUserDetails">
+            <form action="" @submit.prevent="submitUserDetails" class="was-validated">
             <div class="form-row">
               <div class="col-md-6 mb-3">
-                <label for="firstname">Nombre(s)</label>
-                <input type="text" class="form-control" id="firstname" name="firstname" v-model="user.firstName" placeholder="Nombre(s)" value="" required>
-                <div class="valid-tooltip">
+                <label for="firstName">Nombre(s)</label>
+                <input type="text" class="form-control" id="firstName" name="firstName" v-model="form.firstName" placeholder="Nombre(s)" value="" required>
+                <div class="valid-feedback">
                   Es aceptable!
                 </div>
               </div>
               <div class="col-md-6 mb-3">
-                <label for="lastname">Apellido(s)</label>
-                <input type="text" class="form-control" id="lastname" name="lastname" v-model="user.lastName" placeholder="Apellido(s)" value="" required>
-                <div class="valid-tooltip">
+                <label for="lastName">Apellido(s)</label>
+                <input type="text" class="form-control" id="lastName" name="lastName" v-model="form.lastName" placeholder="Apellido(s)" value="" required>
+                <div class="valid-feedback">
                   Es aceptable!
                 </div>
               </div>
@@ -32,35 +32,43 @@
               <div class="col-md-6 mb-3">
                 <label for="username">Nombre de usuario</label>
                 <div class="input-group">
-                  <input type="text" class="form-control" id="username" name="username" v-model="user.username" placeholder="Nombre de usuario"  required disabled>
+                  <input type="text" class="form-control" id="username" name="username" v-model="form.username" placeholder="Nombre de usuario"  required>
+                <div class="invalid-feedback">
+                  El nombre de usuario no podra modificarse
+                </div>
+                <div class="valid-feedback">
+                  Es aceptable!
+                </div>
                 </div>
               </div>
               <div class="col-md-6 mb-3">
                 <label for="password">Contraseña</label>
                 <div class="input-group">
-                  <input type="password" class="form-control" id="password" name="password" v-model="user.password" placeholder="Contraseña" required>
+                  <input type="password" class="form-control" id="password" name="password" v-model="form.password" placeholder="Contraseña" required>
+                  <div class="valid-feedback">
+                    Es aceptable!
+                  </div>
                 </div>
               </div>
             </div>
             <div class="form-row">
               <div class="col-md-6 mb-3">
                 <label for="email">Correo electronico</label>
-                <input type="email" class="form-control" id="email" name="email" v-model="user.email" placeholder="Correo electronico" required>
-                <div class="invalid-tooltip">
-                  Por favor ingresa una dirección de correo electronico valida
+                <input type="email" class="form-control" id="email" name="email" v-model="form.email" value="@ejemplo.com" placeholder="Correo electronico" required>
+                <div class="invalid-feedback">
+                  El email no podra modificarse
+                </div>
+                <div class="valid-feedback">
+                  Es aceptable!
                 </div>
               </div>
               <div class="col-md-6 mb-3">
-                <div>
-                  <label class="typo__label">Rol(es)</label>
-                  <multiselect v-model="user.role" tag-placeholder="Añadir nuevo rol" placeholder="Busca o añade un rol" label="name" track-by="code" :options="options" :multiple="true" :taggable="true" @tag="addTag"></multiselect>
-                </div>
               </div>
             </div>
             <div class="form-row">
               <div class="col-md-6 mb-3">
                 <div class="custom-control custom-switch">
-                  <input type="checkbox" class="custom-control-input" id="enabled" name="enabled" v-model="user.enabled">
+                  <input type="checkbox" class="custom-control-input" id="enabled" name="enabled" v-model="form.enabled">
                   <label class="custom-control-label" for="enabled">¿Habilitar usuario?</label>
                 </div>
               </div>
@@ -91,7 +99,7 @@ export default {
   },
   data () {
     return {
-      user: {
+      form: {
         firstName: '',
         lastName: '',
         email: '',
@@ -122,7 +130,7 @@ export default {
           ...this.user
         })
         this.$swal({ type: 'info', timer: 3000, text: 'Se actualizo exitosamente', showCancelButton: false, showConfirmButton: false })
-        console.log(this.user)
+        // console.log(this.user)
         this.$router.push('/readUsers')
       } catch (e) {
         console.log(e)
@@ -131,7 +139,7 @@ export default {
     async ver (userId) {
       try {
         await HTTP.get('user/viewUser/' + userId).then(r => {
-          this.user = {
+          this.form = {
             firstName: r.data.firstName,
             lastName: r.data.lastName,
             email: r.data.email,

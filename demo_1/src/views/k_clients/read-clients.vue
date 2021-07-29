@@ -15,7 +15,7 @@
           <!-- Main table element -->
           <div class="container-fluid">
           <table id="tblClients" class="table table-hover table-striped table-bordered">
-            <thead class="thead-dark">
+            <thead>
               <tr>
                   <th hidden>Id</th>
                   <th>#</th>
@@ -30,14 +30,14 @@
               <tr v-for="(client, index) in clients" :key="index">
                   <td hidden>{{client.id}}</td>
                   <td>{{index + 1}}</td>
-                  <td>{{client.name}}</td>
+                  <td>{{client.clientId}}</td>
                   <td>{{client.description}}</td>
                   <td>{{client.adminUrl}}</td>
                   <td>{{client.baseUrl}}</td>
                   <td v-if="client.clientId !== 'account' && client.clientId !== 'account-console' && client.clientId !== 'admin-cli' && client.clientId !== 'broker' && client.clientId !== 'realm-management' && client.clientId !== 'security-admin-console'">
                     <template>
-                      <router-link class="btn btn-warning" :to="'/editClient/' + client.clientId">Actualizar</router-link>
-                      <b-button size="sm" class="btn btn-danger" @click="eliminar(client.clientId)">
+                      <router-link class="btn btn-warning" :to="'/editClient/' + client.id">Actualizar</router-link>
+                      <b-button size="sm" class="btn btn-danger" @click="eliminar(client.id)">
                         Eliminar
                       </b-button>
                     </template>

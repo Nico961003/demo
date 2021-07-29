@@ -15,7 +15,7 @@
           <!-- Main table element -->
           <div class="container-fluid">
           <table id="tblUsers" class="table table-hover table-striped table-bordered">
-            <thead class="thead-dark">
+            <thead>
               <tr>
                   <th hidden>Id</th>
                   <th>#</th>
@@ -34,9 +34,6 @@
                   <td>{{user.email}}</td>
                   <td>
                     <template>
-                      <!-- <b-button size="sm" class="btn btn-info" @click="ver(user.id)">
-                        Detalles
-                      </b-button> -->
                       <router-link class="btn btn-warning" :to="'/editUser/' + user.id">Actualizar</router-link>
                       <b-button size="sm" class="btn btn-danger" @click="eliminar(user.id, user.username)">
                         Eliminar
@@ -68,7 +65,7 @@ export default {
       try {
         await HTTP.get('user/viewUsers').then(r => {
           this.users = r.data
-          console.log(this.users)
+          // console.log(this.users)
         })
       } catch (e) {
         console.log(e)
@@ -78,7 +75,7 @@ export default {
       try {
         await HTTP.get('user/viewUser/' + userId).then(r => {
           this.user = r.data
-          console.log(this.user)
+          // console.log(this.user)
         })
       } catch (e) {
         console.log(e)

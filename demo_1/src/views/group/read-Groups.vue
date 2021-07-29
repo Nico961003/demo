@@ -15,7 +15,7 @@
           <!-- Main table element -->
           <div class="container-fluid">
           <table id="tblUsers" class="table table-hover table-striped table-bordered">
-            <thead class="thead-dark">
+            <thead>
               <tr>
                   <th hidden>Id</th>
                   <th>#</th>
