@@ -66,7 +66,7 @@ export default {
       try {
         await HTTP.get('role/roles').then(r => {
           this.roles = r.data
-          console.log(this.roles)
+          // console.log(this.roles)
         })
       } catch (e) {
         console.log(e)
@@ -76,7 +76,7 @@ export default {
       try {
         await HTTP.get('role/role/' + roleId).then(r => {
           this.role = r.data
-          console.log(this.role)
+          // console.log(this.role)
         })
       } catch (e) {
         console.log(e)

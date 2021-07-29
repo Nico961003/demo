@@ -11,19 +11,19 @@
     <!-- Page Title Header Ends-->
     <div class="container">
         <div class="card pl-4 pt-5 pb-5 pr-4 mt-3">
-            <form action="" @submit.prevent="submitRoleDetails">
+            <form action="" @submit.prevent="submitRoleDetails" class="was-validated">
             <div class="form-row">
               <div class="col-md-6 mb-3">
                 <label for="name">Nombre del Rol</label>
                 <input type="text" class="form-control" id="name" name="name" v-model="form.name" placeholder="Nombre del rol" value="" required>
-                <div class="valid-tooltip">
+                <div class="valid-feedback">
                   Es aceptable!
                 </div>
               </div>
               <div class="col-md-6 mb-3">
                 <label for="description">Descripción</label>
                 <input type="text" class="form-control" id="description" name="description" v-model="form.description" placeholder="Descripción" value="" required>
-                <div class="valid-tooltip">
+                <div class="valid-feedback">
                   Es aceptable!
                 </div>
               </div>
@@ -69,7 +69,7 @@ export default {
           ...this.form
         })
         alert('Saved Successfully')
-        console.log(this.form)
+        // console.log(this.form)
         this.$router.push('/readRoles')
       } catch (e) {
         console.log(e)

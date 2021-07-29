@@ -36,8 +36,8 @@
                   <td>{{client.baseUrl}}</td>
                   <td v-if="client.clientId !== 'account' && client.clientId !== 'account-console' && client.clientId !== 'admin-cli' && client.clientId !== 'broker' && client.clientId !== 'realm-management' && client.clientId !== 'security-admin-console'">
                     <template>
-                      <router-link class="btn btn-warning" :to="'/editClient/' + client.id">Actualizar</router-link>
-                      <b-button size="sm" class="btn btn-danger" @click="eliminar(client.id)">
+                      <router-link class="btn btn-warning" :to="'/editClient/' + client.clientId">Actualizar</router-link>
+                      <b-button size="sm" class="btn btn-danger" @click="eliminar(client.clientId)">
                         Eliminar
                       </b-button>
                     </template>
@@ -69,8 +69,7 @@ export default {
     loadClients () {
       HTTP.get('client/viewClients').then(r => {
         this.clients = r.data
-        console.log('CLIENTES')
-        console.log(this.clients)
+        // console.log(this.clients)
       })
     },
     eliminar (clientId) {
@@ -113,8 +112,7 @@ export default {
   mounted () {
     HTTP.get('client/viewClients').then(r => {
       this.clients = r.data
-      console.log('CLIENTES')
-      console.log(this.clients)
+      // console.log(this.clients)
       $('#tblClients').DataTable({
         responsive: true,
         scrollY: 540,

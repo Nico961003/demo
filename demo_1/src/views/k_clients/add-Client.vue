@@ -11,19 +11,19 @@
     <!-- Page Title Header Ends-->
     <div class="container">
         <div class="card pl-4 pt-5 pb-5 pr-4 mt-3">
-            <form action="" @submit.prevent="submitUserDetails">
+            <form action="" @submit.prevent="submitUserDetails" class="was-validated">
             <div class="form-row">
               <div class="col-md-6 mb-3">
                 <label for="name">Nombre</label>
                 <input type="text" class="form-control" id="name" name="name" v-model="form.name" placeholder="Nombre del cliente" value="" required>
-                <div class="valid-tooltip">
+                <div class="valid-feedback">
                   Es aceptable!
                 </div>
               </div>
               <div class="col-md-6 mb-3">
                 <label for="rootUrl">Root URL</label>
-                <input type="text" class="form-control" id="rootUrl" name="rootUrl" v-model="form.rootUrl" placeholder="Root URL" value="" required>
-                <div class="valid-tooltip">
+                <input type="url" class="form-control" id="rootUrl" name="rootUrl" v-model="form.rootUrl" placeholder="Root URL : http://example.com" value="" required>
+                <div class="valid-feedback">
                   Es aceptable!
                 </div>
               </div>
@@ -32,7 +32,10 @@
               <div class="col-md-6 mb-3">
                 <label for="adminUrl">Admin URL</label>
                 <div class="input-group">
-                  <input type="text" class="form-control" id="adminUrl" name="adminUrl" v-model="form.adminUrl" placeholder="Admin URL"  required>
+                <input type="url" class="form-control" id="adminUrl" name="adminUrl" v-model="form.adminUrl" placeholder="Admin URL : http://example.com"  required>
+                <div class="valid-feedback">
+                  Es aceptable!
+                </div>
                 </div>
               </div>
             </div>
@@ -75,7 +78,7 @@ export default {
           ...this.form
         })
         this.$swal({ type: 'info', timer: 3000, text: 'Se guardo exitosamente', showCancelButton: false, showConfirmButton: false })
-        console.log(this.form)
+        // console.log(this.form)
         this.$router.push('/readClients')
       } catch (e) {
         console.log(e)
