@@ -29,7 +29,7 @@ import editClient from '../views/k_clients/edit-Client'
 // Group components
 import addGroup from '../views/group/add-Group'
 import readGroups from '../views/group/read-Groups'
-import editGroup from '../views/group/edit-group'
+import editGroup from '../views/group/edit-Group'
 
 Vue.use(Router)
 
