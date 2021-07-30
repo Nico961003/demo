@@ -65,6 +65,7 @@ import swal from 'sweetalert2'
 window.swal = swal
 
 export default {
+  name: 'read-Clients',
   methods: {
     loadClients () {
       HTTP.get('client/viewClients').then(r => {
