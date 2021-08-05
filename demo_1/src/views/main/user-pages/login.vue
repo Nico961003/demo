@@ -1,5 +1,4 @@
 <template lang="html">
-
   <section class="login">
     <div class="container-scroller">
       <div class="container-fluid page-body-wrapper full-page-wrapper">
@@ -9,48 +8,30 @@
               <div class="container-fluid"><center><h1>Keycloak Management</h1></center></div>
               <div class="auto-form-wrapper">
                 <form  action="" @submit.prevent="submitLogin">
+                  <center>
+                    <div v-if="form.error" class="alert alert-warning" role="alert">
+                      Usuario y/o contraseña incorrectos
+                    </div>
+                  </center>
                   <div class="form-group">
                     <label class="label">Nombre de usuario</label>
-                    <div class="input-group">
+                    <div>
                       <input type="text" id="username" name="username" v-model="form.username" class="form-control" placeholder="Nombre de usuario">
-                      <div class="input-group-append">
-                        <span class="input-group-text">
-                          <i class="mdi mdi-check-circle-outline"></i>
-                        </span>
-                      </div>
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="label">Contraseña</label>
-                    <div class="input-group">
+                    <div>
                       <input type="password" id="password" name="password" v-model="form.password" class="form-control" placeholder="*********">
-                      <div class="input-group-append">
-                        <span class="input-group-text">
-                          <i class="mdi mdi-check-circle-outline"></i>
-                        </span>
-                      </div>
                     </div>
                   </div>
                   <div class="form-group">
-                    <!-- <button class="btn btn-primary submit-btn btn-block">Entrar</button> -->
                     <button type="submit" class="btn btn-primary submit-btn btn-block">
                         {{ isSaving ? 'Saving...' : 'Enviar'}}
                     </button>
                   </div>
                   <div class="form-group d-flex justify-content-between">
-                    <!-- <div class="form-check form-check-flat mt-0">
-                      <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" checked> Keep me signed in </label>
-                    </div> -->
-                    <a href="#" class="text-small forgot-password text-black">Olvide mi contraseña</a>
-                  </div>
-                  <!-- <div class="form-group">
-                    <button class="btn btn-block g-login">
-                      <img class="mr-3"  alt="">Log in with Google</button>
-                  </div> -->
-                  <div class="text-block text-center my-3">
-                    <span class="text-small font-weight-semibold">¿No tienes una cuenta?</span>
-                    <a href="register.html" class="text-black text-small">Registrarme</a>
+                    <a href="#" class="text-small forgot-password">Olvide mi contraseña</a>
                   </div>
                 </form>
               </div>
@@ -87,7 +68,8 @@ export default {
       form: {
         username: '',
         password: '',
-        realm: 'SpringBoot'
+        realm: 'SpringBoot',
+        error: false
       },
       formOptions: {
         validateAfterChanged: true
@@ -105,8 +87,8 @@ export default {
           auth.setUserLogged(this.form.username)
           auth.setUserToken(this.users)
           if (this.users === '') {
-            alert('Usuario y/o contraseña incorrectos')
-            // this.$router.push('/')
+            // this.$swal({ type: 'info', timer: 3000, text: 'Usuario y/o contraseña incorrectos', showCancelButton: false, showConfirmButton: false })
+            this.form.error = true
           } else {
             this.$router.push('/dashboard')
           }
@@ -132,8 +114,6 @@ h1 {
   color: #ffffff;
   font-weight: normal;
   font-size: 70px;
-  /* font-family: Arial; */
-  /* text-transform: uppercase; */
   font-variant: small-caps;
 }
 </style>

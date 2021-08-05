@@ -44,9 +44,9 @@
               <div class="col-md-6 mb-3">
                 <label for="password">Contraseña</label>
                 <div class="input-group">
-                  <input type="password" class="form-control" id="password" name="password" v-model="form.password" placeholder="Contraseña" required>
+                  <input :class='{valid:passwordValidation.valid}' class="form-control" id="password" name="password" v-model="form.password" placeholder="Contraseña" required>
                   <div class="valid-feedback">
-                    Es aceptable!
+                    <p class="text-danger" v-for="(error, index) in passwordValidation.errors" :key="index">{{error}}</p>
                   </div>
                 </div>
               </div>
@@ -74,7 +74,7 @@
               </div>
             </div>
                 <div class="d-flex justify-content-end mt-3 pr-4">
-                    <button type="submit" class="btn btn-primary btn-lg">
+                    <button type="submit" class="btn btn-primary btn-lg" v-if="passwordValidation.valid">
                         {{ isSaving ? 'Saving...' : 'Enviar'}}
                     </button>
                 </div>
@@ -97,6 +97,12 @@ export default {
   },
   data () {
     return {
+      rules: [
+        { message: 'Letra minuscula requerida.', regex: /[a-z]+/ },
+        { message: 'Letra mayuscula requerida.', regex: /[A-Z]+/ },
+        { message: 'Minimo 8 caracteres.', regex: /.{8,}/ },
+        { message: 'Un número es requerido.', regex: /[0-9]+/ }
+      ],
       form: {
         firstName: '',
         lastName: '',
@@ -141,6 +147,21 @@ export default {
       }
       this.options.push(tag)
       this.value.push(tag)
+    }
+  },
+  computed: {
+    passwordValidation () {
+      let errors = []
+      for (let condition of this.rules) {
+        if (!condition.regex.test(this.form.password)) {
+          errors.push(condition.message)
+        }
+      }
+      if (errors.length === 0) {
+        return { valid: true, errors }
+      } else {
+        return { valid: false, errors }
+      }
     }
   }
 }
