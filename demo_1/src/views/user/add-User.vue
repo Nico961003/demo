@@ -44,7 +44,7 @@
               <div class="col-md-6 mb-3">
                 <label for="password">Contraseña</label>
                 <div class="input-group">
-                  <input :class='{valid:passwordValidation.valid}' class="form-control" id="password" name="password" v-model="form.password" placeholder="Contraseña" required>
+                  <input :class='{valid:passwordValidation.valid}' type="password" class="form-control" id="password" name="password" v-model="form.password" placeholder="Contraseña" required>
                   <div class="valid-feedback">
                     <p class="text-danger" v-for="(error, index) in passwordValidation.errors" :key="index">{{error}}</p>
                   </div>
