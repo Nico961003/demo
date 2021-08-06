@@ -77,6 +77,9 @@ export default {
       isSaving: false
     }
   },
+  mounted: function () {
+    this.loadPage()
+  },
   methods: {
     async submitLogin () {
       try {
@@ -87,7 +90,6 @@ export default {
           auth.setUserLogged(this.form.username)
           auth.setUserToken(this.users)
           if (this.users === '') {
-            // this.$swal({ type: 'info', timer: 3000, text: 'Usuario y/o contraseña incorrectos', showCancelButton: false, showConfirmButton: false })
             this.form.error = true
           } else {
             this.$router.push('/dashboard')
@@ -98,6 +100,10 @@ export default {
         alert(e.message)
       }
       window.locaton = 'users/readUsers'
+    },
+    loadPage () {
+      auth.setUserLogged('')
+      auth.setUserToken('')
     }
   }
 }

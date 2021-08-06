@@ -111,9 +111,9 @@
             </div>
           </b-dropdown-item>
           <!--<b-dropdown-item>Mi perfil<span class="badge badge-pill badge-danger">1</span><i class="dropdown-item-icon ti-dashboard"></i></b-dropdown-item>-->
-          <b-dropdown-item>Mi perfil<i class="dropdown-item-icon ti-help-alt"></i></b-dropdown-item>
-          <b-dropdown-item>Información<i class="dropdown-item-icon ti-help-alt"></i></b-dropdown-item>
-          <b-dropdown-item>Cerrar Sesión<i class="dropdown-item-icon ti-power-off"></i></b-dropdown-item>
+          <b-dropdown-item><router-link class="nav-link" to="/">Mi perfil</router-link><i class="dropdown-item-icon ti-help-alt"></i></b-dropdown-item>
+          <b-dropdown-item><router-link class="nav-link" to="/">Información</router-link><i class="dropdown-item-icon ti-help-alt"></i></b-dropdown-item>
+          <b-dropdown-item><router-link class="nav-link" to="/">Cerrar Sesión</router-link><i class="dropdown-item-icon ti-power-off"></i></b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
       <button class="navbar-toggler navbar-toggler-right align-self-center" type="button" @click="collapedMobileSidebar()">
@@ -131,6 +131,9 @@ import decodedToken from '../../logic/decodeToken'
 let $ = JQuery
 export default {
   name: 'app-header',
+  mounted: function () {
+    this.loadPage()
+  },
   computed: {
     userLogged () {
       return auth.getUserLogged()
@@ -145,6 +148,12 @@ export default {
     },
     collapedMobileSidebar: function () {
       $('#sidebar').toggleClass('active')
+    },
+    loadPage () {
+      var checkSession = decodedToken.getTokenDecode()
+      if (checkSession === null) {
+        this.$router.push('/')
+      }
     }
   }
 }
