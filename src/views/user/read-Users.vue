@@ -124,7 +124,7 @@ export default {
       users: {}
     }
   },
-  mounted () {
+  mounted: function () {
     this.loadUsers()
     HTTP.get('user/viewUsers').then(r => {
       this.users = r.data

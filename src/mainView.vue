@@ -24,6 +24,7 @@
 import AppHeader from '../src/components/partials/AppHeader'
 import AppSidebar from '../src/components/partials/AppSidebar'
 import AppFooter from '../src/components/partials/AppFooter'
+import decodedToken from './logic/decodeToken'
 
 export default {
   name: 'main',
@@ -31,6 +32,17 @@ export default {
     AppHeader,
     AppSidebar,
     AppFooter
+  },
+  mounted: function () {
+    this.loadPage()
+  },
+  methods: {
+    loadPage () {
+      var checkSession = decodedToken.getTokenDecode()
+      if (checkSession === null) {
+        this.$router.push('/')
+      }
+    }
   }
 }
 </script>

@@ -3,7 +3,7 @@
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
       <ul class="nav">
         <li class="nav-item nav-profile">
-          <a href="#" class="nav-link">
+          <a href="/#/myProfile" class="nav-link">
             <div class="profile-image">
               <img class="img-xs rounded-circle" src="../../assets/images/noavatar.svg" alt="profile image">
               <div class="dot-indicator bg-success"></div>

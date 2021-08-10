@@ -30,6 +30,9 @@ import editClient from '../views/k_clients/edit-Client'
 import addGroup from '../views/group/add-Group'
 import readGroups from '../views/group/read-Groups'
 import editGroup from '../views/group/edit-Group'
+// my Profile
+import myProfile from '../views/profile/my-Profile'
+import aboutUs from '../views/profile/about-Us'
 
 Vue.use(Router)
 
@@ -140,6 +143,16 @@ export default new Router({
         path: '/editGroup/:id',
         name: 'editGroup',
         component: editGroup
+      },
+      {
+        path: '/myProfile',
+        name: 'myProfile',
+        component: myProfile
+      },
+      {
+        path: '/aboutUs',
+        name: 'aboutUs',
+        component: aboutUs
       }
     ]
   },

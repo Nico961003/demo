@@ -5,6 +5,21 @@
 </template>
 
 <script lang="js">
+import decodedToken from './logic/decodeToken'
+
+export default {
+  mounted: function () {
+    this.loadPage()
+  },
+  methods: {
+    loadPage () {
+      var checkSession = decodedToken.getTokenDecode()
+      if (checkSession === null) {
+        this.$router.push('/')
+      }
+    }
+  }
+}
 </script>
 
 <style>

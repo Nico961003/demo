@@ -63,6 +63,10 @@
                 </div>
               </div>
               <div class="col-md-6 mb-3">
+                <label class="typo__label">Selecciona rol(es)</label>
+                <multiselect v-model="form.rolesClient" :options="options" :multiple="true" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="Escribe algo" label="name" track-by="name" :preselect-first="true">
+                  <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} opcion(es) seleccionada(s)</span></template>
+                </multiselect>
               </div>
             </div>
             <div class="form-row">
@@ -88,12 +92,17 @@
 import { HTTP } from '../../logic/http-common'
 import Vue from 'vue'
 import Multiselect from 'vue-multiselect'
+import decodedToken from '../../logic/decodeToken'
 
 Vue.component('multiselect', Multiselect)
 export default {
   name: 'add-User',
-  components: { Multiselect },
+  components: {
+    Multiselect
+    // Multiselect: window.VueMultiselect.default
+  },
   mounted () {
+    this.loadRoles()
   },
   data () {
     return {
@@ -111,19 +120,16 @@ export default {
         enabled: false,
         username: '',
         group: 'user',
-        password: ''
+        password: '',
+        rolesClient: []
       },
       formOptions: {
         validateAfterChanged: true
       },
       isSaving: false,
+      options: [],
       tag: [
         { name: 'user', code: 'user' }
-      ],
-      options: [
-        { name: 'single', code: 'vu' },
-        { name: 'admin', code: 'js' },
-        { name: 'otro', code: 'os' }
       ]
     }
   },
@@ -146,7 +152,28 @@ export default {
         code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
       }
       this.options.push(tag)
-      this.value.push(tag)
+      this.form.rolesClient.push(tag)
+    },
+    async loadRoles () {
+      var roleId = decodedToken.getTokenDecode()
+      console.log(roleId)
+      try {
+        await HTTP.get('client/viewClient/' + roleId.azp).then(r => {
+          this.clientId = r.data
+          console.log(this.clientId)
+          try {
+            HTTP.get('role/rolesC/' + this.clientId.id).then(r => {
+              this.roles = r.data
+              console.log(this.roles)
+              this.options = this.roles
+            })
+          } catch (e) {
+            console.log(e)
+          }
+        })
+      } catch (e) {
+        console.log(e)
+      }
     }
   },
   computed: {
