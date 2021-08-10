@@ -20,7 +20,7 @@
                   <th hidden>Id</th>
                   <th>#</th>
                   <th>Nombre del rol</th>
-                  <!-- <th>Descripción</th> -->
+                  <th>Descripción</th>
                   <th>Operaciones</th>
                </tr>
             </thead>
@@ -29,7 +29,7 @@
                   <td hidden>{{role.id}}</td>
                   <td>{{index + 1}}</td>
                   <td>{{role.name}}</td>
-                  <!-- <td>{{role.description}}</td> -->
+                  <td>{{role.description}}</td>
                   <td v-if="role.name !== 'uma_authorization' && role.name !== 'offline_access'">
                     <template>
                       <router-link class="btn btn-warning" :to="'/editRole/' + role.name">Actualizar</router-link>
@@ -65,13 +65,11 @@ export default {
   methods: {
     loadRoles () {
       var roleId = decodedToken.getTokenDecode()
-      // console.log(roleId)
       try {
         HTTP.get('client/viewClient/' + roleId.azp).then(r => {
           this.idClient = r.data
-          HTTP.get('role/rolesC/' + roleId.azp).then(r => {
+          HTTP.get('role/rolesC/' + this.idClient.id).then(r => {
             this.roles = r.data
-            // console.log(this.roles)
           })
         })
       } catch (e) {
@@ -104,10 +102,15 @@ export default {
       })
     },
     async eliminaRegistro (roleId) {
+      var clientId = decodedToken.getTokenDecode()
       try {
-        await HTTP.delete('role/deleteRole/' + roleId)
-        this.$swal({ type: 'info', timer: 1000, text: 'Se elimino exitosamente', showCancelButton: false, showConfirmButton: false })
-        this.loadRoles()
+        await HTTP.get('client/viewClient/' + clientId.azp).then(r => {
+          this.clientId = r.data
+          console.log(this.clientId)
+          HTTP.delete('role/deleteRoleC/' + this.clientId.id + '/' + roleId)
+          this.$swal({ type: 'info', timer: 1000, text: 'Se elimino exitosamente', showCancelButton: false, showConfirmButton: false })
+          this.loadRoles()
+        })
       } catch (e) {
         console.log(e)
       }
@@ -129,10 +132,8 @@ export default {
     var roleId = decodedToken.getTokenDecode()
     HTTP.get('client/viewClient/' + roleId.azp).then(r => {
       this.idClient = r.data
-      // console.log(this.idClient)
       HTTP.get('role/rolesC/' + this.idClient.id).then(r => {
         this.roles = r.data
-        console.log(this.roles)
         $('#tblRoles').DataTable({
           responsive: true,
           scrollY: 540,

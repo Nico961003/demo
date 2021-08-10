@@ -155,7 +155,7 @@ export default {
     },
     async loadRoles () {
       var roleId = decodedToken.getTokenDecode()
-      console.log(roleId)
+      // console.log(roleId)
       try {
         await HTTP.get('client/viewClient/' + roleId.azp).then(r => {
           this.clientId = r.data
@@ -164,12 +164,13 @@ export default {
             HTTP.get('role/rolesC/' + this.clientId.id).then(({ data }) =>
               data.forEach((element) => {
                 data.push({
-                  idClient: '5bb80642-35cf-47c2-a1eb-3009e411db3c',
-                  nameRole: element.name,
+                  idClient: this.clientId.id,
+                  name: element.name,
                   idRole: element.id
                 })
                 this.form.rolesClient = data
-                console.log(data)
+                this.options = data
+                // console.log(data)
               })
             )
           } catch (e) {
