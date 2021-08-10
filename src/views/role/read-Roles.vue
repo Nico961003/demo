@@ -20,7 +20,7 @@
                   <th hidden>Id</th>
                   <th>#</th>
                   <th>Nombre del rol</th>
-                  <th>Descripción</th>
+                  <!-- <th>Descripción</th> -->
                   <th>Operaciones</th>
                </tr>
             </thead>
@@ -29,7 +29,7 @@
                   <td hidden>{{role.id}}</td>
                   <td>{{index + 1}}</td>
                   <td>{{role.name}}</td>
-                  <td>{{role.description}}</td>
+                  <!-- <td>{{role.description}}</td> -->
                   <td v-if="role.name !== 'uma_authorization' && role.name !== 'offline_access'">
                     <template>
                       <router-link class="btn btn-warning" :to="'/editRole/' + role.name">Actualizar</router-link>
@@ -58,15 +58,21 @@ import 'datatables.net-dt/js/dataTables.dataTables'
 import 'datatables.net-dt/css/jquery.dataTables.min.css'
 import $ from 'jquery'
 import swal from 'sweetalert2'
+import decodedToken from '../../logic/decodeToken'
 window.swal = swal
 
 export default {
   methods: {
-    async loadRoles () {
+    loadRoles () {
+      var roleId = decodedToken.getTokenDecode()
+      // console.log(roleId)
       try {
-        await HTTP.get('role/roles').then(r => {
-          this.roles = r.data
-          // console.log(this.roles)
+        HTTP.get('client/viewClient/' + roleId.azp).then(r => {
+          this.idClient = r.data
+          HTTP.get('role/rolesC/' + roleId.azp).then(r => {
+            this.roles = r.data
+            // console.log(this.roles)
+          })
         })
       } catch (e) {
         console.log(e)
@@ -120,19 +126,25 @@ export default {
     }
   },
   mounted () {
-    HTTP.get('role/roles').then(r => {
-      this.roles = r.data
-      $('#tblRoles').DataTable({
-        responsive: true,
-        scrollY: 540,
-        ordering: true,
-        select: true,
-        'columnDefs': [
-          {'className': 'dt-center', 'targets': '_all'}
-        ],
-        'language': {
-          'url': '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json'
-        }
+    var roleId = decodedToken.getTokenDecode()
+    HTTP.get('client/viewClient/' + roleId.azp).then(r => {
+      this.idClient = r.data
+      // console.log(this.idClient)
+      HTTP.get('role/rolesC/' + this.idClient.id).then(r => {
+        this.roles = r.data
+        console.log(this.roles)
+        $('#tblRoles').DataTable({
+          responsive: true,
+          scrollY: 540,
+          ordering: true,
+          select: true,
+          'columnDefs': [
+            {'className': 'dt-center', 'targets': '_all'}
+          ],
+          'language': {
+            'url': '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json'
+          }
+        })
       })
     })
   },

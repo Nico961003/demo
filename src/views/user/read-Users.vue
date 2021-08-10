@@ -65,7 +65,7 @@ export default {
       try {
         await HTTP.get('user/viewUsers').then(r => {
           this.users = r.data
-          // console.log(this.users)
+          console.log(this.users)
         })
       } catch (e) {
         console.log(e)

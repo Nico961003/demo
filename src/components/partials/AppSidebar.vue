@@ -68,7 +68,7 @@
             </ul>
           </b-collapse>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link" v-b-toggle="'ui-group'">
             <i class="menu-icon typcn typcn-group-outline"></i>
             <span class="menu-title">Grupos</span>
@@ -84,7 +84,7 @@
               </li>
             </ul>
           </b-collapse>
-        </li>
+        </li> -->
         <!-- <li class="nav-item">
           <a class="nav-link" href="https://google.com.mx">
             <i class="menu-icon typcn typcn-document-add"></i>

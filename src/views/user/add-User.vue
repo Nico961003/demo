@@ -99,7 +99,6 @@ export default {
   name: 'add-User',
   components: {
     Multiselect
-    // Multiselect: window.VueMultiselect.default
   },
   mounted () {
     this.loadRoles()
@@ -162,11 +161,17 @@ export default {
           this.clientId = r.data
           console.log(this.clientId)
           try {
-            HTTP.get('role/rolesC/' + this.clientId.id).then(r => {
-              this.roles = r.data
-              console.log(this.roles)
-              this.options = this.roles
-            })
+            HTTP.get('role/rolesC/' + this.clientId.id).then(({ data }) =>
+              data.forEach((element) => {
+                data.push({
+                  idClient: '5bb80642-35cf-47c2-a1eb-3009e411db3c',
+                  nameRole: element.name,
+                  idRole: element.id
+                })
+                this.form.rolesClient = data
+                console.log(data)
+              })
+            )
           } catch (e) {
             console.log(e)
           }
