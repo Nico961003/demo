@@ -44,9 +44,9 @@
               <div class="col-md-6 mb-3">
                 <label for="password">Contraseña</label>
                 <div class="input-group">
-                  <input type="password" class="form-control" id="password" name="password" v-model="form.password" placeholder="Contraseña" required>
+                  <input :class='{valid:passwordValidation.valid}' type="password" class="form-control" id="password" name="password" v-model="form.password" placeholder="Contraseña" required>
                   <div class="valid-feedback">
-                    Es aceptable!
+                    <p class="text-danger" v-for="(error, index) in passwordValidation.errors" :key="index">{{error}}</p>
                   </div>
                 </div>
               </div>
@@ -63,6 +63,10 @@
                 </div>
               </div>
               <div class="col-md-6 mb-3">
+                <label class="typo__label">Selecciona rol(es)</label>
+                <multiselect v-model="form.rolesClient" :options="options" :multiple="true" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="Escribe algo" label="name" track-by="name" :preselect-first="true">
+                  <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} opcion(es) seleccionada(s)</span></template>
+                </multiselect>
               </div>
             </div>
             <div class="form-row">
@@ -74,7 +78,7 @@
               </div>
             </div>
                 <div class="d-flex justify-content-end mt-3 pr-4">
-                    <button type="submit" class="btn btn-primary btn-lg">
+                    <button type="submit" class="btn btn-primary btn-lg" v-if="passwordValidation.valid">
                         {{ isSaving ? 'Saving...' : 'Enviar'}}
                     </button>
                 </div>
@@ -88,6 +92,7 @@
 import { HTTP } from '../../logic/http-common'
 import Vue from 'vue'
 import Multiselect from 'vue-multiselect'
+import decodedToken from '../../logic/decodeToken'
 
 Vue.component('multiselect', Multiselect)
 export default {
@@ -99,6 +104,12 @@ export default {
   },
   data () {
     return {
+      rules: [
+        { message: 'Letra minuscula requerida.', regex: /[a-z]+/ },
+        { message: 'Letra mayuscula requerida.', regex: /[A-Z]+/ },
+        { message: 'Minimo 8 caracteres.', regex: /.{8,}/ },
+        { message: 'Un número es requerido.', regex: /[0-9]+/ }
+      ],
       form: {
         firstName: '',
         lastName: '',
@@ -106,20 +117,17 @@ export default {
         realm: 'SpringBoot',
         enabled: false,
         username: '',
-        role: 'user',
-        password: ''
+        group: 'user',
+        password: '',
+        rolesClient: []
       },
       formOptions: {
         validateAfterChanged: true
       },
       isSaving: false,
+      options: [],
       tag: [
         { name: 'user', code: 'user' }
-      ],
-      options: [
-        { name: 'single', code: 'vu' },
-        { name: 'admin', code: 'js' },
-        { name: 'otro', code: 'os' }
       ]
     }
   },
@@ -137,8 +145,11 @@ export default {
       }
     },
     async ver (userId) {
+      var datos = []
+      var roleId = decodedToken.getTokenDecode()
       try {
         await HTTP.get('user/viewUser/' + userId).then(r => {
+          // console.log(r.data)
           this.form = {
             firstName: r.data.firstName,
             lastName: r.data.lastName,
@@ -146,10 +157,41 @@ export default {
             realm: 'SpringBoot',
             enabled: r.data.enabled,
             username: r.data.username,
-            role: 'user',
             password: ''
           }
         })
+      } catch (e) {
+        console.log(e)
+      }
+      try {
+        await HTTP.get('client/viewClient/' + roleId.azp).then(r => {
+          this.clientId = r.data
+          // console.log(this.clientId)
+        })
+      } catch (e) {
+        console.log(e)
+      }
+      try {
+        HTTP.get('user/viewUser/' + userId + '/' + this.clientId.id).then(({ data }) =>
+          data.forEach((element) => {
+            datos.push({
+              idClient: this.clientId.id,
+              name: element.name,
+              idRole: element.id
+            })
+            data.push({
+              idClient: this.clientId.id,
+              name: element.name,
+              idRole: element.id
+            })
+            // console.log(data)
+            // this.form.rolesClient = data
+            // this.options = data
+          })
+        )
+        console.log(datos)
+        this.form.rolesClient = datos
+        this.options = datos
       } catch (e) {
         console.log(e)
       }
@@ -160,7 +202,50 @@ export default {
         code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
       }
       this.options.push(tag)
-      this.value.push(tag)
+      this.form.rolesClient.push(tag)
+    },
+    async loadRoles () {
+      var roleId = decodedToken.getTokenDecode()
+      // console.log(roleId)
+      try {
+        await HTTP.get('client/viewClient/' + roleId.azp).then(r => {
+          this.clientId = r.data
+          // console.log(this.clientId)
+          try {
+            HTTP.get('role/rolesC/' + this.clientId.id).then(({ data }) =>
+              data.forEach((element) => {
+                data.push({
+                  idClient: this.clientId.id,
+                  name: element.name,
+                  idRole: element.id
+                })
+                this.form.rolesClient = data
+                this.options = data
+                // console.log(data)
+              })
+            )
+          } catch (e) {
+            console.log(e)
+          }
+        })
+      } catch (e) {
+        console.log(e)
+      }
+    }
+  },
+  computed: {
+    passwordValidation () {
+      let errors = []
+      for (let condition of this.rules) {
+        if (!condition.regex.test(this.form.password)) {
+          errors.push(condition.message)
+        }
+      }
+      if (errors.length === 0) {
+        return { valid: true, errors }
+      } else {
+        return { valid: false, errors }
+      }
     }
   }
 }

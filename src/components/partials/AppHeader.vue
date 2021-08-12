@@ -1,10 +1,10 @@
 <template lang="html">
   <b-navbar id="template-header" class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row" toggleable="md">
     <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
-      <router-link class="navbar-brand brand-logo" to="/">
+      <router-link class="navbar-brand brand-logo" to="/dashboard">
         <img src="../../assets/images/logo-egas.png" alt="logo" />
       </router-link>
-      <router-link class="navbar-brand brand-logo-mini" to="/">
+      <router-link class="navbar-brand brand-logo-mini" to="/dashboard">
         <img src="../../assets/images/logo-egas.png" alt="logo" />
       </router-link>
     </div>
