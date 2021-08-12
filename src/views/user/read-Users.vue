@@ -55,6 +55,7 @@ import userService from '../../services/userService'
 import $ from 'jquery'
 
 export default {
+  name: 'read-Users',
   methods: {
     async loadUsers () {
       await userService.getUsers().then((response) => {
