@@ -29,34 +29,26 @@
               </div>
             </div>
             <div class="form-row">
-              <!-- <div class="col-md-6 mb-3">
+              <div class="col-md-6 mb-3">
                 <label for="name">Atributo</label>
-                <input type="text" class="form-control" v-for="(attribute, index) in form.attributes" v-model="attribute.value" :key="index">
+                <button type="button" class="btn btn-success" @click="addSlot();addStatus()">Añadir uno</button>
+                <div v-for="(slot, index) in form.attributes" :key="index">
+                  <input type="text" class="form-control" v-model="form.attributes[index]">
+                </div>
+                <button type="button" class="btn btn-warning" @click="removeSlot(index);removeStatus(index)">&times;</button>
               </div>
               <div class="col-md-6 mb-3">
-                <label for="name">Estado</label>
-                <input type="text" class="form-control" v-for="(item2, index) in form.items2" v-model="item2.value" :key="index" value="true">
-              </div>
-              <input type="button" class="btn btn-success" @click="addItem()" value="Añadir otro">
-              <br>
-              <input type="button" class="btn btn-warning"  @click="removeItem(1)" value="Remover uno"> -->
-              <div id="app">
-                <div v-for="(slot, index) in form.timeSlots" :key="index">
-                  <input type="text" v-model="form.timeSlots[index]">
-                  <button type="button" @click="removeSlot(index)">&times;</button>
+                <label for="name">Estatus</label>
+                <div v-for="(status, index) in form.status" :key="index">
+                  <input type="text" class="form-control" v-model="form.status[index]">
                 </div>
-                <button type="button" @click="addSlot">Add Slot</button>
-                <h3>Output</h3>
-                <ul>
-                  <li v-for="(slot, index) in form.timeSlots" :key="index">{{ form.slot }}</li>
-                </ul>
               </div>
             </div>
-                <div class="d-flex justify-content-end mt-3 pr-4">
-                    <button type="submit" class="btn btn-primary btn-lg">
-                        {{ isSaving ? 'Saving...' : 'Enviar'}}
-                    </button>
-                </div>
+              <div class="d-flex justify-content-end mt-3 pr-4">
+                <button type="submit" class="btn btn-primary btn-lg">
+                  {{ isSaving ? 'Saving...' : 'Enviar'}}
+                </button>
+            </div>
             </form>
         </div>
     </div>
@@ -74,10 +66,9 @@ export default {
         name: '',
         description: '',
         realm: 'SpringBoot',
-        idCLient: 'login',
+        idClient: 'login',
         attributes: [],
-        items2: [],
-        timeSlots: []
+        status: []
       },
       formOptions: {
         validateAfterChanged: true
@@ -111,10 +102,19 @@ export default {
       this.form.items2.splice(index, 1)
     },
     addSlot () {
-      this.form.timeSlots.push('')
+      // this.form.attributes.push({value: ''})
+      this.form.attributes.push({
+        value: 'true'
+      })
     },
     removeSlot (index) {
-      this.form.timeSlots.splice(index, 1)
+      this.form.attributes.splice(index, 1)
+    },
+    addStatus () {
+      this.form.status.push({value: ''})
+    },
+    removeStatus (index) {
+      this.form.status.splice(index, 1)
     }
   },
   mounted () {

@@ -9,6 +9,10 @@ export default {
     return userId
   },
 
+  createUser (data) {
+    return HTTP.post('user/createUser', data)
+  },
+
   deleteUser (userId) {
     return HTTP.delete('user/deleteUser/' + userId)
   }

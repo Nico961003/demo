@@ -93,8 +93,10 @@ import { HTTP } from '../../logic/http-common'
 import Vue from 'vue'
 import Multiselect from 'vue-multiselect'
 import decodedToken from '../../logic/decodeToken'
-
+import userService from '../../services/userService'
+// import roleService from '../../services/roleService'
 Vue.component('multiselect', Multiselect)
+
 export default {
   name: 'add-User',
   components: {
@@ -134,16 +136,13 @@ export default {
   },
   methods: {
     async submitUserDetails () {
-      try {
-        await HTTP.post('user/createUser', {
-          ...this.form
-        })
+      await userService.createUser(this.form).then((response) => {
         this.$swal({ type: 'info', timer: 3000, text: 'Se guardo exitosamente', showCancelButton: false, showConfirmButton: false })
-        // console.log(this.form)
         this.$router.push('/readUsers')
-      } catch (e) {
-        console.log(e)
-      }
+      })
+        .catch((e) => {
+          console.log(e)
+        })
     },
     addTag (newTag) {
       const tag = {

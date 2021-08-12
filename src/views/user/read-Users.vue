@@ -56,6 +56,16 @@ import $ from 'jquery'
 
 export default {
   name: 'read-Users',
+  computed: {
+    sortOptions () {
+      // Create an options list from our fields
+      return this.fields
+        .filter((f) => f.sortable)
+        .map((f) => {
+          return { text: f.label, value: f.key }
+        })
+    }
+  },
   methods: {
     async loadUsers () {
       await userService.getUsers().then((response) => {
@@ -118,16 +128,6 @@ export default {
       .catch((e) => {
         console.log(e)
       })
-  },
-  computed: {
-    sortOptions () {
-      // Create an options list from our fields
-      return this.fields
-        .filter((f) => f.sortable)
-        .map((f) => {
-          return { text: f.label, value: f.key }
-        })
-    }
   }
 }
 </script>

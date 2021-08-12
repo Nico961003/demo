@@ -181,6 +181,7 @@ export default {
             })
           })
         )
+        this.options = datos
         this.form.rolesClient = datos
       } catch (e) {
         console.log(e)
