@@ -179,19 +179,9 @@ export default {
               name: element.name,
               idRole: element.id
             })
-            data.push({
-              idClient: this.clientId.id,
-              name: element.name,
-              idRole: element.id
-            })
-            // console.log(data)
-            // this.form.rolesClient = data
-            // this.options = data
           })
         )
-        console.log(datos)
         this.form.rolesClient = datos
-        this.options = datos
       } catch (e) {
         console.log(e)
       }

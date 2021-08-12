@@ -55,6 +55,7 @@ import { HTTP } from '../../logic/http-common'
 import 'jquery/dist/jquery.min.js'
 import 'datatables.net-dt/js/dataTables.dataTables'
 import 'datatables.net-dt/css/jquery.dataTables.min.css'
+import userService from '../../services/userService'
 import $ from 'jquery'
 import swal from 'sweetalert2'
 window.swal = swal
@@ -62,14 +63,12 @@ window.swal = swal
 export default {
   methods: {
     async loadUsers () {
-      try {
-        await HTTP.get('user/viewUsers').then(r => {
-          this.users = r.data
-          console.log(this.users)
+      await userService.getUsers().then((response) => {
+        this.users = response.data
+      })
+        .catch((e) => {
+          console.log(e)
         })
-      } catch (e) {
-        console.log(e)
-      }
     },
     async ver (userId) {
       try {
