@@ -51,14 +51,8 @@
 </template>
 
 <script lang='js'>
-import { HTTP } from '../../logic/http-common'
-import 'jquery/dist/jquery.min.js'
-import 'datatables.net-dt/js/dataTables.dataTables'
-import 'datatables.net-dt/css/jquery.dataTables.min.css'
 import userService from '../../services/userService'
 import $ from 'jquery'
-import swal from 'sweetalert2'
-window.swal = swal
 
 export default {
   methods: {
@@ -70,18 +64,8 @@ export default {
           console.log(e)
         })
     },
-    async ver (userId) {
-      try {
-        await HTTP.get('user/viewUser/' + userId).then(r => {
-          this.user = r.data
-          // console.log(this.user)
-        })
-      } catch (e) {
-        console.log(e)
-      }
-    },
     eliminar (userId, username) {
-      swal({
+      this.$swal({
         title: '¡Advertencia!',
         text: '¿Eliminar a ' + username + '?',
         type: 'warning',
@@ -89,26 +73,17 @@ export default {
         confirmButtonColor: '#DD6B55',
         confirmButtonText: 'Si, eliminar',
         cancelButtonText: 'No, cancelar'
-        // showClass: {
-        //   popup: 'animated fadeInDown faster'
-        // },
-        // hideClass: {
-        //   popup: 'animate__animated animate__fadeOutUp'
-        // }
       }).then((result) => {
         if (result.value) {
-          this.eliminaRegistro(userId)
+          userService.deleteUser(userId).then((response) => {
+            this.$swal({ type: 'info', timer: 1000, text: 'Se elimino exitosamente', showCancelButton: false, showConfirmButton: false })
+            this.loadUsers()
+          })
+            .catch((e) => {
+              console.log(e)
+            })
         } else {}
       })
-    },
-    async eliminaRegistro (userId) {
-      try {
-        await HTTP.delete('user/deleteUser/' + userId)
-        this.$swal({ type: 'info', timer: 1000, text: 'Se elimino exitosamente', showCancelButton: false, showConfirmButton: false })
-        this.loadUsers()
-      } catch (e) {
-        console.log(e)
-      }
     }
   },
   created () {
@@ -124,9 +99,8 @@ export default {
     }
   },
   mounted: function () {
-    this.loadUsers()
-    HTTP.get('user/viewUsers').then(r => {
-      this.users = r.data
+    userService.getUsers().then((response) => {
+      this.users = response.data
       $('#tblUsers').DataTable({
         responsive: true,
         scrollY: 540,
@@ -140,6 +114,9 @@ export default {
         }
       })
     })
+      .catch((e) => {
+        console.log(e)
+      })
   },
   computed: {
     sortOptions () {
