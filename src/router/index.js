@@ -43,14 +43,15 @@ export default new Router({
   routes: [{
     path: '/',
     redirect: '/login',
-    component: login,
-    children: [
-      {
-        path: '/login',
-        name: 'login',
-        component: login
-      }
-    ]
+    component: login
+    // ,
+    // children: [
+    //   {
+    //     path: '/login',
+    //     name: 'login',
+    //     component: login
+    //   }
+    // ]
   },
   {
     path: '/*',
