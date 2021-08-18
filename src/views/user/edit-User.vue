@@ -99,6 +99,7 @@ export default {
   name: 'edit-User',
   components: { Multiselect },
   mounted () {
+    this.loadRoles()
     var userId = this.$route.params.id
     this.ver(userId)
   },
@@ -174,6 +175,11 @@ export default {
       try {
         HTTP.get('user/viewUser/' + userId + '/' + this.clientId.id).then(({ data }) =>
           data.forEach((element) => {
+            data.push({
+              idClient: this.clientId.id,
+              name: element.name,
+              idRole: element.id
+            })
             datos.push({
               idClient: this.clientId.id,
               name: element.name,
@@ -183,6 +189,36 @@ export default {
         )
         this.options = datos
         this.form.rolesClient = datos
+      } catch (e) {
+        console.log(e)
+      }
+      // var roleId = decodedToken.getTokenDecode()
+      var datos2 = []
+      try {
+        await HTTP.get('client/viewClient/' + roleId.azp).then(r => {
+          this.clientId = r.data
+          // console.log(this.clientId)
+          try {
+            HTTP.get('role/rolesC/' + this.clientId.id).then(({ data }) =>
+              data.forEach((element) => {
+                data.push({
+                  idClient: this.clientId.id,
+                  name: element.name,
+                  idRole: element.id
+                })
+                datos2.push({
+                  idClient: this.clientId.id,
+                  name: element.name,
+                  idRole: element.id
+                })
+              })
+            )
+            this.options = datos2
+            // this.form.rolesClient = datos2
+          } catch (e) {
+            console.log(e)
+          }
+        })
       } catch (e) {
         console.log(e)
       }
@@ -197,7 +233,7 @@ export default {
     },
     async loadRoles () {
       var roleId = decodedToken.getTokenDecode()
-      // console.log(roleId)
+      var datos = []
       try {
         await HTTP.get('client/viewClient/' + roleId.azp).then(r => {
           this.clientId = r.data
@@ -205,16 +241,15 @@ export default {
           try {
             HTTP.get('role/rolesC/' + this.clientId.id).then(({ data }) =>
               data.forEach((element) => {
-                data.push({
+                datos.push({
                   idClient: this.clientId.id,
                   name: element.name,
                   idRole: element.id
                 })
-                this.form.rolesClient = data
-                this.options = data
-                // console.log(data)
               })
             )
+            this.options = datos
+            this.form.rolesClient = datos
           } catch (e) {
             console.log(e)
           }
