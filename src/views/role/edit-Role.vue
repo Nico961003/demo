@@ -44,14 +44,14 @@
                 </div>
               </div>
             </div>
-            <table id="tblRoles" class="table table-hover table-striped table-bordered">
-            <tbody>
-              <tr v-for="(atributo, index) in atributos" :key="index">
-                  <td>{{index}}</td>
-                  <td>{{atributo}}</td>
-              </tr>
-            </tbody>
-          </table>
+            <div class="form-row" v-for="(atributo, index) in atributos" :key="index">
+              <div class="col-md-6 mb-3">
+                <input type="text" class="form-control" :value=" index ">
+              </div>
+              <div class="col-md-6 mb-3">
+                <input type="text" class="form-control" :value=" atributo[0] ">
+              </div>
+            </div>
                 <div class="d-flex justify-content-end mt-3 pr-4">
                     <button type="submit" class="btn btn-primary btn-lg">
                         {{ isSaving ? 'Saving...' : 'Enviar'}}
@@ -68,12 +68,9 @@ import { HTTP } from '../../logic/http-common'
 
 export default {
   name: 'edit-User',
-  mounted () {
+  mounted: function mounted () {
     // this.addItem()
     this.ver()
-  },
-  computed () {
-    // this.addItem()
   },
   data () {
     return {
@@ -114,6 +111,7 @@ export default {
             name: r.data.name,
             description: r.data.description
           }
+          return this.atributos
         })
       } catch (e) {
         console.log(e)
