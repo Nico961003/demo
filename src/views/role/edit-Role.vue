@@ -28,7 +28,7 @@
                 </div>
               </div>
             </div>
-            <div class="form-row">
+            <!-- <div class="form-row">
               <div class="col-md-6 mb-3">
                 <label for="name">Atributo</label>
                 <button type="button" class="btn btn-success" @click="addSlot();addStatus()">Añadir uno</button>
@@ -43,15 +43,31 @@
                   <input type="text" class="form-control" v-model="form.status[index]">
                 </div>
               </div>
-            </div>
-            <div class="form-row" v-for="(atributo, index) in atributos" :key="index">
+            </div> -->
+            <div class="form-row">
               <div class="col-md-6 mb-3">
-                <input type="text" class="form-control" :value=" index ">
+                <label for="name">Atributo</label>
+                <button type="button" class="btn btn-success" @click="addSlot();addStatus()">Añadir uno</button>
+                <div v-for="(slot, index) in form.attributes" :key="index">
+                  <input type="text" class="form-control"  v-model="form.attributes[index]">
+                </div>
+                <button type="button" class="btn btn-warning" @click="removeSlot(index);removeStatus(index)">&times;</button>
               </div>
               <div class="col-md-6 mb-3">
-                <input type="text" class="form-control" :value=" atributo[0] ">
+                <label for="name">Estatus</label>
+                <div v-for="(status, index) in form.status" :key="index">
+                  <input type="text" class="form-control" v-model="form.status[index]">
+                </div>
               </div>
             </div>
+            <!-- <div class="form-row" v-for="(atributo, index) in form.atributos" :key="index">
+              <div class="col-md-6 mb-3">
+                <input type="text" class="form-control" :value=" index " >
+              </div>
+              <div class="col-md-6 mb-3">
+                <input type="text" class="form-control" :value=" atributo " :v-model="form.status[index]">
+              </div>
+            </div> -->
                 <div class="d-flex justify-content-end mt-3 pr-4">
                     <button type="submit" class="btn btn-primary btn-lg">
                         {{ isSaving ? 'Saving...' : 'Enviar'}}
@@ -69,7 +85,6 @@ import { HTTP } from '../../logic/http-common'
 export default {
   name: 'edit-User',
   mounted: function mounted () {
-    // this.addItem()
     this.ver()
   },
   data () {
@@ -80,7 +95,9 @@ export default {
         realm: 'SpringBoot',
         idClient: 'login',
         attributes: [],
-        status: []
+        status: [],
+        atributos: [],
+        oldAttributes: []
       },
       formOptions: {
         validateAfterChanged: true
@@ -91,7 +108,7 @@ export default {
   methods: {
     async submitRoleDetails () {
       try {
-        await HTTP.post('role/createRole', {
+        await HTTP.post('role/rolesC/updateRoleC/5bb80642-35cf-47c2-a1eb-3009e411db3c/user', {
           ...this.form
         })
         this.$swal({ type: 'info', timer: 3000, text: 'Se guardo exitosamente', showCancelButton: false, showConfirmButton: false })
@@ -101,21 +118,13 @@ export default {
       }
     },
     ver () {
-      try {
-        HTTP.get('role/rolesC/5bb80642-35cf-47c2-a1eb-3009e411db3c/' + this.$route.params.id).then(r => {
-          console.log(r.data.attributes)
-          this.atributos = r.data.attributes
-          this.atributos = this.atributos
-          console.log(this.atributos.ventas.length)
-          this.form = {
-            name: r.data.name,
-            description: r.data.description
-          }
-          return this.atributos
-        })
-      } catch (e) {
-        console.log(e)
-      }
+      HTTP.get('role/rolesC/5bb80642-35cf-47c2-a1eb-3009e411db3c/' + this.$route.params.id).then(r => {
+        this.form.attributes = Object.keys(r.data.attributes)
+        // console.log(Object.keys(r.data.attributes))
+        this.form.status = r.data.attributes
+        this.form.name = r.data.name
+        this.form.description = r.data.description
+      })
     },
     addItem () {
       this.form.attributes.push({
@@ -130,7 +139,6 @@ export default {
       this.form.items2.splice(index, 1)
     },
     addSlot () {
-      // this.form.attributes.push({value: ''})
       this.form.attributes.push({
         value: 'true'
       })
@@ -147,55 +155,3 @@ export default {
   }
 }
 </script>
-
-<style>
-body {
-  background-color: #fafafa !important;
-}
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  /* text-align: center; */
-  color: #2c3e50;
-}
-.vue-form-generator > div {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  flex-grow: 1;
-}
-.form-group {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0 2%;
-  width: 50%;
-}
-.field-wrap,
-.wrapper {
-  width: 100%;
-}
-.dropList {
-  z-index: 10;
-  background-color: #fff;
-  position: relative;
-  width: 40%;
-  top: 5px;
-  right: 12px;
-}
-legend {
-  margin: 10px 0 20px 18px;
-  font-size: 16px;
-  font-weight: bold;
-  text-align: left;
-}
-.hint {
-  font-size: 10px;
-  font-style: italic;
-  color: purple;
-}
-.help-block {
-  color: red;
-}
-</style>
