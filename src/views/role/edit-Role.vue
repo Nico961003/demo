@@ -28,28 +28,13 @@
                 </div>
               </div>
             </div>
-            <!-- <div class="form-row">
-              <div class="col-md-6 mb-3">
-                <label for="name">Atributo</label>
-                <button type="button" class="btn btn-success" @click="addSlot();addStatus()">Añadir uno</button>
-                <div v-for="(slot, index) in form.attributes" :key="index">
-                  <input type="text" class="form-control" v-model="form.attributes[index]">
-                </div>
-                <button type="button" class="btn btn-warning" @click="removeSlot(index);removeStatus(index)">&times;</button>
-              </div>
-              <div class="col-md-6 mb-3">
-                <label for="name">Estatus</label>
-                <div v-for="(status, index) in form.status" :key="index">
-                  <input type="text" class="form-control" v-model="form.status[index]">
-                </div>
-              </div>
-            </div> -->
             <div class="form-row">
               <div class="col-md-6 mb-3">
                 <label for="name">Atributo</label>
                 <button type="button" class="btn btn-success" @click="addSlot();addStatus()">Añadir uno</button>
                 <div v-for="(slot, index) in form.attributes" :key="index">
                   <input type="text" class="form-control"  v-model="form.attributes[index]">
+                  {{form.attributes}}
                 </div>
                 <button type="button" class="btn btn-warning" @click="removeSlot(index);removeStatus(index)">&times;</button>
               </div>
@@ -57,17 +42,10 @@
                 <label for="name">Estatus</label>
                 <div v-for="(status, index) in form.status" :key="index">
                   <input type="text" class="form-control" v-model="form.status[index]">
+                  {{form.status}}
                 </div>
               </div>
             </div>
-            <!-- <div class="form-row" v-for="(atributo, index) in form.atributos" :key="index">
-              <div class="col-md-6 mb-3">
-                <input type="text" class="form-control" :value=" index " >
-              </div>
-              <div class="col-md-6 mb-3">
-                <input type="text" class="form-control" :value=" atributo " :v-model="form.status[index]">
-              </div>
-            </div> -->
                 <div class="d-flex justify-content-end mt-3 pr-4">
                     <button type="submit" class="btn btn-primary btn-lg">
                         {{ isSaving ? 'Saving...' : 'Enviar'}}
@@ -92,12 +70,10 @@ export default {
       form: {
         name: '',
         description: '',
-        realm: 'SpringBoot',
-        idClient: 'login',
+        idClient: '5bb80642-35cf-47c2-a1eb-3009e411db3c',
+        // realm: 'SpringBoot',
         attributes: [],
-        status: [],
-        atributos: [],
-        oldAttributes: []
+        status: ''
       },
       formOptions: {
         validateAfterChanged: true
@@ -108,7 +84,7 @@ export default {
   methods: {
     async submitRoleDetails () {
       try {
-        await HTTP.post('role/rolesC/updateRoleC/5bb80642-35cf-47c2-a1eb-3009e411db3c/user', {
+        await HTTP.put('role/rolesC/updateRoleC/5bb80642-35cf-47c2-a1eb-3009e411db3c/user', {
           ...this.form
         })
         this.$swal({ type: 'info', timer: 3000, text: 'Se guardo exitosamente', showCancelButton: false, showConfirmButton: false })
@@ -118,10 +94,14 @@ export default {
       }
     },
     ver () {
+      let list = []
       HTTP.get('role/rolesC/5bb80642-35cf-47c2-a1eb-3009e411db3c/' + this.$route.params.id).then(r => {
         this.form.attributes = Object.keys(r.data.attributes)
         // console.log(Object.keys(r.data.attributes))
-        this.form.status = r.data.attributes
+        Object.values(r.data.attributes).forEach(function (item) {
+          list.push(item[0])
+        })
+        this.form.status = list
         this.form.name = r.data.name
         this.form.description = r.data.description
       })
@@ -131,7 +111,7 @@ export default {
         value: 'prueba'
       })
       this.form.items2.push({
-        value: ['true']
+        value: 'true'
       })
     },
     removeItem (index) {
