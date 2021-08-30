@@ -89,12 +89,10 @@
 </template>
 
 <script lang='js'>
-import { HTTP } from '../../logic/http-common'
 import Vue from 'vue'
 import Multiselect from 'vue-multiselect'
-import decodedToken from '../../logic/decodeToken'
 import userService from '../../services/userService'
-// import roleService from '../../services/roleService'
+import clientService from '../../services/clientService'
 Vue.component('multiselect', Multiselect)
 
 export default {
@@ -153,36 +151,32 @@ export default {
       this.form.rolesClient.push(tag)
     },
     async loadRoles () {
-      var roleId = decodedToken.getTokenDecode()
       var datos = []
-      try {
-        await HTTP.get('client/viewClient/' + roleId.azp).then(r => {
-          this.clientId = r.data
-          console.log(this.clientId)
-          try {
-            HTTP.get('role/rolesC/' + this.clientId.id).then(({ data }) =>
-              data.forEach((element) => {
-                data.push({
-                  idClient: this.clientId.id,
-                  name: element.name,
-                  idRole: element.id
-                })
-                datos.push({
-                  idClient: this.clientId.id,
-                  name: element.name,
-                  idRole: element.id
-                })
+      await clientService.getClientByToken().then((response) => {
+        this.clientId = response.data.id
+        try {
+          clientService.getClientById(this.clientId).then(({ data }) =>
+            data.forEach((element) => {
+              data.push({
+                idClient: this.clientId.id,
+                name: element.name,
+                idRole: element.id
               })
-            )
-            // this.form.rolesClient = datos
-            this.options = datos
-          } catch (e) {
-            console.log(e)
-          }
+              datos.push({
+                idClient: this.clientId.id,
+                name: element.name,
+                idRole: element.id
+              })
+            })
+          )
+          this.options = datos
+        } catch (e) {
+          console.log(e)
+        }
+      })
+        .catch((e) => {
+          console.log(e)
         })
-      } catch (e) {
-        console.log(e)
-      }
     }
   },
   computed: {
@@ -204,53 +198,4 @@ export default {
 </script>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
-body {
-  background-color: #fafafa !important;
-}
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  /* text-align: center; */
-  color: #2c3e50;
-}
-.vue-form-generator > div {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  flex-grow: 1;
-}
-.form-group {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0 2%;
-  width: 50%;
-}
-.field-wrap,
-.wrapper {
-  width: 100%;
-}
-.dropList {
-  z-index: 10;
-  background-color: #fff;
-  position: relative;
-  width: 40%;
-  top: 5px;
-  right: 12px;
-}
-legend {
-  margin: 10px 0 20px 18px;
-  font-size: 16px;
-  font-weight: bold;
-  text-align: left;
-}
-.hint {
-  font-size: 10px;
-  font-style: italic;
-  color: purple;
-}
-.help-block {
-  color: red;
-}
 </style>
