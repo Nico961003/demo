@@ -15,7 +15,7 @@ export default {
     loadPage () {
       var checkSession = decodedToken.getTokenDecode()
       if (checkSession === null) {
-        this.$router.push('/')
+        // this.$router.push('/')
       }
     }
   }

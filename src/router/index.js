@@ -163,10 +163,10 @@ export default new Router({
       render (c) { return c('router-view') }
     },
     children: [
-      {
-        path: '/pages/login',
-        component: login
-      },
+      // {
+      //   path: '/pages/login',
+      //   component: login
+      // },
       {
         path: '/pages/register',
         component: register

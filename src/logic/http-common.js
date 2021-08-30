@@ -4,7 +4,7 @@ import Cookies from 'js-cookie'
 var token = Cookies.get('userToken')
 
 export const HTTP = axios.create({
-  baseURL: `http://localhost:8090/`,
+  baseURL: process.env.API_ENV,
   headers: {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Credentials': 'true',
