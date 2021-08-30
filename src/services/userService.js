@@ -6,7 +6,7 @@ export default {
   },
 
   getUserById (userId) {
-    return userId
+    return HTTP.get('user/viewUser/' + userId)
   },
 
   createUser (data) {

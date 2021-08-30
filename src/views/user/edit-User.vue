@@ -93,8 +93,9 @@ import { HTTP } from '../../logic/http-common'
 import Vue from 'vue'
 import Multiselect from 'vue-multiselect'
 import decodedToken from '../../logic/decodeToken'
-
+import userService from '../../services/userService'
 Vue.component('multiselect', Multiselect)
+
 export default {
   name: 'edit-User',
   components: { Multiselect },
@@ -120,6 +121,7 @@ export default {
         username: '',
         group: 'user',
         password: '',
+        idClient: '5bb80642-35cf-47c2-a1eb-3009e411db3c',
         rolesClient: []
       },
       formOptions: {
@@ -136,10 +138,9 @@ export default {
     async submitUserDetails () {
       try {
         await HTTP.put('user/updateUser/' + this.$route.params.id + '', {
-          ...this.user
+          ...this.form
         })
         this.$swal({ type: 'info', timer: 3000, text: 'Se actualizo exitosamente', showCancelButton: false, showConfirmButton: false })
-        // console.log(this.user)
         this.$router.push('/readUsers')
       } catch (e) {
         console.log(e)
@@ -148,26 +149,20 @@ export default {
     async ver (userId) {
       var datos = []
       var roleId = decodedToken.getTokenDecode()
-      try {
-        await HTTP.get('user/viewUser/' + userId).then(r => {
-          // console.log(r.data)
-          this.form = {
-            firstName: r.data.firstName,
-            lastName: r.data.lastName,
-            email: r.data.email,
-            realm: 'SpringBoot',
-            enabled: r.data.enabled,
-            username: r.data.username,
-            password: ''
-          }
+      await userService.getUserById(userId).then((r) => {
+        this.form.firstName = r.data.firstName
+        this.form.lastName = r.data.lastName
+        this.form.email = r.data.email
+        this.form.realm = 'SpringBoot'
+        this.form.enabled = r.data.enabled
+        this.form.username = r.data.username
+      })
+        .catch((e) => {
+          console.log(e)
         })
-      } catch (e) {
-        console.log(e)
-      }
       try {
         await HTTP.get('client/viewClient/' + roleId.azp).then(r => {
           this.clientId = r.data
-          // console.log(this.clientId)
         })
       } catch (e) {
         console.log(e)
@@ -178,11 +173,13 @@ export default {
             data.push({
               idClient: this.clientId.id,
               name: element.name,
+              nameRole: element.name,
               idRole: element.id
             })
             datos.push({
               idClient: this.clientId.id,
               name: element.name,
+              nameRole: element.name,
               idRole: element.id
             })
           })
@@ -192,7 +189,6 @@ export default {
       } catch (e) {
         console.log(e)
       }
-      // var roleId = decodedToken.getTokenDecode()
       var datos2 = []
       try {
         await HTTP.get('client/viewClient/' + roleId.azp).then(r => {
@@ -204,17 +200,18 @@ export default {
                 data.push({
                   idClient: this.clientId.id,
                   name: element.name,
+                  nameRole: element.name,
                   idRole: element.id
                 })
                 datos2.push({
                   idClient: this.clientId.id,
                   name: element.name,
+                  nameRole: element.name,
                   idRole: element.id
                 })
               })
             )
             this.options = datos2
-            // this.form.rolesClient = datos2
           } catch (e) {
             console.log(e)
           }
@@ -225,7 +222,7 @@ export default {
     },
     addTag (newTag) {
       const tag = {
-        name: newTag,
+        nameRole: newTag,
         code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
       }
       this.options.push(tag)
@@ -244,6 +241,7 @@ export default {
                 datos.push({
                   idClient: this.clientId.id,
                   name: element.name,
+                  nameRole: element.name,
                   idRole: element.id
                 })
               })
@@ -278,53 +276,4 @@ export default {
 </script>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
-body {
-  background-color: #fafafa !important;
-}
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  /* text-align: center; */
-  color: #2c3e50;
-}
-.vue-form-generator > div {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  flex-grow: 1;
-}
-.form-group {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0 2%;
-  width: 50%;
-}
-.field-wrap,
-.wrapper {
-  width: 100%;
-}
-.dropList {
-  z-index: 10;
-  background-color: #fff;
-  position: relative;
-  width: 40%;
-  top: 5px;
-  right: 12px;
-}
-legend {
-  margin: 10px 0 20px 18px;
-  font-size: 16px;
-  font-weight: bold;
-  text-align: left;
-}
-.hint {
-  font-size: 10px;
-  font-style: italic;
-  color: purple;
-}
-.help-block {
-  color: red;
-}
 </style>
