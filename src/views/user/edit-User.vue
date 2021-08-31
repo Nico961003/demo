@@ -92,8 +92,9 @@
 import { HTTP } from '../../logic/http-common'
 import Vue from 'vue'
 import Multiselect from 'vue-multiselect'
-import decodedToken from '../../logic/decodeToken'
+import clientService from '../../services/clientService'
 import userService from '../../services/userService'
+import roleService from '../../services/roleService'
 Vue.component('multiselect', Multiselect)
 
 export default {
@@ -148,7 +149,6 @@ export default {
     },
     async ver (userId) {
       var datos = []
-      var roleId = decodedToken.getTokenDecode()
       await userService.getUserById(userId).then((r) => {
         this.form.firstName = r.data.firstName
         this.form.lastName = r.data.lastName
@@ -160,15 +160,12 @@ export default {
         .catch((e) => {
           console.log(e)
         })
+      // GET client by Id
+      await clientService.getClientByToken().then((response) => {
+        this.clientId = response.data.id
+      })
       try {
-        await HTTP.get('client/viewClient/' + roleId.azp).then(r => {
-          this.clientId = r.data
-        })
-      } catch (e) {
-        console.log(e)
-      }
-      try {
-        HTTP.get('user/viewUser/' + userId + '/' + this.clientId.id).then(({ data }) =>
+        roleService.getRoleById(userId).then(({ data }) =>
           data.forEach((element) => {
             data.push({
               idClient: this.clientId.id,
@@ -189,33 +186,29 @@ export default {
       } catch (e) {
         console.log(e)
       }
+      // GET the rest of the roles
       var datos2 = []
+      clientService.getClientByToken().then((response) => {
+        this.clientId = response.data.id
+      })
       try {
-        await HTTP.get('client/viewClient/' + roleId.azp).then(r => {
-          this.clientId = r.data
-          // console.log(this.clientId)
-          try {
-            HTTP.get('role/rolesC/' + this.clientId.id).then(({ data }) =>
-              data.forEach((element) => {
-                data.push({
-                  idClient: this.clientId.id,
-                  name: element.name,
-                  nameRole: element.name,
-                  idRole: element.id
-                })
-                datos2.push({
-                  idClient: this.clientId.id,
-                  name: element.name,
-                  nameRole: element.name,
-                  idRole: element.id
-                })
-              })
-            )
-            this.options = datos2
-          } catch (e) {
-            console.log(e)
-          }
-        })
+        roleService.getRoles(this.clientId).then(({ data }) =>
+          data.forEach((element) => {
+            data.push({
+              idClient: this.clientId.id,
+              name: element.name,
+              nameRole: element.name,
+              idRole: element.id
+            })
+            datos2.push({
+              idClient: this.clientId.id,
+              name: element.name,
+              nameRole: element.name,
+              idRole: element.id
+            })
+          })
+        )
+        this.options = datos2
       } catch (e) {
         console.log(e)
       }
@@ -229,29 +222,23 @@ export default {
       this.form.rolesClient.push(tag)
     },
     async loadRoles () {
-      var roleId = decodedToken.getTokenDecode()
       var datos = []
+      await clientService.getClientByToken().then((response) => {
+        this.clientId = response.data.id
+      })
       try {
-        await HTTP.get('client/viewClient/' + roleId.azp).then(r => {
-          this.clientId = r.data
-          // console.log(this.clientId)
-          try {
-            HTTP.get('role/rolesC/' + this.clientId.id).then(({ data }) =>
-              data.forEach((element) => {
-                datos.push({
-                  idClient: this.clientId.id,
-                  name: element.name,
-                  nameRole: element.name,
-                  idRole: element.id
-                })
-              })
-            )
-            this.options = datos
-            this.form.rolesClient = datos
-          } catch (e) {
-            console.log(e)
-          }
-        })
+        roleService.getRoles(this.clientId).then(({ data }) =>
+          data.forEach((element) => {
+            datos.push({
+              idClient: this.clientId.id,
+              name: element.name,
+              nameRole: element.name,
+              idRole: element.id
+            })
+          })
+        )
+        this.options = datos
+        this.form.rolesClient = datos
       } catch (e) {
         console.log(e)
       }

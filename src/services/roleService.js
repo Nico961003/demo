@@ -2,13 +2,14 @@ import { HTTP } from '../logic/http-common'
 import clientService from './clientService'
 export default {
 
-  getRoles () {
-    clientService.getClientByToken().then((response) => {
-      return HTTP.get('role/rolesC/' + response.data.id)
+  getRoles (clientId) {
+    return HTTP.get('role/rolesC/' + clientId)
+  },
+  async getRoleById (userId) {
+    await clientService.getClientByToken().then((response) => {
+      this.clientId = response.data.id
     })
-      .catch((e) => {
-        console.log(e)
-      })
+    return HTTP.get('user/viewUser/' + userId + '/' + this.clientId)
   }
 
 }
