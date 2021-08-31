@@ -92,6 +92,7 @@ export default {
   name: 'add-User',
   components: { Multiselect },
   mounted () {
+    this.realm = process.env.REALM_ENV
   },
   data () {
     return {
@@ -99,7 +100,7 @@ export default {
         firstName: '',
         lastName: '',
         email: '',
-        realm: 'SpringBoot',
+        realm: process.env.REALM_ENV,
         enabled: false,
         username: '',
         group: 'user',

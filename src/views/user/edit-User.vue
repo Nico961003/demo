@@ -101,6 +101,7 @@ export default {
   name: 'edit-User',
   components: { Multiselect },
   mounted () {
+    this.realm = process.env.REALM_ENV
     this.loadRoles()
     var userId = this.$route.params.id
     this.ver(userId)
@@ -117,7 +118,7 @@ export default {
         firstName: '',
         lastName: '',
         email: '',
-        realm: 'SpringBoot',
+        realm: process.env.REALM_ENV,
         enabled: false,
         username: '',
         group: 'user',

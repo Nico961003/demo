@@ -15,20 +15,27 @@
             <div class="form-row">
               <div class="col-md-6 mb-3">
                 <label for="name">Nombre</label>
-                <input type="text" class="form-control" id="name" name="name" v-model="form.name" placeholder="Nombre del cliente" value="" required>
+                <input type="text" class="form-control" id="name" name="name" v-model="form.name" placeholder="Nombre del cliente"  required>
                 <div class="valid-feedback">
                   Es aceptable!
                 </div>
               </div>
               <div class="col-md-6 mb-3">
-                <label for="rootUrl">Root URL</label>
-                <input type="url" class="form-control" id="rootUrl" name="rootUrl" v-model="form.rootUrl" placeholder="Root URL : http://example.com" value="" required>
+                <label for="description">Descripción</label>
+                <input type="text" class="form-control" id="description" name="description" v-model="form.description" placeholder="Descripción" required>
                 <div class="valid-feedback">
                   Es aceptable!
                 </div>
               </div>
             </div>
             <div class="form-row">
+              <div class="col-md-6 mb-3">
+                <label for="rootUrl">Root URL</label>
+                <input type="url" class="form-control" id="rootUrl" name="rootUrl" v-model="form.rootUrl" placeholder="Root URL : http://example.com"  required>
+                <div class="valid-feedback">
+                  Es aceptable!
+                </div>
+              </div>
               <div class="col-md-6 mb-3">
                 <label for="adminUrl">Admin URL</label>
                 <div class="input-group">
@@ -56,6 +63,7 @@ import { HTTP } from '../../logic/http-common'
 export default {
   name: 'add-Client',
   mounted () {
+    this.realm = process.env.REALM_ENV
   },
   data () {
     return {
@@ -63,7 +71,9 @@ export default {
         name: '',
         rootUrl: '',
         adminUrl: '',
-        realm: 'SpringBoot'
+        realm: process.env.REALM_ENV,
+        description: '',
+        enabled: true
       },
       formOptions: {
         validateAfterChanged: true
@@ -88,53 +98,4 @@ export default {
 </script>
 
 <style>
-body {
-  background-color: #fafafa !important;
-}
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  /* text-align: center; */
-  color: #2c3e50;
-}
-.vue-form-generator > div {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  flex-grow: 1;
-}
-.form-group {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0 2%;
-  width: 50%;
-}
-.field-wrap,
-.wrapper {
-  width: 100%;
-}
-.dropList {
-  z-index: 10;
-  background-color: #fff;
-  position: relative;
-  width: 40%;
-  top: 5px;
-  right: 12px;
-}
-legend {
-  margin: 10px 0 20px 18px;
-  font-size: 16px;
-  font-weight: bold;
-  text-align: left;
-}
-.hint {
-  font-size: 10px;
-  font-style: italic;
-  color: purple;
-}
-.help-block {
-  color: red;
-}
 </style>

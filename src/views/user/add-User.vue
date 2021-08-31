@@ -101,6 +101,7 @@ export default {
     Multiselect
   },
   mounted () {
+    this.realm = process.env.REALM_ENV
     this.loadRoles()
   },
   data () {
@@ -115,7 +116,7 @@ export default {
         firstName: '',
         lastName: '',
         email: '',
-        realm: 'SpringBoot',
+        realm: process.env.REALM_ENV,
         enabled: false,
         username: '',
         group: 'user',

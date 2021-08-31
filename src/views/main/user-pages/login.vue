@@ -68,7 +68,7 @@ export default {
       form: {
         username: '',
         password: '',
-        realm: 'SpringBoot',
+        realm: process.env.REALM_ENV,
         error: false
       },
       formOptions: {
@@ -78,6 +78,7 @@ export default {
     }
   },
   mounted: function () {
+    this.realm = process.env.REALM_ENV
     this.loadPage()
   },
   methods: {

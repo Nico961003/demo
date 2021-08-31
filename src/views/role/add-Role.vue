@@ -33,14 +33,18 @@
                 <label for="name">Atributo</label>
                 <button type="button" class="btn btn-success" @click="addSlot();addStatus()">Añadir uno</button>
                 <div class="mb-3" v-for="(slot, index) in form.attributes" :key="index">
-                  <input type="text" class="form-control" v-model="form.attributes[index]" placeholder="edíteme">
+                  <input type="text" class="form" v-model="form.attributes[index]" placeholder="Ingresa un nombre de atributo">
                 </div>
                 <button type="button" class="btn btn-warning" @click="removeSlot(index);removeStatus(index)">&times;</button>
               </div>
               <div class="col-md-6 mb-3">
                 <label for="name">Estatus</label>
                 <div class="mb-3" v-for="(status, index) in form.status" :key="index">
-                  <input type="text" class="form-control" v-model="form.status[index]" placeholder="edíteme">
+                  <!-- <input type="text" class="form-control" v-model="form.status[index]" placeholder="Ingresa true o false"> -->
+                  <select type="text" class="select" v-model="form.status[index]">
+                    <option>true</option>
+                    <option selected>false</option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -65,7 +69,7 @@ export default {
       form: {
         name: '',
         description: '',
-        realm: 'SpringBoot',
+        realm: process.env.REALM_ENV,
         idClient: 'login',
         attributes: [],
         status: []
@@ -102,6 +106,7 @@ export default {
     }
   },
   mounted () {
+    this.realm = process.env.REALM_ENV
     this.addSlot()
     this.addStatus()
   }
@@ -109,4 +114,23 @@ export default {
 </script>
 
 <style>
+input[type=text] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.select {
+  width: 100%;
+  padding: 13px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
 </style>

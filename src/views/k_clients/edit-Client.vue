@@ -15,20 +15,27 @@
             <div class="form-row">
               <div class="col-md-6 mb-3">
                 <label for="name">Nombre</label>
-                <input type="text" class="form-control" id="name" name="name" v-model="form.name" placeholder="Nombre del cliente" value="" required>
+                <input type="text" class="form-control" id="name" name="name" v-model="form.name" placeholder="Nombre del cliente"  required disabled>
                 <div class="valid-feedback">
                   Es aceptable!
                 </div>
               </div>
               <div class="col-md-6 mb-3">
-                <label for="rootUrl">Root URL</label>
-                <input type="url" class="form-control" id="rootUrl" name="rootUrl" v-model="form.rootUrl" placeholder="Root URL : http://example.com" value="" required>
+                <label for="description">Descripción</label>
+                <input type="text" class="form-control" id="description" name="description" v-model="form.description" placeholder="Descripción" required>
                 <div class="valid-feedback">
                   Es aceptable!
                 </div>
               </div>
             </div>
             <div class="form-row">
+              <div class="col-md-6 mb-3">
+                <label for="rootUrl">Root URL</label>
+                <input type="url" class="form-control" id="rootUrl" name="rootUrl" v-model="form.rootUrl" placeholder="Root URL : http://example.com"  required>
+                <div class="valid-feedback">
+                  Es aceptable!
+                </div>
+              </div>
               <div class="col-md-6 mb-3">
                 <label for="adminUrl">Admin URL</label>
                 <div class="input-group">
@@ -65,9 +72,9 @@ export default {
         name: '',
         rootUrl: '',
         adminUrl: '',
-        realm: 'SpringBoot',
-        enabled: true,
-        description: ''
+        realm: process.env.REALM_ENV,
+        description: '',
+        enabled: true
       },
       formOptions: {
         validateAfterChanged: true
@@ -96,9 +103,9 @@ export default {
             name: r.data.clientId,
             rootUrl: r.data.rootUrl,
             adminUrl: r.data.adminUrl,
-            realm: 'SpringBoot',
+            realm: process.env.REALM_ENV,
             enabled: true,
-            description: ''
+            description: r.data.description
           }
         })
       } catch (e) {

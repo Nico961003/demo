@@ -63,6 +63,7 @@ import { HTTP } from '../../logic/http-common'
 export default {
   name: 'edit-User',
   mounted: function mounted () {
+    this.realm = process.env.REALM_ENV
     this.ver()
   },
   data () {
@@ -71,7 +72,8 @@ export default {
         name: '',
         description: '',
         idClient: '5bb80642-35cf-47c2-a1eb-3009e411db3c',
-        // realm: 'SpringBoot',
+        realm: process.env.REALM_ENV,
+        clientRole: 'true',
         attributes: [],
         status: ''
       },
@@ -84,7 +86,8 @@ export default {
   methods: {
     async submitRoleDetails () {
       try {
-        await HTTP.put('role/rolesC/updateRoleC/5bb80642-35cf-47c2-a1eb-3009e411db3c/user', {
+        // cambiar hardcode idCLient and RoleName
+        await HTTP.put('role/rolesC/updateRoleC/5bb80642-35cf-47c2-a1eb-3009e411db3c/NoeRole', {
           ...this.form
         })
         this.$swal({ type: 'info', timer: 3000, text: 'Se guardo exitosamente', showCancelButton: false, showConfirmButton: false })
