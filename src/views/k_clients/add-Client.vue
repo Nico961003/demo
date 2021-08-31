@@ -78,7 +78,6 @@ export default {
           ...this.form
         })
         this.$swal({ type: 'info', timer: 3000, text: 'Se guardo exitosamente', showCancelButton: false, showConfirmButton: false })
-        // console.log(this.form)
         this.$router.push('/readClients')
       } catch (e) {
         console.log(e)

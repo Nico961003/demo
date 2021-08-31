@@ -32,15 +32,15 @@
               <div class="col-md-6 mb-3">
                 <label for="name">Atributo</label>
                 <button type="button" class="btn btn-success" @click="addSlot();addStatus()">Añadir uno</button>
-                <div v-for="(slot, index) in form.attributes" :key="index">
-                  <input type="text" class="form-control" v-model="form.attributes[index]">
+                <div class="mb-3" v-for="(slot, index) in form.attributes" :key="index">
+                  <input type="text" class="form-control" v-model="form.attributes[index]" placeholder="edíteme">
                 </div>
                 <button type="button" class="btn btn-warning" @click="removeSlot(index);removeStatus(index)">&times;</button>
               </div>
               <div class="col-md-6 mb-3">
                 <label for="name">Estatus</label>
-                <div v-for="(status, index) in form.status" :key="index">
-                  <input type="text" class="form-control" v-model="form.status[index]">
+                <div class="mb-3" v-for="(status, index) in form.status" :key="index">
+                  <input type="text" class="form-control" v-model="form.status[index]" placeholder="edíteme">
                 </div>
               </div>
             </div>
@@ -83,94 +83,30 @@ export default {
           ...this.form
         })
         this.$swal({ type: 'info', timer: 3000, text: 'Se guardo exitosamente', showCancelButton: false, showConfirmButton: false })
-        // console.log(this.form)
         this.$router.push('/readRoles')
       } catch (e) {
         console.log(e)
       }
     },
-    addItem () {
-      this.form.attributes.push({
-        value: 'prueba'
-      })
-      this.form.items2.push({
-        value: ['true']
-      })
-    },
-    removeItem (index) {
-      this.form.items.splice(index, 1)
-      this.form.items2.splice(index, 1)
-    },
     addSlot () {
-      // this.form.attributes.push({value: ''})
-      this.form.attributes.push({
-        value: 'true'
-      })
+      this.form.attributes.push({value: ''})
     },
     removeSlot (index) {
       this.form.attributes.splice(index, 1)
     },
     addStatus () {
-      this.form.status.push({value: ''})
+      this.form.status.push({value: 'false'})
     },
     removeStatus (index) {
       this.form.status.splice(index, 1)
     }
   },
   mounted () {
-    this.addItem()
+    this.addSlot()
+    this.addStatus()
   }
 }
 </script>
 
 <style>
-body {
-  background-color: #fafafa !important;
-}
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  /* text-align: center; */
-  color: #2c3e50;
-}
-.vue-form-generator > div {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  flex-grow: 1;
-}
-.form-group {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0 2%;
-  width: 50%;
-}
-.field-wrap,
-.wrapper {
-  width: 100%;
-}
-.dropList {
-  z-index: 10;
-  background-color: #fff;
-  position: relative;
-  width: 40%;
-  top: 5px;
-  right: 12px;
-}
-legend {
-  margin: 10px 0 20px 18px;
-  font-size: 16px;
-  font-weight: bold;
-  text-align: left;
-}
-.hint {
-  font-size: 10px;
-  font-style: italic;
-  color: purple;
-}
-.help-block {
-  color: red;
-}
 </style>
