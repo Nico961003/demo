@@ -15,7 +15,7 @@
             <div class="form-row">
               <div class="col-md-6 mb-3">
                 <label for="name">Nombre del Rol</label>
-                <input type="text" class="form-control" id="name" name="name" v-model="form.name" placeholder="Nombre del rol" value="" required>
+                <input type="text" class="form-control" id="name" name="name" v-model="form.name" placeholder="Nombre del rol" required disabled>
                 <div class="valid-feedback">
                   Es aceptable!
                 </div>
@@ -32,17 +32,15 @@
               <div class="col-md-6 mb-3">
                 <label for="name">Atributo</label>
                 <button type="button" class="btn btn-success" @click="addSlot();addStatus()">Añadir uno</button>
-                <div v-for="(slot, index) in form.attributes" :key="index">
-                  <input type="text" class="form-control"  v-model="form.attributes[index]">
-                  {{form.attributes}}
+                <div class="mb-3" v-for="(slot, index) in form.attributes" :key="index">
+                  <input type="text" class="form" v-model="form.attributes[index]" placeholder="Ingresa un nombre de atributo">
                 </div>
                 <button type="button" class="btn btn-warning" @click="removeSlot(index);removeStatus(index)">&times;</button>
               </div>
               <div class="col-md-6 mb-3">
                 <label for="name">Estatus</label>
-                <div v-for="(status, index) in form.status" :key="index">
+                <div class="mb-3" v-for="(status, index) in form.status" :key="index">
                   <input type="text" class="form-control" v-model="form.status[index]">
-                  {{form.status}}
                 </div>
               </div>
             </div>
@@ -59,19 +57,23 @@
 
 <script lang='js'>
 import { HTTP } from '../../logic/http-common'
+import clientService from '../../services/clientService'
 
 export default {
   name: 'edit-User',
   mounted: function mounted () {
     this.realm = process.env.REALM_ENV
     this.ver()
+    clientService.getClientByToken().then((r) => {
+      this.idClient = r.data.id
+    })
   },
   data () {
     return {
       form: {
         name: '',
         description: '',
-        idClient: '5bb80642-35cf-47c2-a1eb-3009e411db3c',
+        idClient: '',
         realm: process.env.REALM_ENV,
         clientRole: 'true',
         attributes: [],
@@ -86,8 +88,10 @@ export default {
   methods: {
     async submitRoleDetails () {
       try {
-        // cambiar hardcode idCLient and RoleName
-        await HTTP.put('role/rolesC/updateRoleC/5bb80642-35cf-47c2-a1eb-3009e411db3c/NoeRole', {
+        clientService.getClientByToken().then((r) => {
+          this.idClient = r.data.id
+        })
+        await HTTP.put('role/rolesC/updateRoleC/' + this.idClient + '/' + this.$route.params.id, {
           ...this.form
         })
         this.$swal({ type: 'info', timer: 3000, text: 'Se guardo exitosamente', showCancelButton: false, showConfirmButton: false })
@@ -98,15 +102,16 @@ export default {
     },
     ver () {
       let list = []
-      HTTP.get('role/rolesC/5bb80642-35cf-47c2-a1eb-3009e411db3c/' + this.$route.params.id).then(r => {
-        this.form.attributes = Object.keys(r.data.attributes)
-        // console.log(Object.keys(r.data.attributes))
-        Object.values(r.data.attributes).forEach(function (item) {
-          list.push(item[0])
+      clientService.getClientByToken().then((r) => {
+        HTTP.get('role/rolesC/' + r.data.id + '/' + this.$route.params.id).then(r => {
+          this.form.attributes = Object.keys(r.data.attributes)
+          Object.values(r.data.attributes).forEach(function (item) {
+            list.push(item[0])
+          })
+          this.form.status = list
+          this.form.name = r.data.name
+          this.form.description = r.data.description
         })
-        this.form.status = list
-        this.form.name = r.data.name
-        this.form.description = r.data.description
       })
     },
     addItem () {
@@ -138,3 +143,25 @@ export default {
   }
 }
 </script>
+
+<style>
+input[type=text] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.select {
+  width: 100%;
+  padding: 13px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+</style>
