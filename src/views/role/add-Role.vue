@@ -33,17 +33,17 @@
                 <label for="name">Atributo</label>
                 <button type="button" class="btn btn-success" @click="addSlot();addStatus()">Añadir uno</button>
                 <div class="mb-3" v-for="(slot, index) in form.attributes" :key="index">
-                  <input type="text" class="form" v-model="form.attributes[index]" placeholder="Ingresa un nombre de atributo">
+                  <input type="text" class="form" v-model="form.attributes[index]" placeholder="Ingresa un nombre de atributo"  onfocus="this.value=''">
                 </div>
                 <button type="button" class="btn btn-warning" @click="removeSlot(index);removeStatus(index)">&times;</button>
               </div>
               <div class="col-md-6 mb-3">
                 <label for="name">Estatus</label>
                 <div class="mb-3" v-for="(status, index) in form.status" :key="index">
-                  <!-- <input type="text" class="form-control" v-model="form.status[index]" placeholder="Ingresa true o false"> -->
-                  <select type="text" class="select" v-model="form.status[index]">
+                  <select id="selectStatus" type="text" class="select" v-model="form.status[index]" :value='prueba'>
+                    <option disabled selected>Selecciona una opción</option>
                     <option>true</option>
-                    <option selected>false</option>
+                    <option>false</option>
                   </select>
                 </div>
               </div>
