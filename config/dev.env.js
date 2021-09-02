@@ -6,5 +6,5 @@ module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
   API_ENV: '"http://127.0.0.1:8090/"',
   TOKEN_ENV: '"http://127.0.0.1:8090/token/"',
-  REALM_ENV: '"qsstorage"'
+  REALM_ENV: '"DEV"'
 })
