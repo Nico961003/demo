@@ -3,7 +3,13 @@
 #ejecuta una llamada a un jar el cual edita los archivos rechazados por intelar, modifica fecha y secuencial
 # una vez editados son enviados a intelar
 export GRAILS_OPTS="-XX:MaxPermSize=1024m -Xmx1024M -Xms1024m -server"
+export HOST_KEY="https://sso.egas.com.mx/"
+export REALM_KEY="DEV"
+export CLIENT_KEY="qsstorage"
+export USER_KEY="admin"
+export PASS_KEY="Jc2mqnFxDC8A"
 echo $GRAILS_OPTS
+echo $PASS_KEY
 rootWFL=$( cd `dirname $0` >/dev/null; pwd );
 
         EXITCODE=;                                   
