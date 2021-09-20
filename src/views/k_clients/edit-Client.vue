@@ -90,7 +90,7 @@ export default {
         })
         this.$swal({ type: 'info', timer: 3000, text: 'Se actualizo exitosamente', showCancelButton: false, showConfirmButton: false })
         console.log(this.form)
-        this.$router.push('/readClients')
+        this.$router.push('/readClient')
       } catch (e) {
         console.log(e)
       }

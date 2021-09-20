@@ -28,11 +28,11 @@
       </div>
       <div class='col-md-4 grid-margin stretch-card'>
         <div class="card" style="width:400px">
-          <a href="/readClients"><img class="card-img-top" src="../assets/images/clients.svg" alt="Card image"></a>
+          <a href="/readClient"><img class="card-img-top" src="../assets/images/clients.svg" alt="Card image"></a>
           <div class="card-body">
             <h4 class="card-title">Lista de clientes</h4>
             <p class="card-text">Conoce los clientes registrados, crea, modifica, elimina.</p>
-            <a href="/readClients" class="btn btn-primary">Ir</a>
+            <a href="/readClient" class="btn btn-primary">Ir</a>
           </div>
         </div>
       </div>

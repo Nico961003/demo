@@ -60,7 +60,7 @@
           <b-collapse id="ui-client">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
-                <router-link class="nav-link" to="/readClients">Mis Clientes</router-link>
+                <router-link class="nav-link" to="/readClient">Mis Clientes</router-link>
               </li>
               <li class="nav-item">
                 <router-link class="nav-link" to="/addClient">Agregar</router-link>
