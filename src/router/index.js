@@ -39,7 +39,8 @@ Vue.use(Router)
 export default new Router({
   linkActiveClass: 'active',
   scrollBehavior: () => ({ y: 0 }),
-  mode: 'hash',
+  // mode: 'hash',
+  mode: 'history',
   routes: [{
     path: '/',
     redirect: '/login',
@@ -154,6 +155,7 @@ export default new Router({
   {
     path: '*',
     redirect: '/pages/error_404',
+    mode: 'history',
     component: {
       render (c) { return c('router-view') }
     },
