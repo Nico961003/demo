@@ -24,7 +24,7 @@ import readRoles from '../views/role/read-Roles'
 import editRole from '../views/role/edit-Role'
 // Client components
 import addClient from '../views/k_clients/add-Client'
-import readClients from '../views/k_clients/read-Clients'
+import readClient from '../views/k_clients/read-Client'
 import editClient from '../views/k_clients/edit-Client'
 // Group components
 import addGroup from '../views/group/add-Group'
@@ -116,9 +116,9 @@ export default new Router({
         component: editRole
       },
       {
-        path: '/readClients',
-        name: 'readClients',
-        component: readClients
+        path: '/readClient',
+        name: 'readClient',
+        component: readClient
       },
       {
         path: '/addClient',
