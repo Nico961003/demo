@@ -7,16 +7,33 @@
     </div>
     <div class='row'>
       <div class='col-md-4 grid-margin stretch-card'>
-        <div class='card'>
+        <div class="card" style="width:400px">
+          <a href="/readUsers"><img class="card-img-top" src="../assets/images/user-3331258.svg" alt="Card image"></a>
+          <div class="card-body">
+            <h4 class="card-title">Lista de usuarios</h4>
+            <p class="card-text">Conoce los usuarios registrados, crea, modifica, elimina.</p>
+            <a href="/readUsers" class="btn btn-primary">Ir</a>
+          </div>
         </div>
       </div>
       <div class='col-md-4 grid-margin stretch-card'>
-        <div class='card'>
+        <div class="card" style="width:400px">
+          <a href="/readRoles"><img class="card-img-top" src="../assets/images/authorization.svg" alt="Card image"></a>
+          <div class="card-body">
+            <h4 class="card-title">Lista de roles</h4>
+            <p class="card-text">Conoce los roles registrados, crea, modifica, elimina.</p>
+            <a href="/readRoles" class="btn btn-primary">Ir</a>
+          </div>
         </div>
       </div>
       <div class='col-md-4 grid-margin stretch-card'>
-        <div class='card'>
-          <button class="btn btn-success" style="">Clients Module</button>
+        <div class="card" style="width:400px">
+          <a href="/readClients"><img class="card-img-top" src="../assets/images/clients.svg" alt="Card image"></a>
+          <div class="card-body">
+            <h4 class="card-title">Lista de clientes</h4>
+            <p class="card-text">Conoce los clientes registrados, crea, modifica, elimina.</p>
+            <a href="/readClients" class="btn btn-primary">Ir</a>
+          </div>
         </div>
       </div>
     </div>
@@ -45,12 +62,4 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-</style>
-
-<style lan="css">
-  .btn {
-    border:0px;
-    width:423px;
-    height:190px;
-  }
 </style>
