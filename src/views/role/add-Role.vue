@@ -40,7 +40,7 @@
               <div class="col-md-6 mb-3">
                 <label for="name">Estatus</label>
                 <div class="mb-3" v-for="(status, index) in form.status" :key="index">
-                  <select id="selectStatus" type="text" class="select" v-model="form.status[index]" :value='prueba'>
+                  <select id="selectStatus" type="text" class="select" v-model="form.status[index]">
                     <option disabled selected>Selecciona una opción</option>
                     <option>true</option>
                     <option>false</option>
