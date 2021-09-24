@@ -155,7 +155,6 @@ export default {
       var datos = []
       alert(localStorage.getItem('clientName'))
       if (localStorage.getItem('clientName')) {
-        alert('el cliente : ' + localStorage.getItem('clientName'))
         var id = localStorage.getItem('clientName')
         try {
           clientService.getClientById(id).then(({ data }) =>
@@ -177,31 +176,31 @@ export default {
           console.log(e)
         }
       } else {
-        await clientService.getClientById().then((response) => {
-          this.clientId = response.data.id
-          try {
-            clientService.getClientById(this.clientId).then(({ data }) =>
-              data.forEach((element) => {
-                data.push({
-                  idClient: this.clientId.id,
-                  name: element.name,
-                  idRole: element.id
-                })
-                datos.push({
-                  idClient: this.clientId.id,
-                  name: element.name,
-                  idRole: element.id
-                })
-              })
-            )
-            this.options = datos
-          } catch (e) {
-            console.log(e)
-          }
-        })
-          .catch((e) => {
-            console.log(e)
-          })
+        // await clientService.getClientById().then((response) => {
+        //   this.clientId = response.data.id
+        //   try {
+        //     clientService.getClientById(this.clientId).then(({ data }) =>
+        //       data.forEach((element) => {
+        //         data.push({
+        //           idClient: this.clientId.id,
+        //           name: element.name,
+        //           idRole: element.id
+        //         })
+        //         datos.push({
+        //           idClient: this.clientId.id,
+        //           name: element.name,
+        //           idRole: element.id
+        //         })
+        //       })
+        //     )
+        //     this.options = datos
+        //   } catch (e) {
+        //     console.log(e)
+        //   }
+        // })
+        //   .catch((e) => {
+        //     console.log(e)
+        //   })
       }
     }
   },

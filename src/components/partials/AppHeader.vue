@@ -118,6 +118,7 @@ export default {
       this.$swal({ type: 'info', timer: 1000, text: 'Cliente fijado', showCancelButton: false, showConfirmButton: false })
       await clientService.getClientByName(this.form.client).then((response) => {
         this.clientId = response.data.id
+        alert(this.clientId)
         localStorage.clientName = this.clientId
       }).catch((e) => {
         console.log(e)

@@ -6,5 +6,5 @@ module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
   API_ENV: '"http://localhost:8090/"',
   TOKEN_ENV: '"http://localhost:8090/token/"',
-  REALM_ENV: '"DEV"'
+  REALM_ENV: '"SpringBoot"'
 })

@@ -76,14 +76,16 @@ export default {
   },
   methods: {
     loadRoles () {
-      var roleId = decodedToken.getTokenDecode()
+      // var roleId = decodedToken.getTokenDecode()
       try {
-        HTTP.get('client/viewClient/' + roleId.azp).then(r => {
-          this.idClient = r.data
-          HTTP.get('role/rolesC/' + this.idClient.id).then(r => {
-            this.roles = r.data
-          })
+        // HTTP.get('client/viewClient/' + roleId.azp).then(r => {
+        // this.idClient = r.data
+        alert(localStorage.getItem('clientName'))
+        this.idClient = localStorage.getItem('clientName')
+        HTTP.get('role/rolesC/' + this.idClient).then(r => {
+          this.roles = r.data
         })
+        // })
       } catch (e) {
         console.log(e)
       }
