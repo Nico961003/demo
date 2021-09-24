@@ -153,18 +153,20 @@ export default {
     },
     async loadRoles () {
       var datos = []
-      await clientService.getClientByToken().then((response) => {
-        this.clientId = response.data.id
+      alert(localStorage.getItem('clientName'))
+      if (localStorage.getItem('clientName')) {
+        alert('el cliente : ' + localStorage.getItem('clientName'))
+        var id = localStorage.getItem('clientName')
         try {
-          clientService.getClientById(this.clientId).then(({ data }) =>
+          clientService.getClientById(id).then(({ data }) =>
             data.forEach((element) => {
               data.push({
-                idClient: this.clientId.id,
+                idClient: id,
                 name: element.name,
                 idRole: element.id
               })
               datos.push({
-                idClient: this.clientId.id,
+                idClient: id,
                 name: element.name,
                 idRole: element.id
               })
@@ -174,10 +176,33 @@ export default {
         } catch (e) {
           console.log(e)
         }
-      })
-        .catch((e) => {
-          console.log(e)
+      } else {
+        await clientService.getClientById().then((response) => {
+          this.clientId = response.data.id
+          try {
+            clientService.getClientById(this.clientId).then(({ data }) =>
+              data.forEach((element) => {
+                data.push({
+                  idClient: this.clientId.id,
+                  name: element.name,
+                  idRole: element.id
+                })
+                datos.push({
+                  idClient: this.clientId.id,
+                  name: element.name,
+                  idRole: element.id
+                })
+              })
+            )
+            this.options = datos
+          } catch (e) {
+            console.log(e)
+          }
         })
+          .catch((e) => {
+            console.log(e)
+          })
+      }
     }
   },
   computed: {

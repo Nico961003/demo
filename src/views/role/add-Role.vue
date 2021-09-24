@@ -66,6 +66,7 @@ export default {
   name: 'add-User',
   data () {
     return {
+      status: 'Adr',
       form: {
         name: '',
         description: '',

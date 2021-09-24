@@ -8,6 +8,9 @@ export default {
   },
   getClientById (id) {
     return HTTP.get('role/rolesC/' + id)
+  },
+  getClientByName (name) {
+    return HTTP.get('client/viewClient/' + name)
   }
 
   // createRole (data) {

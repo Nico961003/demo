@@ -9,19 +9,18 @@
       </div>
     </div>
     <!-- Page Title Header Ends-->
-    <div>
       <div class="card pl-4 pt-5 pb-5 pr-4 mt-3">
         <b-container fluid>
           <!-- Main table element -->
-          <div class="container-fluid">
-          <table id="tblRoles" class="table table-hover table-striped table-bordered">
+          <div style="overflow-x:auto;">
+          <table id="tblRoles" class="styled-table">
             <thead>
               <tr>
                   <th hidden>Id</th>
                   <th>#</th>
                   <th>Nombre del rol</th>
                   <th>Descripción</th>
-                  <th>Operaciones</th>
+                  <th>Acciones</th>
                </tr>
             </thead>
             <tbody>
@@ -32,10 +31,10 @@
                   <td>{{role.description}}</td>
                   <td v-if="role.name !== 'uma_authorization' && role.name !== 'offline_access'">
                     <template>
-                      <router-link class="btn btn-warning" :to="'/editRole/' + role.name">Actualizar</router-link>
-                      <b-button size="sm" class="btn btn-danger" @click="eliminar(role.name)">
-                        Eliminar
-                      </b-button>
+                      <router-link :to="'/editRole/' + role.name">
+                        <img id="modify" src="/static/img/modify.svg" alt="Modify icon" title="Modificar rol">
+                      </router-link>
+                        <a @click="eliminar(role.name)" class="pointer"><img id="delete" src="/static/img/delete_2.svg" alt="Detele icon" title="Eliminar rol"></a>
                     </template>
                   </td>
                   <td v-else>
@@ -47,7 +46,6 @@
           </div>
         </b-container>
       </div>
-    </div>
   </section>
 </template>
 
@@ -62,11 +60,37 @@ import decodedToken from '../../logic/decodeToken'
 window.swal = swal
 
 export default {
+  name: 'read-Roles',
+  data () {
+    return {
+      roles: {},
+      client: '',
+      form: {
+        client: ''
+      },
+      formOptions: {
+        validateAfterChanged: true
+      },
+      isSaving: false
+    }
+  },
   methods: {
     loadRoles () {
       var roleId = decodedToken.getTokenDecode()
       try {
         HTTP.get('client/viewClient/' + roleId.azp).then(r => {
+          this.idClient = r.data
+          HTTP.get('role/rolesC/' + this.idClient.id).then(r => {
+            this.roles = r.data
+          })
+        })
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    loadRoleById (roleId) {
+      try {
+        HTTP.get('client/viewClient/' + roleId).then(r => {
           this.idClient = r.data
           HTTP.get('role/rolesC/' + this.idClient.id).then(r => {
             this.roles = r.data
@@ -114,6 +138,17 @@ export default {
       } catch (e) {
         console.log(e)
       }
+    },
+    loadClients () {
+      let list = []
+      HTTP.get('client/viewClients').then(r => {
+        Object.values(r.data).forEach(function (item) {
+          if (item.clientId !== 'account' && item.clientId !== 'account-console' && item.clientId !== 'admin-cli' && item.clientId !== 'broker' && item.clientId !== 'realm-management' && item.clientId !== 'security-admin-console') {
+            list.push(item.clientId)
+          }
+        })
+        this.client = list
+      })
     }
   },
   created () {
@@ -123,11 +158,6 @@ export default {
     $('#tblRoles').DataTable()
     this.loadRoles()
   },
-  data () {
-    return {
-      roles: {}
-    }
-  },
   mounted () {
     var roleId = decodedToken.getTokenDecode()
     HTTP.get('client/viewClient/' + roleId.azp).then(r => {
@@ -135,8 +165,7 @@ export default {
       HTTP.get('role/rolesC/' + this.idClient.id).then(r => {
         this.roles = r.data
         $('#tblRoles').DataTable({
-          responsive: true,
-          scrollY: 540,
+          // responsive: true,
           ordering: true,
           select: true,
           'columnDefs': [
@@ -148,6 +177,7 @@ export default {
         })
       })
     })
+    this.loadClients()
   },
   computed: {
     sortOptions () {
@@ -161,3 +191,26 @@ export default {
   }
 }
 </script>
+
+<style>
+input[type=text] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.select {
+  width: 50%;
+  padding: 13px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+</style>

@@ -13,8 +13,8 @@
       <div class="card pl-4 pt-5 pb-5 pr-4 mt-3">
         <b-container fluid>
           <!-- Main table element -->
-          <div class="container-fluid">
-          <table id="tblClients" class="table table-hover table-striped table-bordered">
+          <div style="overflow-x:auto;">
+          <table id="tblClients" class="styled-table">
             <thead>
               <tr>
                   <th hidden>Id</th>
@@ -36,10 +36,10 @@
                   <td>{{client.baseUrl}}</td>
                   <td v-if="client.clientId !== 'account' && client.clientId !== 'account-console' && client.clientId !== 'admin-cli' && client.clientId !== 'broker' && client.clientId !== 'realm-management' && client.clientId !== 'security-admin-console'">
                     <template>
-                      <router-link class="btn btn-warning" :to="'/editClient/' + client.clientId">Actualizar</router-link>
-                      <b-button size="sm" class="btn btn-danger" @click="eliminar(client.clientId)">
-                        Eliminar
-                      </b-button>
+                      <router-link :to="'/editClient/' + client.clientId">
+                        <img id="modify" src="/static/img/modify.svg" alt="Modify icon" title="Modificar cliente">
+                      </router-link>
+                        <a @click="eliminar(client.clientId)" class="pointer"><img id="delete" src="/static/img/delete_2.svg" alt="Detele icon" title="Eliminar cliente"></a>
                     </template>
                   </td>
                   <td v-else>
@@ -116,7 +116,7 @@ export default {
       // console.log(this.clients)
       $('#tblClients').DataTable({
         responsive: true,
-        scrollY: 540,
+        // scrollY: 540,
         ordering: true,
         select: true,
         'columnDefs': [

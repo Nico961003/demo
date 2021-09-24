@@ -13,8 +13,8 @@
       <div class="card pl-4 pt-5 pb-5 pr-4 mt-3">
         <b-container fluid>
           <!-- Main table element -->
-          <div class="container-fluid">
-          <table id="tblUsers" class="table table-hover table-striped table-bordered">
+          <div style="overflow-x:auto;">
+          <table id="tblUsers" class="styled-table">
             <thead>
               <tr>
                   <th hidden>Id</th>
@@ -22,7 +22,7 @@
                   <th>Username</th>
                   <th>Nombre</th>
                   <th>Email</th>
-                  <th>Operaciones</th>
+                  <th>Acciones</th>
                </tr>
             </thead>
             <tbody>
@@ -34,10 +34,10 @@
                   <td>{{user.email}}</td>
                   <td>
                     <template>
-                      <router-link class="btn btn-warning" :to="'/editUser/' + user.id">Actualizar</router-link>
-                      <b-button size="sm" class="btn btn-danger" @click="eliminar(user.id, user.username)">
-                        Eliminar
-                      </b-button>
+                      <router-link :to="'/editUser/' + user.id">
+                        <img id="modify" src="/static/img/modify.svg" alt="Modify icon" title="Modificar usuario">
+                      </router-link>
+                        <a @click="eliminar(user.id, user.username)" class="pointer"><img id="delete" src="/static/img/delete_2.svg" alt="Detele icon" title="Eliminar usuario"></a>
                     </template>
                   </td>
               </tr>
@@ -114,7 +114,7 @@ export default {
       this.users = response.data
       $('#tblUsers').DataTable({
         responsive: true,
-        scrollY: 540,
+        // scrollY: true,
         ordering: true,
         select: true,
         'columnDefs': [
@@ -129,5 +129,8 @@ export default {
         console.log(e)
       })
   }
-}
+} // meter iconos a las operaciones
 </script>
+
+<style scoped="lang">
+</style>
