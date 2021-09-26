@@ -76,11 +76,6 @@ export default {
       this.clientName = localStorage.clientName
     }
   },
-  watch: {
-    client (name) {
-      localStorage.clientName = name
-    }
-  },
   computed: {
     userLogged () {
       return auth.getUserLogged()
