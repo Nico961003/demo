@@ -65,7 +65,7 @@ export default {
     return {
       client: {},
       form: {
-        client: ''
+        client: localStorage.clientId
       }
     }
   },
@@ -113,7 +113,8 @@ export default {
       this.$swal({ type: 'info', timer: 1000, text: 'Cliente fijado', showCancelButton: false, showConfirmButton: false })
       await clientService.getClientByName(this.form.client).then((response) => {
         this.clientId = response.data.id
-        alert(this.clientId)
+        // alert(this.clientId)
+        localStorage.clientId = this.form.client
         localStorage.clientName = this.clientId
       }).catch((e) => {
         console.log(e)
@@ -125,6 +126,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.app-header {
-}
 </style>

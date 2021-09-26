@@ -80,7 +80,7 @@ export default {
       try {
         // HTTP.get('client/viewClient/' + roleId.azp).then(r => {
         // this.idClient = r.data
-        alert(localStorage.getItem('clientName'))
+        // alert(localStorage.getItem('clientName'))
         this.idClient = localStorage.getItem('clientName')
         HTTP.get('role/rolesC/' + this.idClient).then(r => {
           this.roles = r.data
@@ -92,12 +92,12 @@ export default {
     },
     loadRoleById (roleId) {
       try {
-        HTTP.get('client/viewClient/' + roleId).then(r => {
-          this.idClient = r.data
-          HTTP.get('role/rolesC/' + this.idClient.id).then(r => {
-            this.roles = r.data
-          })
+        // HTTP.get('client/viewClient/' + roleId).then(r => {
+        this.idClient = localStorage.getItem('clientName')
+        HTTP.get('role/rolesC/' + this.idClient).then(r => {
+          this.roles = r.data
         })
+        // })
       } catch (e) {
         console.log(e)
       }
@@ -161,24 +161,24 @@ export default {
     this.loadRoles()
   },
   mounted () {
-    var roleId = decodedToken.getTokenDecode()
-    HTTP.get('client/viewClient/' + roleId.azp).then(r => {
-      this.idClient = r.data
-      HTTP.get('role/rolesC/' + this.idClient.id).then(r => {
-        this.roles = r.data
-        $('#tblRoles').DataTable({
-          // responsive: true,
-          ordering: true,
-          select: true,
-          'columnDefs': [
-            {'className': 'dt-center', 'targets': '_all'}
-          ],
-          'language': {
-            'url': '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json'
-          }
-        })
+    // var roleId = decodedToken.getTokenDecode()
+    // HTTP.get('client/viewClient/' + roleId.azp).then(r => {
+    this.idClient = localStorage.getItem('clientName')
+    HTTP.get('role/rolesC/' + this.idClient).then(r => {
+      this.roles = r.data
+      $('#tblRoles').DataTable({
+        // responsive: true,
+        ordering: true,
+        select: true,
+        'columnDefs': [
+          {'className': 'dt-center', 'targets': '_all'}
+        ],
+        'language': {
+          'url': '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json'
+        }
       })
     })
+    // })
     this.loadClients()
   },
   computed: {
