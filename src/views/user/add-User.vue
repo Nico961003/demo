@@ -64,7 +64,7 @@
               </div>
               <div class="col-md-6 mb-3">
                 <label class="typo__label">Selecciona rol(es)</label>
-                <multiselect v-model="form.rolesClient" :options="options" :multiple="true" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="Escribe algo" label="name" track-by="name" :preselect-first="true">
+                <multiselect v-model="form.rolesClient" :options="options" :multiple="true" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="Escribe algo" label="nameRole" track-by="nameRole" :preselect-first="true">
                   <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} opcion(es) seleccionada(s)</span></template>
                 </multiselect>
               </div>
@@ -119,7 +119,7 @@ export default {
         realm: process.env.REALM_ENV,
         enabled: false,
         username: '',
-        group: 'user',
+        // group: 'user',
         password: '',
         rolesClient: []
       },
@@ -161,13 +161,13 @@ export default {
             data.forEach((element) => {
               data.push({
                 idClient: id,
-                name: element.name,
-                idRole: element.id
+                idRole: element.id,
+                nameRole: element.name
               })
               datos.push({
                 idClient: id,
-                name: element.name,
-                idRole: element.id
+                idRole: element.id,
+                nameRole: element.name
               })
             })
           )
