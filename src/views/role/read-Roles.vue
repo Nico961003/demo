@@ -17,8 +17,8 @@
             <template slot="index" slot-scope="data">{{ data.index }}</template>
             <span slot="acciones" slot-scope="{row}">
               <center>
-                <span @click="cancel(row)"><img id="modify" src="/static/img/modify.svg" alt="Modify icon" title="Modificar usuario"></span>
-                <span @click="cancel(row)"><img id="delete" src="/static/img/delete_2.svg" alt="Detele icon" title="Eliminar usuario"></span>
+                <span @click="modify(row)"><img id="modify" src="/static/img/modify.svg" alt="Modify icon" title="Modificar rol"></span>
+                <span @click="eliminar(row)"><img id="delete" src="/static/img/delete_2.svg" alt="Detele icon" title="Eliminar rol"></span>
               </center>
             </span>
           </v-client-table>
@@ -89,30 +89,23 @@ export default {
   },
   methods: {
     loadRoles () {
-      // var roleId = decodedToken.getTokenDecode()
       try {
-        // HTTP.get('client/viewClient/' + roleId.azp).then(r => {
-        // this.idClient = r.data
-        // alert(localStorage.getItem('clientName'))
         this.idClient = localStorage.getItem('clientName')
         HTTP.get('role/rolesC/' + this.idClient).then(r => {
           console.log(r.data)
           this.roles = r.data
           this.rols = r.data
         })
-        // })
       } catch (e) {
         console.log(e)
       }
     },
     loadRoleById (roleId) {
       try {
-        // HTTP.get('client/viewClient/' + roleId).then(r => {
         this.idClient = localStorage.getItem('clientName')
         HTTP.get('role/rolesC/' + this.idClient).then(r => {
           this.roles = r.data
         })
-        // })
       } catch (e) {
         console.log(e)
       }
@@ -121,16 +114,18 @@ export default {
       try {
         await HTTP.get('role/role/' + roleId).then(r => {
           this.role = r.data
-          // console.log(this.role)
         })
       } catch (e) {
         console.log(e)
       }
     },
+    modify (roleId) {
+      this.$router.push('/editRole/' + roleId.id)
+    },
     eliminar (roleId) {
       swal({
         title: '¡Advertencia!',
-        text: '¿Eliminar el rol : ' + roleId + '?',
+        text: '¿Eliminar el rol : ' + roleId.name + '?',
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#DD6B55',
@@ -138,7 +133,7 @@ export default {
         cancelButtonText: 'No, cancelar'
       }).then((result) => {
         if (result.value) {
-          this.eliminaRegistro(roleId)
+          this.eliminaRegistro(roleId.id)
         } else {}
       })
     },
@@ -176,13 +171,10 @@ export default {
     this.loadRoles()
   },
   mounted () {
-    // var roleId = decodedToken.getTokenDecode()
-    // HTTP.get('client/viewClient/' + roleId.azp).then(r => {
     this.idClient = localStorage.getItem('clientName')
     HTTP.get('role/rolesC/' + this.idClient).then(r => {
       this.roles = r.data
       $('#tblRoles').DataTable({
-        // responsive: true,
         ordering: true,
         select: true,
         'columnDefs': [
@@ -193,7 +185,6 @@ export default {
         }
       })
     })
-    // })
     this.loadClients()
   },
   computed: {

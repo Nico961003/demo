@@ -14,16 +14,18 @@
       </button>
       <b-navbar-nav class="navbar-nav-right ml-auto">
         <form class="mr-auto search-form d-none d-md-block" @submit.prevent="fijarCliente">
-          <!-- <div class="form-group"> -->
-          El cliente acutal es :
-          <select id="selectClient" type="text" v-model="form.client">
+          <div class="form-group row">
+          <label for="client" class="menu-title">Cliente:</label>
+          <div class="col-sm-10">
+          <select id="selectClient" class="form-control" type="text" v-model="form.client" @change="fijarCliente()">
             <option value="" disabled>Selecciona un cliente</option>
             <option v-for="(clients, index) in client" :key="index">
               {{clients}}
             </option>
           </select>
-          <button class="btn btn-warning">Fijar</button>
-          <!-- </div> -->
+          </div>
+          </div>
+          <!-- <button class="btn btn-warning">Fijar</button> -->
         </form>
         <b-nav-item-dropdown right class="preview-list user-dropdown">
           <template slot="button-content">
@@ -126,4 +128,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+form {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+.navbar.default-layout .navbar-menu-wrapper .search-form .form-group {
+  margin-bottom: 0;
+  margin-left: 250px;
+}
 </style>

@@ -78,6 +78,9 @@ export default {
     }
   },
   mounted: function () {
+    localStorage.clientName = ''
+    localStorage.clientId = ''
+    localStorage.clientName = ''
     this.realm = process.env.REALM_ENV
     this.loadPage()
   },
