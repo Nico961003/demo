@@ -17,8 +17,8 @@
             <template slot="index" slot-scope="data">{{ data.index }}</template>
             <span slot="acciones" slot-scope="{row}">
               <center>
-                <span @click="modify(row)"><img id="modify" src="/static/img/modify.svg" alt="Modify icon" title="Modificar rol"></span>
-                <span @click="eliminar(row)"><img id="delete" src="/static/img/delete_2.svg" alt="Detele icon" title="Eliminar rol"></span>
+                <span @click="modify(row)" class="pointer"><img id="modify" src="/static/img/modify.svg" alt="Modify icon" title="Modificar rol"></span>
+                <span @click="eliminar(row)" class="pointer"><img id="delete" src="/static/img/delete_2.svg" alt="Detele icon" title="Eliminar rol"></span>
               </center>
             </span>
           </v-client-table>
@@ -92,7 +92,7 @@ export default {
       try {
         this.idClient = localStorage.getItem('clientName')
         HTTP.get('role/rolesC/' + this.idClient).then(r => {
-          console.log(r.data)
+          // console.log(r.data)
           this.roles = r.data
           this.rols = r.data
         })
@@ -133,7 +133,7 @@ export default {
         cancelButtonText: 'No, cancelar'
       }).then((result) => {
         if (result.value) {
-          this.eliminaRegistro(roleId.id)
+          this.eliminaRegistro(roleId.name)
         } else {}
       })
     },
@@ -142,10 +142,10 @@ export default {
       try {
         await HTTP.get('client/viewClient/' + clientId.azp).then(r => {
           this.clientId = r.data
-          console.log(this.clientId)
+          // console.log(this.clientId)
           HTTP.delete('role/deleteRoleC/' + this.clientId.id + '/' + roleId)
           this.$swal({ type: 'info', timer: 1000, text: 'Se elimino exitosamente', showCancelButton: false, showConfirmButton: false })
-          this.loadRoles()
+          this.$router.go(0)
         })
       } catch (e) {
         console.log(e)
