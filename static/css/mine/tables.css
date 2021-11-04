@@ -2,10 +2,15 @@
     width:25px;
     min-width:20px;
   }
-  #modify {
-    width:25px;
-    min-width:20px
-  }
+#modify {
+  width:25px;
+  min-width:20px
+}
+#active, #inactive {
+  width:25px;
+  min-width:20px;
+}
+
 .pointer{cursor:pointer;}
 .VueTables__table thead tr {
     background-color: #005998;

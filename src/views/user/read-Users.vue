@@ -9,44 +9,26 @@
       </div>
     </div>
     <!-- Page Title Header Ends-->
-    <div>
       <div class="card pl-4 pt-5 pb-5 pr-4 mt-3">
         <b-container fluid>
-          <!-- Main table element -->
-          <div style="overflow-x:auto;">
-          <table id="tblUsers" class="styled-table">
-            <thead>
-              <tr>
-                  <th hidden>Id</th>
-                  <th>#</th>
-                  <th>Username</th>
-                  <th>Nombre</th>
-                  <th>Email</th>
-                  <th>Acciones</th>
-               </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(user, index) in users" :key="index">
-                  <td hidden>{{user.id}}</td>
-                  <td>{{index + 1}}</td>
-                  <td>{{user.username}}</td>
-                  <td>{{user.firstName}} {{user.lastName}}</td>
-                  <td>{{user.email}}</td>
-                  <td>
-                    <template>
-                      <router-link :to="'/editUser/' + user.id">
-                        <img id="modify" src="/static/img/modify.svg" alt="Modify icon" title="Modificar usuario">
-                      </router-link>
-                        <a @click="eliminar(user.id, user.username)" class="pointer"><img id="delete" src="/static/img/delete_2.svg" alt="Detele icon" title="Eliminar usuario"></a>
-                    </template>
-                  </td>
-              </tr>
-            </tbody>
-          </table>
-          </div>
+          <v-client-table
+            :data="users"
+            :options="tableOptions"
+            :columns="tableColumns">
+            <template slot="index" slot-scope="data">{{ data.index }}</template>
+            <template slot="enabled" slot-scope="{row}">
+              <span v-if="row.enabled == true" class="pointer"><center><img id="active" src="/static/img/active.svg" alt="Active icon" title="Usuario Activo"></center></span>
+              <span v-if="row.enabled == false" class="pointer"><center><img id="inactive" src="/static/img/inactive.svg" alt="Inactive icon" title="Usuario Inactivo"></center></span>
+            </template>
+            <span slot="acciones" slot-scope="{row}">
+              <center>
+                <span @click="modify(row)" class="pointer"><img id="modify" src="/static/img/modify.svg" alt="Modify icon" title="Modificar rol"></span>
+                <span @click="eliminar(row)" class="pointer"><img id="delete" src="/static/img/delete_2.svg" alt="Detele icon" title="Eliminar rol"></span>
+              </center>
+            </span>
+          </v-client-table>
         </b-container>
       </div>
-    </div>
   </section>
 </template>
 
@@ -75,10 +57,13 @@ export default {
           console.log(e)
         })
     },
-    eliminar (userId, username) {
+    modify (row) {
+      this.$router.push('/editUser/' + row.id)
+    },
+    eliminar (row) {
       this.$swal({
         title: '¡Advertencia!',
-        text: '¿Eliminar a ' + username + '?',
+        text: '¿Eliminar a ' + row.username + '?',
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#DD6B55',
@@ -86,7 +71,7 @@ export default {
         cancelButtonText: 'No, cancelar'
       }).then((result) => {
         if (result.value) {
-          userService.deleteUser(userId).then((response) => {
+          userService.deleteUser(row.id).then((response) => {
             this.$swal({ type: 'info', timer: 1000, text: 'Se elimino exitosamente', showCancelButton: false, showConfirmButton: false })
             this.loadUsers()
           })
@@ -106,24 +91,67 @@ export default {
   },
   data () {
     return {
-      users: {}
+      users: [],
+      tableColumns: [
+        'index',
+        'id',
+        'firstName',
+        'lastName',
+        'username',
+        'email',
+        'enabled',
+        'acciones'
+      ],
+      tableOptions: {
+        headings: {
+          index: '#',
+          id: 'id',
+          firstName: 'Nombre',
+          lastName: 'Apellido(s)',
+          username: 'Username',
+          email: 'Correo electronico',
+          enabled: 'Estatus',
+          acciones: 'Acciones'
+        },
+        filterByColumn: false,
+        texts: {
+          count: 'Mostrando del {from} al {to} de {count} Registros|{count} Registros|1 Registro',
+          first: 'Primero',
+          last: 'Ultimo',
+          filter: false,
+          filterPlaceholder: 'Buscar . . .',
+          limit: 'Mostrar :',
+          page: 'Pagina : ',
+          noResults: 'No se encontraron datos',
+          filterBy: 'Filtro por {column}',
+          loading: 'Cargando...',
+          defaultOption: 'Selecciona {column}',
+          columns: 'Columnas'
+        },
+        hiddenColumns: ['id'],
+        perPage: 5,
+        perPageValues: [5],
+        sortable: ['firstName', 'lastName', 'username', 'enabled'],
+        filterable: ['firstName', 'lastName', 'username', 'enabled']
+      }
     }
   },
   mounted: function () {
     userService.getUsers().then((response) => {
       this.users = response.data
-      $('#tblUsers').DataTable({
-        responsive: true,
-        // scrollY: true,
-        ordering: true,
-        select: true,
-        'columnDefs': [
-          {'className': 'dt-center', 'targets': '_all'}
-        ],
-        'language': {
-          'url': '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json'
-        }
-      })
+      console.log(this.users)
+      // $('#tblUsers').DataTable({
+      //   responsive: true,
+      //   // scrollY: true,
+      //   ordering: true,
+      //   select: true,
+      //   'columnDefs': [
+      //     {'className': 'dt-center', 'targets': '_all'}
+      //   ],
+      //   'language': {
+      //     'url': '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json'
+      //   }
+      // })
     })
       .catch((e) => {
         console.log(e)

@@ -15,7 +15,7 @@
       <b-navbar-nav class="navbar-nav-right ml-auto">
         <form class="mr-auto search-form d-none d-md-block" @submit.prevent="fijarCliente">
           <div class="form-group row">
-          <label for="client" class="menu-title">Cliente:</label>
+          <!-- <label for="client" class="menu-title">Cliente:</label> -->
           <div class="col-sm-10">
           <select id="selectClient" class="form-control" type="text" v-model="form.client" @change="fijarCliente()">
             <option value="" disabled>Selecciona un cliente</option>
@@ -72,6 +72,9 @@ export default {
     }
   },
   mounted: function () {
+    if (this.form.client === '' || this.form.cliente === null) {
+      this.$swal({ type: 'warning', timer: 5000, title: '¡Aviso!', text: 'Selecciona un cliente', showCancelButton: false, showConfirmButton: false })
+    }
     this.loadPage()
     this.loadClients()
     if (localStorage.clientName) {

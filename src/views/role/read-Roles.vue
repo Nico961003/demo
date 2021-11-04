@@ -17,8 +17,8 @@
             <template slot="index" slot-scope="data">{{ data.index }}</template>
             <span slot="acciones" slot-scope="{row}">
               <center>
-                <span @click="modify(row)" class="pointer"><img id="modify" src="/static/img/modify.svg" alt="Modify icon" title="Modificar rol"></span>
-                <span @click="eliminar(row)" class="pointer"><img id="delete" src="/static/img/delete_2.svg" alt="Detele icon" title="Eliminar rol"></span>
+                <span @click="modify(row)" class="pointer"><img id="modify" src="/static/img/modify.svg" alt="Modify icon" title="Modificar usuario"></span>
+                <span @click="eliminar(row)" class="pointer"><img id="delete" src="/static/img/delete_2.svg" alt="Detele icon" title="Eliminar usuario"></span>
               </center>
             </span>
           </v-client-table>
@@ -81,7 +81,7 @@ export default {
         },
         hiddenColumns: ['id'],
         perPage: 5,
-        // perPageValues: [5, 10, 25, 50, 100],
+        perPageValues: [5],
         sortable: ['name', 'description'],
         filterable: ['name', 'description']
       }
