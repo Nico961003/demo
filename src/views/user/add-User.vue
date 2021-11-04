@@ -153,7 +153,7 @@ export default {
     },
     async loadRoles () {
       var datos = []
-      alert(localStorage.getItem('clientName'))
+      // alert(localStorage.getItem('clientName'))
       if (localStorage.getItem('clientName')) {
         var id = localStorage.getItem('clientName')
         try {

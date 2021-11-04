@@ -97,8 +97,9 @@ export default {
           }
         })
       } catch (e) {
-        console.log(e)
-        alert(e.message)
+        // console.log(e)
+        // alert(e.message)
+        this.$swal({ type: 'info', timer: 2000, text: 'Error inesperado, comuniquese con el administrador', showCancelButton: false, showConfirmButton: false })
       }
       window.locaton = 'users/readUsers'
     },

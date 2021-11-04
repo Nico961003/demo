@@ -34,6 +34,7 @@
     "typicons.font": "^2.0.9",
     "vform": "^2.1.0",
     "vue": "^2.6.10",
+    "vue-bootstrap4-table": "^1.1.11",
     "vue-chartjs": "^3.4.2",
     "vue-clock-picker": "^0.4.2",
     "vue-codemirror": "^4.0.6",
@@ -48,6 +49,7 @@
     "vue-snotify": "^3.2.1",
     "vue-star-rating": "^1.6.1",
     "vue-sweetalert2": "^1.6.4",
+    "vue-tables-2": "^2.3.4",
     "vue-tel-input": "^5.5.0",
     "vue2-ace-editor": "0.0.13",
     "vuejs-datepicker": "^1.5.4"

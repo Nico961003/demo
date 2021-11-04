@@ -8,42 +8,20 @@
         </div>
       </div>
     </div>
-    <!-- Page Title Header Ends-->
       <div class="card pl-4 pt-5 pb-5 pr-4 mt-3">
         <b-container fluid>
-          <!-- Main table element -->
-          <div style="overflow-x:auto;">
-          <table id="tblRoles" class="styled-table">
-            <thead>
-              <tr>
-                  <th hidden>Id</th>
-                  <th>#</th>
-                  <th>Nombre del rol</th>
-                  <th>Descripción</th>
-                  <th>Acciones</th>
-               </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(role, index) in roles" :key="index">
-                  <td hidden>{{role.id}}</td>
-                  <td>{{index + 1}}</td>
-                  <td>{{role.name}}</td>
-                  <td>{{role.description}}</td>
-                  <td v-if="role.name !== 'uma_authorization' && role.name !== 'offline_access'">
-                    <template>
-                      <router-link :to="'/editRole/' + role.name">
-                        <img id="modify" src="/static/img/modify.svg" alt="Modify icon" title="Modificar rol">
-                      </router-link>
-                        <a @click="eliminar(role.name)" class="pointer"><img id="delete" src="/static/img/delete_2.svg" alt="Detele icon" title="Eliminar rol"></a>
-                    </template>
-                  </td>
-                  <td v-else>
-                    Por seguridad, no habilitadas
-                  </td>
-              </tr>
-            </tbody>
-          </table>
-          </div>
+          <v-client-table
+            :data="rols"
+            :options="tableOptions"
+            :columns="tableColumns">
+            <template slot="index" slot-scope="data">{{ data.index }}</template>
+            <span slot="acciones" slot-scope="{row}">
+              <center>
+                <span @click="cancel(row)"><img id="modify" src="/static/img/modify.svg" alt="Modify icon" title="Modificar usuario"></span>
+                <span @click="cancel(row)"><img id="delete" src="/static/img/delete_2.svg" alt="Detele icon" title="Eliminar usuario"></span>
+              </center>
+            </span>
+          </v-client-table>
         </b-container>
       </div>
   </section>
@@ -52,8 +30,6 @@
 <script lang='js'>
 import { HTTP } from '../../logic/http-common'
 import 'jquery/dist/jquery.min.js'
-import 'datatables.net-dt/js/dataTables.dataTables'
-import 'datatables.net-dt/css/jquery.dataTables.min.css'
 import $ from 'jquery'
 import swal from 'sweetalert2'
 import decodedToken from '../../logic/decodeToken'
@@ -71,7 +47,44 @@ export default {
       formOptions: {
         validateAfterChanged: true
       },
-      isSaving: false
+      isSaving: false,
+      rols: [],
+      tableColumns: [
+        'index',
+        'id',
+        'name',
+        'description',
+        'acciones'
+      ],
+      tableOptions: {
+        headings: {
+          index: '#',
+          id: 'id',
+          name: 'Nombre del Rol',
+          description: 'Descripción',
+          acciones: 'Acciones'
+        },
+        filterByColumn: false,
+        texts: {
+          count: 'Mostrando del {from} al {to} de {count} Registros|{count} Registros|1 Registro',
+          first: 'Primero',
+          last: 'Ultimo',
+          filter: false,
+          filterPlaceholder: 'Buscar . . .',
+          limit: 'Mostrar :',
+          page: 'Pagina : ',
+          noResults: 'No se encontraron datos',
+          filterBy: 'Filtro por {column}',
+          loading: 'Cargando...',
+          defaultOption: 'Selecciona {column}',
+          columns: 'Columnas'
+        },
+        hiddenColumns: ['id'],
+        perPage: 5,
+        // perPageValues: [5, 10, 25, 50, 100],
+        sortable: ['name', 'description'],
+        filterable: ['name', 'description']
+      }
     }
   },
   methods: {
@@ -83,7 +96,9 @@ export default {
         // alert(localStorage.getItem('clientName'))
         this.idClient = localStorage.getItem('clientName')
         HTTP.get('role/rolesC/' + this.idClient).then(r => {
+          console.log(r.data)
           this.roles = r.data
+          this.rols = r.data
         })
         // })
       } catch (e) {
@@ -195,24 +210,4 @@ export default {
 </script>
 
 <style>
-input[type=text] {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-.select {
-  width: 50%;
-  padding: 13px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
 </style>

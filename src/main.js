@@ -10,6 +10,8 @@ import VueSlideBar from 'vue-slide-bar'
 import VueSweetalert2 from 'vue-sweetalert2'
 import VueGoodWizard from 'vue-good-wizard'
 import 'sweetalert2/dist/sweetalert2.min.css'
+// Import vue table 2
+import { ClientTable } from 'vue-tables-2'
 
 Vue.use(VueSweetalert2)
 // eslint-disable-next-line
@@ -40,7 +42,7 @@ const options = {
 Vue.use(BootstrapVue)
 Vue.use(VueSweetalert2, options)
 Vue.use(VueGoodWizard)
-
+Vue.use(ClientTable)
 Vue.component('vue-slide-bar', VueSlideBar)
 Vue.config.productionTip = false
 
