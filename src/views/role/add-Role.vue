@@ -94,7 +94,7 @@ export default {
         status: [],
         inputs: [{
           name: '',
-          st: 'true'
+          st: ''
         }]
       },
       formOptions: {
@@ -105,7 +105,7 @@ export default {
   },
   methods: {
     async submitRoleDetails () {
-      console.log(this.form.inputs)
+      // console.log(this.form.inputs)
       var atributos = []
       var estados = []
       for (var i = 0; i < this.form.inputs.length; i++) {
@@ -130,18 +130,6 @@ export default {
         console.log(e)
       }
     },
-    addSlot () {
-      this.form.attributes.push({value: ''})
-    },
-    removeSlot (index) {
-      this.form.attributes.splice(index, 1)
-    },
-    addStatus () {
-      this.form.status.push({value: 'false'})
-    },
-    removeStatus (index) {
-      this.form.status.splice(index, 1)
-    },
     add () {
       this.form.inputs.push({
         name: '',
@@ -155,8 +143,6 @@ export default {
   },
   mounted () {
     this.realm = process.env.REALM_ENV
-    this.addSlot()
-    this.addStatus()
   }
 }
 </script>

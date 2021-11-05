@@ -28,7 +28,7 @@
                 </div>
               </div>
             </div>
-            <div class="form-row">
+            <!-- <div class="form-row">
               <div class="col-md-6 mb-3">
                 <label for="name">Atributo</label>
                 <button type="button" class="btn btn-success" @click="addSlot();addStatus()">Añadir uno</button>
@@ -43,7 +43,26 @@
                   <input type="text" class="form-control" v-model="form.status[index]">
                 </div>
               </div>
+            </div> -->
+            <!-- init add atribute -->
+            <div class="form-row" v-for="(input,k) in form.inputs" :key="k">
+              <div class="col-md-6 mb-3">
+                <label for="atributo">Atributo</label>
+                <input type="text" class="form-control" placeholder="Escribe un nombre de atributo" v-model="input.name">
+              </div>
+              <div class="col-md-5 mb-3">
+                <label for="estatus">Estatus</label>
+                <input type="text" class="form-control" placeholder="Escribe su estatus" v-model="input.st">
+              </div>
+              <div class="col-md-1 mb-3">
+                <br><br>
+                <span class="pointer pull-right" @click="remove(k)" v-show="k || ( !k && form.inputs.length > 1)"><img id="delete" src="/static/img/delete_2.svg" alt="Detele icon" title="Eliminar usuario"></span>
+              </div>
+              <div>
+                <span class="btn btn-success" @click="add(k)" v-show="k == form.inputs.length-1">Añadir atributo</span>
+              </div>
             </div>
+            <!-- end -->
                 <div class="d-flex justify-content-end mt-3 pr-4">
                     <button type="submit" class="btn btn-primary btn-lg">
                         {{ isSaving ? 'Saving...' : 'Enviar'}}
@@ -73,11 +92,14 @@ export default {
       form: {
         name: '',
         description: '',
-        idClient: '',
         realm: process.env.REALM_ENV,
-        clientRole: 'true',
+        idClient: 'login',
         attributes: [],
-        status: ''
+        status: [],
+        inputs: [{
+          name: '',
+          st: ''
+        }]
       },
       formOptions: {
         validateAfterChanged: true
@@ -87,12 +109,26 @@ export default {
   },
   methods: {
     async submitRoleDetails () {
+      var atributos = []
+      var estados = []
+      for (var i = 0; i < this.form.inputs.length; i++) {
+        atributos[i] = this.form.inputs[i].name
+        estados[i] = this.form.inputs[i].st
+      }
+      var form = {
+        name: this.form.name,
+        description: this.form.description,
+        realm: this.form.realm,
+        idClient: this.form.idClient,
+        attributes: atributos,
+        status: estados
+      }
       try {
         clientService.getClientByToken().then((r) => {
           this.idClient = r.data.id
         })
         await HTTP.put('role/rolesC/updateRoleC/' + this.idClient + '/' + this.$route.params.id, {
-          ...this.form
+          ...form
         })
         this.$swal({ type: 'info', timer: 3000, text: 'Se guardo exitosamente', showCancelButton: false, showConfirmButton: false })
         this.$router.push('/readRoles')
@@ -101,44 +137,39 @@ export default {
       }
     },
     ver () {
-      let list = []
+      let listN = []
+      let listS = []
+      let st = []
       clientService.getClientByToken().then((r) => {
         HTTP.get('role/rolesC/' + r.data.id + '/' + this.$route.params.id).then(r => {
-          this.form.attributes = Object.keys(r.data.attributes)
-          Object.values(r.data.attributes).forEach(function (item) {
-            list.push(item[0])
+          Object.keys(r.data.attributes).forEach(function (item) {
+            listN.push(item)
           })
-          this.form.status = list
+          Object.values(r.data.attributes).forEach(function (item) {
+            listS.push(item[0])
+          })
+          for (var i = 0; i < listS.length; i++) {
+            st[i] = {
+              name: listN[i],
+              st: listS[i]
+            }
+          }
+          console.log(st)
+          this.form.inputs = st
           this.form.name = r.data.name
           this.form.description = r.data.description
         })
       })
     },
-    addItem () {
-      this.form.attributes.push({
-        value: 'prueba'
+    add () {
+      this.form.inputs.push({
+        name: '',
+        st: ''
       })
-      this.form.items2.push({
-        value: 'true'
-      })
+      console.log(this.inputs)
     },
-    removeItem (index) {
-      this.form.items.splice(index, 1)
-      this.form.items2.splice(index, 1)
-    },
-    addSlot () {
-      this.form.attributes.push({
-        value: 'true'
-      })
-    },
-    removeSlot (index) {
-      this.form.attributes.splice(index, 1)
-    },
-    addStatus () {
-      this.form.status.push({value: ''})
-    },
-    removeStatus (index) {
-      this.form.status.splice(index, 1)
+    remove (index) {
+      this.form.inputs.splice(index, 1)
     }
   }
 }
