@@ -120,7 +120,7 @@ export default {
       }
     },
     modify (roleId) {
-      this.$router.push('/editRole/' + roleId.id)
+      this.$router.push('/editRole/' + roleId.name)
     },
     eliminar (roleId) {
       swal({

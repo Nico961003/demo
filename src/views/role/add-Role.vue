@@ -28,7 +28,7 @@
                 </div>
               </div>
             </div>
-            <div class="form-row">
+            <!-- <div class="form-row">
               <div class="col-md-6 mb-3">
                 <label for="name">Atributo</label>
                 <button type="button" class="btn btn-success" @click="addSlot();addStatus()">Añadir uno</button>
@@ -47,7 +47,26 @@
                   </select>
                 </div>
               </div>
+            </div> -->
+            <!-- init add atribute -->
+            <div class="form-row" v-for="(input,k) in form.inputs" :key="k">
+              <div class="col-md-6 mb-3">
+                <label for="atributo">Atributo</label>
+                <input type="text" class="form-control" placeholder="Escribe un nombre de atributo" v-model="input.name">
+              </div>
+              <div class="col-md-5 mb-3">
+                <label for="estatus">Estatus</label>
+                <input type="text" class="form-control" placeholder="Escribe su estatus" v-model="input.st">
+              </div>
+              <div class="col-md-1 mb-3">
+                <br><br>
+                <span class="pointer pull-right" @click="remove(k)" v-show="k || ( !k && form.inputs.length > 1)"><img id="delete" src="/static/img/delete_2.svg" alt="Detele icon" title="Eliminar usuario"></span>
+              </div>
+              <div>
+                <span class="btn btn-success" @click="add(k)" v-show="k == form.inputs.length-1">Añadir atributo</span>
+              </div>
             </div>
+            <!-- end -->
               <div class="d-flex justify-content-end mt-3 pr-4">
                 <button type="submit" class="btn btn-primary btn-lg">
                   {{ isSaving ? 'Saving...' : 'Enviar'}}
@@ -66,14 +85,17 @@ export default {
   name: 'add-User',
   data () {
     return {
-      status: 'Adr',
       form: {
         name: '',
         description: '',
         realm: process.env.REALM_ENV,
         idClient: 'login',
         attributes: [],
-        status: []
+        status: [],
+        inputs: [{
+          name: '',
+          st: 'true'
+        }]
       },
       formOptions: {
         validateAfterChanged: true
@@ -83,9 +105,24 @@ export default {
   },
   methods: {
     async submitRoleDetails () {
+      console.log(this.form.inputs)
+      var atributos = []
+      var estados = []
+      for (var i = 0; i < this.form.inputs.length; i++) {
+        atributos[i] = this.form.inputs[i].name
+        estados[i] = this.form.inputs[i].st
+      }
+      var form = {
+        name: this.form.name,
+        description: this.form.description,
+        realm: this.form.realm,
+        idClient: this.form.idClient,
+        attributes: atributos,
+        status: estados
+      }
       try {
         await HTTP.post('role/createRole', {
-          ...this.form
+          ...form
         })
         this.$swal({ type: 'info', timer: 3000, text: 'Se guardo exitosamente', showCancelButton: false, showConfirmButton: false })
         this.$router.push('/readRoles')
@@ -104,6 +141,16 @@ export default {
     },
     removeStatus (index) {
       this.form.status.splice(index, 1)
+    },
+    add () {
+      this.form.inputs.push({
+        name: '',
+        st: ''
+      })
+      console.log(this.inputs)
+    },
+    remove (index) {
+      this.form.inputs.splice(index, 1)
     }
   },
   mounted () {
@@ -127,8 +174,9 @@ input[type=text] {
 
 .select {
   width: 100%;
+  height: 48.8%;
   padding: 13px 20px;
-  margin: 8px 0;
+  margin: 7px 0;
   display: inline-block;
   border: 1px solid #ccc;
   border-radius: 4px;

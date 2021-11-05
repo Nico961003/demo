@@ -139,19 +139,6 @@ export default {
   mounted: function () {
     userService.getUsers().then((response) => {
       this.users = response.data
-      console.log(this.users)
-      // $('#tblUsers').DataTable({
-      //   responsive: true,
-      //   // scrollY: true,
-      //   ordering: true,
-      //   select: true,
-      //   'columnDefs': [
-      //     {'className': 'dt-center', 'targets': '_all'}
-      //   ],
-      //   'language': {
-      //     'url': '//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json'
-      //   }
-      // })
     })
       .catch((e) => {
         console.log(e)
