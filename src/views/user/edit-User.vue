@@ -64,7 +64,9 @@
               </div>
               <div class="col-md-6 mb-3">
                 <label class="typo__label">Selecciona rol(es)</label>
-                <multiselect v-model="form.rolesClient" :options="options" :multiple="true" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="Escribe algo" label="nameRole" track-by="nameRole" :preselect-first="true">
+                <multiselect v-model="form.rolesClient" :options="options" :multiple="true" :close-on-select="false"
+                  :clear-on-select="false" :preserve-search="true" placeholder="Escribe algo" label="nameRole" track-by="nameRole"
+                    selectLabel="Click para seleccionar" selectedLabel="Añadida" deselectLabel="Click para descartar">
                   <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} opcion(es) seleccionada(s)</span></template>
                 </multiselect>
               </div>
@@ -123,7 +125,7 @@ export default {
         username: '',
         group: 'user',
         password: '',
-        idClient: '5bb80642-35cf-47c2-a1eb-3009e411db3c',
+        idClient: localStorage.getItem('clientId'),
         rolesClient: []
       },
       formOptions: {
@@ -180,37 +182,11 @@ export default {
             })
           })
         )
-        this.options = datos
+        // this.options = datos
         this.form.rolesClient = datos
       } catch (e) {
         console.log(e)
       }
-      // GET the rest of the roles
-      // var datos2 = []
-      // clientService.getClientByToken().then((response) => {
-      //   this.clientId = response.data.id
-      // })
-      // try {
-      //   roleService.getRoles(this.clientId).then(({ data }) =>
-      //     data.forEach((element) => {
-      //       data.push({
-      //         idClient: this.clientId.id,
-      //         name: element.name,
-      //         nameRole: element.name,
-      //         idRole: element.id
-      //       })
-      //       datos2.push({
-      //         idClient: this.clientId.id,
-      //         name: element.name,
-      //         nameRole: element.name,
-      //         idRole: element.id
-      //       })
-      //     })
-      //   )
-      //   this.options = datos2
-      // } catch (e) {
-      //   console.log(e)
-      // }
     },
     addTag (newTag) {
       const tag = {
@@ -222,24 +198,29 @@ export default {
     },
     async loadRoles () {
       var datos = []
-      await clientService.getClientByToken().then((response) => {
-        this.clientId = response.data.id
-      })
-      try {
-        roleService.getRoles(this.clientId).then(({ data }) =>
-          data.forEach((element) => {
-            datos.push({
-              idClient: this.clientId.id,
-              name: element.name,
-              nameRole: element.name,
-              idRole: element.id
+      // alert(localStorage.getItem('clientName'))
+      if (localStorage.getItem('clientName')) {
+        var id = localStorage.getItem('clientName')
+        try {
+          clientService.getClientById(id).then(({ data }) =>
+            data.forEach((element) => {
+              data.push({
+                idClient: id,
+                idRole: element.id,
+                nameRole: element.name
+              })
+              datos.push({
+                idClient: id,
+                idRole: element.id,
+                nameRole: element.name
+              })
             })
-          })
-        )
-        this.options = datos
-        this.form.rolesClient = datos
-      } catch (e) {
-        console.log(e)
+          )
+          this.options = datos
+        } catch (e) {
+          console.log(e)
+        }
+      } else {
       }
     }
   },

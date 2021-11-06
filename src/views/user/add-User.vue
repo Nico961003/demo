@@ -64,7 +64,9 @@
               </div>
               <div class="col-md-6 mb-3">
                 <label class="typo__label">Selecciona rol(es)</label>
-                <multiselect v-model="form.rolesClient" :options="options" :multiple="true" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="Escribe algo" label="nameRole" track-by="nameRole" :preselect-first="true">
+                <multiselect v-model="form.rolesClient" :options="options" :multiple="true" :close-on-select="false"
+                  :clear-on-select="false" :preserve-search="true" placeholder="Escribe algo" label="nameRole" track-by="nameRole" :preselect-first="true"
+                    selectLabel="Click para seleccionar" selectedLabel="Añadida" deselectLabel="Click para descartar">
                   <template slot="selection" slot-scope="{ values, search, isOpen }"><span class="multiselect__single" v-if="values.length &amp;&amp; !isOpen">{{ values.length }} opcion(es) seleccionada(s)</span></template>
                 </multiselect>
               </div>
@@ -119,6 +121,7 @@ export default {
         realm: process.env.REALM_ENV,
         enabled: false,
         username: '',
+        idClient: localStorage.getItem('clientId'),
         // group: 'user',
         password: '',
         rolesClient: []
@@ -176,31 +179,6 @@ export default {
           console.log(e)
         }
       } else {
-        // await clientService.getClientById().then((response) => {
-        //   this.clientId = response.data.id
-        //   try {
-        //     clientService.getClientById(this.clientId).then(({ data }) =>
-        //       data.forEach((element) => {
-        //         data.push({
-        //           idClient: this.clientId.id,
-        //           name: element.name,
-        //           idRole: element.id
-        //         })
-        //         datos.push({
-        //           idClient: this.clientId.id,
-        //           name: element.name,
-        //           idRole: element.id
-        //         })
-        //       })
-        //     )
-        //     this.options = datos
-        //   } catch (e) {
-        //     console.log(e)
-        //   }
-        // })
-        //   .catch((e) => {
-        //     console.log(e)
-        //   })
       }
     }
   },
