@@ -22,8 +22,17 @@
             </template>
             <span slot="acciones" slot-scope="{row}">
               <center>
-                <!-- <span @click="modify(row)" class="pointer"><img id="modify" src="/static/img/modify.svg" alt="Modify icon" title="Modificar rol"></span> -->
-                <span @click="eliminar(row)" class="pointer"><img id="delete" src="/static/img/delete_2.svg" alt="Detele icon" title="Eliminar rol"></span>
+                <span v-if="row.clientId !== 'account' && row.clientId !== 'account-console' && row.clientId !== 'admin-cli' && row.clientId !== 'broker' &&
+                  row.clientId !== 'realm-management' && row.clientId !== 'security-admin-console'" @click="modify(row)" class="pointer">
+                  <img id="modify" src="/static/img/modify.svg" alt="Modify icon" title="Modificar rol">
+                </span>
+                <span v-if="row.clientId !== 'account' && row.clientId !== 'account-console' && row.clientId !== 'admin-cli' && row.clientId !== 'broker' &&
+                  row.clientId !== 'realm-management' && row.clientId !== 'security-admin-console'" @click="eliminar(row)" class="pointer">
+                    <img id="delete" src="/static/img/delete_2.svg" alt="Detele icon" title="Eliminar rol">
+                </span>
+                <span v-else class="pointer">
+                    <img id="inactive" src="/static/img/inactive.svg" alt="Inactive icon" title="Acciones desabilitadas">
+                </span>
               </center>
             </span>
           </v-client-table>
@@ -51,7 +60,7 @@ export default {
       })
     },
     modify (row) {
-      this.$router.push('/editClient/' + row.id)
+      this.$router.push('/editClient/' + row.clientId)
     },
     eliminar (row) {
       swal({
@@ -96,7 +105,7 @@ export default {
       tableColumns: [
         'index',
         'id',
-        'name',
+        'clientId',
         'description',
         'adminUrl',
         'rootUrl',
@@ -107,7 +116,7 @@ export default {
         headings: {
           index: '#',
           id: 'id',
-          name: 'Nombre',
+          clientId: 'Nombre',
           description: 'Descripción',
           adminUrl: 'admin URL',
           rootUrl: 'root URL',
@@ -132,8 +141,8 @@ export default {
         hiddenColumns: ['id'],
         perPage: 5,
         perPageValues: [5],
-        sortable: ['name', 'description', 'enabled'],
-        filterable: ['name', 'description', 'enabled']
+        sortable: ['name', 'description', 'enabled', 'acciones'],
+        filterable: ['name', 'description', 'enabled', 'acciones']
       }
     }
   },
