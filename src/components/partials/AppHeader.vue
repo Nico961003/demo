@@ -13,20 +13,14 @@
         <span class="mdi mdi-menu"></span>
       </button>
       <b-navbar-nav class="navbar-nav-right ml-auto">
-        <form class="mr-auto search-form d-none d-md-block" @submit.prevent="fijarCliente">
-          <div class="form-group row">
-          <!-- <label for="client" class="menu-title">Cliente:</label> -->
-          <div class="col-sm-10">
+        <!-- <form class="mr-auto d-none d-md-block" @submit.prevent="fijarCliente"> -->
           <select id="selectClient" class="form-control" type="text" v-model="form.client" @change="fijarCliente()">
             <option value="" disabled>Selecciona un cliente</option>
             <option v-for="(clients, index) in client" :key="index">
               {{clients}}
             </option>
           </select>
-          </div>
-          </div>
-          <!-- <button class="btn btn-warning">Fijar</button> -->
-        </form>
+        <!-- </form> -->
         <b-nav-item-dropdown right class="preview-list user-dropdown">
           <template slot="button-content">
             <div class="d-flex align-items-center">
@@ -131,9 +125,31 @@ export default {
 </script>
 
 <style scoped lang="scss">
-form {
-  width: 100% !important;
-  max-width: 100% !important;
+#selectClient {
+  width: 50% !important;
+  max-width: 50% !important;
+  margin-left: 300px;
+}
+@media (max-width:1100px){
+  #selectClient {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 150px;
+  }
+}
+@media (max-width:545px){
+  #selectClient {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 50px;
+  }
+}
+@media (max-width:340px){
+  #selectClient {
+    width: 30% !important;
+    max-width: 30% !important;
+    margin-left: 0px;
+  }
 }
 .navbar.default-layout .navbar-menu-wrapper .search-form .form-group {
   margin-bottom: 0;

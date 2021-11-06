@@ -9,7 +9,7 @@ export default {
     await clientService.getClientByToken().then((response) => {
       this.clientId = response.data.id
     })
-    console.log('user/viewUser/' + userId + '/' + localStorage.getItem('clientName'))
+    // console.log('user/viewUser/' + userId + '/' + localStorage.getItem('clientName'))
     return HTTP.get('user/viewUser/' + userId + '/' + localStorage.getItem('clientName'))
   }
 
