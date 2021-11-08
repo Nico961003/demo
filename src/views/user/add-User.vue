@@ -32,7 +32,7 @@
               <div class="col-md-6 mb-3">
                 <label for="username">Nombre de usuario</label>
                 <div class="input-group">
-                  <input type="text" class="form-control" id="username" name="username" v-model="form.username" placeholder="Nombre de usuario"  required>
+                  <input type="text" class="form-control" id="username" name="username" v-model="form.username" placeholder="Nombre de usuario"  required @change="checkUsername()">
                 <div class="invalid-feedback">
                   El nombre de usuario no podra modificarse
                 </div>
@@ -54,7 +54,7 @@
             <div class="form-row">
               <div class="col-md-6 mb-3">
                 <label for="email">Correo electronico</label>
-                <input type="email" class="form-control" id="email" name="email" v-model="form.email" value="@ejemplo.com" placeholder="Correo electronico" required>
+                <input type="email" class="form-control" id="email" name="email" v-model="form.email" value="@ejemplo.com" placeholder="Correo electronico" required @change="checkEmail()">
                 <div class="invalid-feedback">
                   El email no podra modificarse
                 </div>
@@ -180,6 +180,29 @@ export default {
         }
       } else {
       }
+    },
+    checkUsername () {
+      userService.getUserByUsername(this.form.username).then((response) => {
+        if (response.data.username) {
+          this.form.username = ''
+          this.$swal({ type: 'warning', timer: 3000, title: '¡Aviso!', text: 'El nombre de usuario ya existe', showCancelButton: false, showConfirmButton: false })
+        }
+      })
+        .catch((e) => {
+          console.log(e)
+        })
+    },
+    checkEmail () {
+      userService.getUserByEmail(this.form.email).then((response) => {
+        console.log(response.data)
+        if (response.data.email) {
+          this.form.email = ''
+          this.$swal({ type: 'warning', timer: 3000, title: '¡Aviso!', text: 'El email ya se encuentra registrado', showCancelButton: false, showConfirmButton: false })
+        }
+      })
+        .catch((e) => {
+          console.log(e)
+        })
     }
   },
   computed: {
