@@ -27,6 +27,10 @@ export default {
 
   deleteUser (userId) {
     return HTTP.delete('user/deleteUser/' + userId)
+  },
+
+  restoreUserPassword (email) {
+    return HTTP.get('user/sendRestoreEmail/' + email)
   }
 
 }

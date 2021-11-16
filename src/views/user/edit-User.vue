@@ -41,13 +41,17 @@
                 </div>
                 </div>
               </div>
-              <div class="col-md-6 mb-3">
-                <label for="password">Contraseña</label>
-                <div class="input-group">
-                  <input :class='{valid:passwordValidation.valid}' type="password" class="form-control" id="password" name="password" v-model="form.password" placeholder="Contraseña" required>
-                  <div class="valid-feedback">
-                    <p class="text-danger" v-for="(error, index) in passwordValidation.errors" :key="index">{{error}}</p>
-                  </div>
+              <div class="col-md-6 mb-3" v-if="this.form.restore === false">
+                <div class="custom-control custom-switch">
+                  <br><br>
+                  <input type="checkbox" class="custom-control-input" id="restore" name="restore" @change="restore()">
+                  <label class="custom-control-label" for="restore">Mandar correo para restablecer password</label>
+                </div>
+              </div>
+              <div class="col-md-6 mb-3" v-else>
+                <div class="custom-control custom-switch">
+                  <br><br>
+                  <label class="custom-control-label">Se ha enviado correo al usuario para restablecer password</label>
                 </div>
               </div>
             </div>
@@ -80,7 +84,7 @@
               </div>
             </div>
                 <div class="d-flex justify-content-end mt-3 pr-4">
-                    <button type="submit" class="btn btn-primary btn-lg" v-if="passwordValidation.valid">
+                    <button type="submit" class="btn btn-primary btn-lg">
                         {{ isSaving ? 'Saving...' : 'Enviar'}}
                     </button>
                 </div>
@@ -122,6 +126,7 @@ export default {
         email: '',
         realm: process.env.REALM_ENV,
         enabled: false,
+        restore: false,
         username: '',
         group: 'user',
         password: '',
@@ -222,20 +227,30 @@ export default {
         }
       } else {
       }
-    }
-  },
-  computed: {
-    passwordValidation () {
-      let errors = []
-      for (let condition of this.rules) {
-        if (!condition.regex.test(this.form.password)) {
-          errors.push(condition.message)
-        }
-      }
-      if (errors.length === 0) {
-        return { valid: true, errors }
+    },
+    restore () {
+      if (this.form.email === '') {
+        this.$swal({title: '¡Aviso!', text: 'Es necesario un email', type: 'warning', timer: 3000, showCancelButton: false, showConfirmButton: false})
+        this.form.restore = false
+        document.getElementById('restore').checked = false
+      } else if (this.form.enabled === false) {
+        this.$swal({title: '¡Aviso!', text: 'Es necesario que el usuario se encuentre registrado como activo', type: 'warning', timer: 3000, showCancelButton: false, showConfirmButton: false})
+        this.form.restore = false
+        document.getElementById('restore').checked = false
       } else {
-        return { valid: false, errors }
+        this.form.restore = true
+        userService.restoreUserPassword(this.form.email).then((r) => {
+          if (r.data) {
+            this.$swal({title: 'Envio exitoso', text: 'Se envio correo para restablecer password', type: 'success', timer: 3000, showCancelButton: false, showConfirmButton: false})
+          } else {
+            this.$swal({title: '¡Aviso!', text: 'El correo no se encuentra asociado', type: 'warning', timer: 3000, showCancelButton: false, showConfirmButton: false})
+            this.form.restore = false
+            document.getElementById('restore').checked = false
+          }
+        })
+          .catch((e) => {
+            console.log(e)
+          })
       }
     }
   }

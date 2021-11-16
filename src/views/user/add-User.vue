@@ -122,8 +122,8 @@ export default {
         enabled: false,
         username: '',
         idClient: localStorage.getItem('clientId'),
-        // group: 'user',
         password: '',
+        attributes: [localStorage.getItem('clientId')],
         rolesClient: []
       },
       formOptions: {
@@ -138,6 +138,7 @@ export default {
   },
   methods: {
     async submitUserDetails () {
+      console.log(this.form)
       await userService.createUser(this.form).then((response) => {
         this.$swal({ type: 'info', timer: 3000, text: 'Se guardo exitosamente', showCancelButton: false, showConfirmButton: false })
         this.$router.push('/readUsers')

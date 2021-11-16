@@ -50,12 +50,22 @@ export default {
   },
   methods: {
     async loadUsers () {
-      await userService.getUsers().then((response) => {
-        this.users = response.data
-      })
-        .catch((e) => {
-          console.log(e)
+      var datos = []
+      await userService.getUsers().then(({ data }) =>
+        data.forEach((element) => {
+          if (element.attributes !== null && element.attributes.client[0] === localStorage.getItem('clientId').toString()) {
+            datos.push({
+              id: element.id,
+              firstName: element.firstName,
+              lastName: element.lastName,
+              username: element.username,
+              email: element.email,
+              enabled: element.enabled
+            })
+          }
         })
+      )
+      this.users = datos
     },
     modify (row) {
       this.$router.push('/editUser/' + row.id)
@@ -137,12 +147,7 @@ export default {
     }
   },
   mounted: function () {
-    userService.getUsers().then((response) => {
-      this.users = response.data
-    })
-      .catch((e) => {
-        console.log(e)
-      })
+    this.loadUsers()
   }
 } // meter iconos a las operaciones
 </script>
