@@ -11,6 +11,7 @@ import typography from '../views/basic-elements/typography'
 //  Icons Components
 import mdiIcons from '../views/icons/mdi-icons'
 import login from '../views/main/user-pages/login'
+import restore from '../views/main/user-pages/restore'
 import register from '../views/main/user-pages/register'
 //  Table Components
 import basicTables from '../views/tables/basic-table'
@@ -52,6 +53,18 @@ export default new Router({
         component: login
       }
     ]
+  },
+  {
+    path: '/restore',
+    // redirect: '/restore',
+    component: restore
+    // children: [
+    //   {
+    //     path: '/',
+    //     name: 'login',
+    //     component: login
+    //   }
+    // ]
   },
   {
     path: '/*',

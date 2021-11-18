@@ -7,22 +7,16 @@
             <div class="col-lg-4 mx-auto">
               <div class="container-fluid"><center><h1>Keycloak Management</h1></center></div>
               <div class="auto-form-wrapper">
-                <form  action="" @submit.prevent="submitLogin">
+                <form  action="" @submit.prevent="sendEmail">
                   <center>
                     <div v-if="form.error" class="alert alert-warning" role="alert">
-                      Usuario y/o contraseña incorrectos
+                      {{this.error}}
                     </div>
                   </center>
                   <div class="form-group">
-                    <label class="label">Nombre de usuario</label>
+                    <label class="label">Correo electronico</label>
                     <div>
-                      <input type="text" id="username" name="username" v-model="form.username" class="form-control" placeholder="Nombre de usuario">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="label">Contraseña</label>
-                    <div>
-                      <input type="password" id="password" name="password" v-model="form.password" class="form-control" placeholder="*********">
+                      <input class="form-control" type="email" placeholder="Correo electronico" v-model="form.email">
                     </div>
                   </div>
                   <div class="form-group">
@@ -31,7 +25,7 @@
                     </button>
                   </div>
                   <div class="form-group d-flex justify-content-between">
-                    <a href="/restore" class="text-small forgot-password">Olvide mi contraseña</a>
+                    <a href="/" class="text-small forgot-password">Regresar al Login</a>
                   </div>
                 </form>
               </div>
@@ -59,15 +53,14 @@
 </template>
 
 <script lang="js">
-import { HTTP } from '../../../logic/http-common-login'
 import auth from './auth'
+import { HTTP } from '../../../logic/http-common-login'
 export default {
   name: 'login',
   data () {
     return {
       form: {
-        username: '',
-        password: '',
+        email: '',
         realm: process.env.REALM_ENV,
         error: false
       },
@@ -85,26 +78,32 @@ export default {
     this.loadPage()
   },
   methods: {
-    async submitLogin () {
-      try {
-        await HTTP.post('newToken', {
-          ...this.form
-        }).then(r => {
-          this.users = r.data
-          auth.setUserLogged(this.form.username)
-          auth.setUserToken(this.users)
-          if (this.users === '') {
-            this.form.error = true
+    async sendEmail () {
+      /* Making API call to authenticate a user */
+      HTTP
+        .get('/user/sendRestoreEmail/' + this.form.email)
+        .then(response => {
+          console.log(response)
+          console.log(response.data)
+          // this.toggleLoading()
+          var data = response.data
+          /* Setting user in the state and caching record to the localStorage */
+          if (data) {
+            if (data === 'inactivo') {
+              this.error = 'El usuario asociado al email no se encuentra activo, consulta a tu administrador'
+            } else {
+              this.$swal({title: 'Envio exitoso', text: 'Revisa tu bandeja de entrada', icon: 'success', timer: 4000, showCancelButton: false, showConfirmButton: false})
+              this.$router.push(data.redirect ? data.redirect : '/login')
+            }
           } else {
-            this.$router.push('/dashboard')
+            this.error = 'El email no se encuentra asociado a algun usuario'
           }
         })
-      } catch (e) {
-        // console.log(e)
-        // alert(e.message)
-        this.$swal({ type: 'info', timer: 2000, text: 'Error inesperado, comuniquese con el administrador', showCancelButton: false, showConfirmButton: false })
-      }
-      window.locaton = 'users/readUsers'
+        .catch(error => {
+          this.$store.commit('TOGGLE_LOADING')
+          console.log(error)
+          // this.toggleLoading()
+        })
     },
     loadPage () {
       auth.setUserLogged('')

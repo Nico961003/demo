@@ -43,12 +43,14 @@
               </div>
               <div class="col-md-6 mb-3">
                 <label for="password">Contraseña</label>
-                <div class="input-group">
-                  <input :class='{valid:passwordValidation.valid}' type="password" class="form-control" id="password" name="password" v-model="form.password" placeholder="Contraseña" required>
-                  <div class="valid-feedback">
+                <!-- <div class="input-group"> -->
+                  <password-generator ref="password"/>
+                  <!-- <a href="#" @click="download()">Descargar Respaldo</a> -->
+                  <!-- <input :class='{valid:passwordValidation.valid}' type="password" class="form-control" id="password" name="password" v-model="form.password" placeholder="Contraseña" required> -->
+                  <!-- <div class="valid-feedback">
                     <p class="text-danger" v-for="(error, index) in passwordValidation.errors" :key="index">{{error}}</p>
-                  </div>
-                </div>
+                  </div> -->
+                <!-- </div> -->
               </div>
             </div>
             <div class="form-row">
@@ -80,7 +82,8 @@
               </div>
             </div>
                 <div class="d-flex justify-content-end mt-3 pr-4">
-                    <button type="submit" class="btn btn-primary btn-lg" v-if="passwordValidation.valid">
+                    <!-- <button type="submit" class="btn btn-primary btn-lg" v-if="passwordValidation.valid"> -->
+                    <button type="submit" class="btn btn-primary btn-lg">
                         {{ isSaving ? 'Saving...' : 'Enviar'}}
                     </button>
                 </div>
@@ -95,12 +98,14 @@ import Vue from 'vue'
 import Multiselect from 'vue-multiselect'
 import userService from '../../services/userService'
 import clientService from '../../services/clientService'
+import passwordGenerator from '../../components/partials/PasswordGenerator'
 Vue.component('multiselect', Multiselect)
 
 export default {
   name: 'add-User',
   components: {
-    Multiselect
+    Multiselect,
+    passwordGenerator
   },
   mounted () {
     this.realm = process.env.REALM_ENV
@@ -138,7 +143,7 @@ export default {
   },
   methods: {
     async submitUserDetails () {
-      console.log(this.form)
+      this.form.password = document.getElementById('password').value
       await userService.createUser(this.form).then((response) => {
         this.$swal({ type: 'info', timer: 3000, text: 'Se guardo exitosamente', showCancelButton: false, showConfirmButton: false })
         this.$router.push('/readUsers')
@@ -204,22 +209,38 @@ export default {
         .catch((e) => {
           console.log(e)
         })
+    },
+    download () {
+      alert('hi')
+      var filename = 'Respaldo_' + this.form.username + '.txt'
+      var text = 'Username = ' + this.form.username + '\nPassword = ' + this.form.password + '\nEmail = ' + this.form.email
+      var element = document.createElement('a')
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text))
+      element.setAttribute('download', filename)
+
+      element.style.display = 'none'
+      document.body.appendChild(element)
+
+      element.click()
+
+      document.body.removeChild(element)
     }
+    // download('user.txt','This is the content of my file :)')
   },
   computed: {
-    passwordValidation () {
-      let errors = []
-      for (let condition of this.rules) {
-        if (!condition.regex.test(this.form.password)) {
-          errors.push(condition.message)
-        }
-      }
-      if (errors.length === 0) {
-        return { valid: true, errors }
-      } else {
-        return { valid: false, errors }
-      }
-    }
+    // passwordValidation () {
+    //   let errors = []
+    //   for (let condition of this.rules) {
+    //     if (!condition.regex.test(this.form.password)) {
+    //       errors.push(condition.message)
+    //     }
+    //   }
+    //   if (errors.length === 0) {
+    //     return { valid: true, errors }
+    //   } else {
+    //     return { valid: false, errors }
+    //   }
+    // }
   }
 }
 </script>
